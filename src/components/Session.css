@@ -1,0 +1,33 @@
+.sessionWrapper{
+    padding: 20px;
+    border: solid;
+    border-color: black;
+    margin: 20px;
+}
+
+.hiddenWrapper{
+    display: none;
+}
+
+.cancel-button{
+    color: red;
+    float: right;
+    width: 70px;
+    margin-left: 20px
+}
+
+.edit-button{
+    color: gray;
+    float: right;
+    margin-top: 10px;
+    width: 70px;
+    margin-left: 20px;
+}
+
+.flexContainer{
+    display: flex;
+}
+
+.flexContainer > div {
+    width: auto;
+}

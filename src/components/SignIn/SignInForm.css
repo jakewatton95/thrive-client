@@ -1,0 +1,14 @@
+.signInForm{
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+
+}
+
+.hideLoading{
+    display: none;
+}
+
+.hideError{
+    display: none;
+}
