@@ -1,0 +1,28 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-thrive-app-2-dev-103020-authRole",
+            "UnauthRoleArn": "arn:aws:iam::811941869351:role/amplify-thrive-app-2-dev-103020-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::811941869351:role/amplify-thrive-app-2-dev-103020-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-thrive-app-2-dev-103020-deployment",
+            "UnauthRoleName": "amplify-thrive-app-2-dev-103020-unauthRole",
+            "StackName": "amplify-thrive-app-2-dev-103020",
+            "StackId": "arn:aws:cloudformation:us-east-1:811941869351:stack/amplify-thrive-app-2-dev-103020/a366ec30-233d-11ea-9ec2-0e09773e6f3f",
+            "AmplifyAppId": "d2k988xsjox0ti"
+        }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-thrive-app-2-prod-104350-authRole",
+            "UnauthRoleArn": "arn:aws:iam::811941869351:role/amplify-thrive-app-2-prod-104350-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::811941869351:role/amplify-thrive-app-2-prod-104350-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-thrive-app-2-prod-104350-deployment",
+            "UnauthRoleName": "amplify-thrive-app-2-prod-104350-unauthRole",
+            "StackName": "amplify-thrive-app-2-prod-104350",
+            "StackId": "arn:aws:cloudformation:us-east-1:811941869351:stack/amplify-thrive-app-2-prod-104350/86247730-233f-11ea-bcc7-0ed5356bca17",
+            "AmplifyAppId": "d2k988xsjox0ti"
+        }
+    }
+}
