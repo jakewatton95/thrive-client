@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/jakewatton95/thrive-app-2#readme",
   "dependencies": {
+    "aws-amplify": "^2.2.1",
+    "aws-amplify-react": "^3.1.2",
     "bootstrap": "^4.4.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",

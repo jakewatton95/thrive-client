@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//mport { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import './SignUpForm.css'
 
 
@@ -10,7 +10,6 @@ class SignUpForm extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            username: '',
             password: '',
             phone_number: '',
             email: '',
@@ -19,9 +18,9 @@ class SignUpForm extends Component {
             confirmationCode: '',
             userRole: '',
             verified: false,
-            agencyCode: '',
             signUpError: false
         };
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.signUp = this.signUp.bind(this);
@@ -31,32 +30,33 @@ class SignUpForm extends Component {
     }
   
     signUp() {
-        const { username, password, email, phone_number, userRole } = this.state;  
-        /*Auth.signUp({
-            username: username,
+        const { password, email, phone_number, firstName, lastName} = this.state;  
+        Auth.signUp({
+            username: email,
             password: password,
             attributes: {
                 email: email,
                 phone_number: phone_number,
-                'custom:userRole': userRole
+                name: firstName + ' ' + lastName
             }
-        })*/
-            this.setState({
-              verified: true,
-              signUpError: false
-            })
-
-          //console.log(`Error signing up: ${ err }`)
-          /*this.setState({
+        }).then(data => {
+          this.setState({
+            verified: true,
+            signUpError: false
+          })
+        }).catch(err => {
+          console.log(`Error signing up: ${ err }`)
+          this.setState({
             signUpError: true
-          })*/
+          })
+        }) 
     }
     
     addUser(){
       let {userRole} = this.state
       if (userRole && userRole !== '' && userRole !== 'Admin') {
           const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/"
-          const fullURL = endpoint + this.state.userRole.toLowerCase() + "s?name=" + this.state.username + "&email=" + this.state.email
+          const fullURL = endpoint + this.state.userRole.toLowerCase() + "s?name=" + this.state.firstName + " " + this.state.lastName + "&email=" + this.state.email
           fetch(fullURL, {method: "POST"})
           .then(response => console.log(response.json()))
           .catch(err => console.log("ERR: " + err))
@@ -64,14 +64,14 @@ class SignUpForm extends Component {
     }
   
     confirmSignUp() {
-        const { username, confirmationCode } = this.state;
-        //Auth.confirmSignUp(username, confirmationCode)
-        //.then(() => {
-          //  console.log('Successfully confirmed signed up')
+        const { email, confirmationCode } = this.state;
+        Auth.confirmSignUp(email, confirmationCode)
+        .then(() => {
+            console.log('Successfully confirmed signed up')
             this.addUser();
             this.props.handleSignup();
-        //})
-        //.catch((err) => console.log(`Error confirming sign up - ${ err }`))
+        })
+        .catch((err) => console.log(`Error confirming sign up - ${ err }`))
     }
   
     handleSubmit(e) {
@@ -99,11 +99,7 @@ class SignUpForm extends Component {
     }
   
     handleChange(e) {
-        if (e.target.id === 'username') {
-          this.setState({
-              username: e.target.value
-          });
-        } else if (e.target.id === 'password') {
+        if (e.target.id === 'password') {
           this.setState({
               password: e.target.value
           });
@@ -122,10 +118,6 @@ class SignUpForm extends Component {
         } else if (e.target.name === 'userRole') {
           this.setState({
               userRole: e.target.value
-          });
-        } else if (e.target.id === 'code') {
-          this.setState({
-            agencyCode: e.target.value
           });
         } else if (e.target.id === 'firstName') {
           this.setState({
@@ -153,11 +145,11 @@ class SignUpForm extends Component {
               <div>
                 <div> Please check your email ({this.state.email}) for your confirmation code!</div>
                 <div> It may take up to 5 minutes to appear. </div>
-                  <form onSubmit={ this.handleSubmit }>
-                      <label>Confirmation Code</label>
-                      <input id='confirmationCode' type='text' onChange={ this.handleChange }/>
-                      <button>Confirm Sign up</button>
-                  </form>
+                <form onSubmit={ this.handleSubmit }>
+                    <label>Confirmation Code</label>
+                    <input id='confirmationCode' type='text' onChange={ this.handleChange }/>
+                    <button>Confirm Sign up</button>
+                </form>
               </div>
           );
       } else {
@@ -166,9 +158,9 @@ class SignUpForm extends Component {
             <div className={this.state.signUpError ? 'signUpError' : 'noError'}>
                 There was an Error with one or more of your fields... please make sure of the following: 
                 <ul>
-                  <li> username has no spaces </li>
-                  <li> password is at least 8 characters </li>
-                  <li> phone number is of the format +12223334444 </li>
+                  <li> Username has no spaces </li>
+                  <li> Password is at least 8 characters </li>
+                  <li> Phone number is of the format +12223334444 </li>
                   <li> email is of the format: email@website.com </li>
                   <li> You have selected 'Student', 'Tutor', or 'Admin' </li>
                 </ul>
@@ -176,16 +168,12 @@ class SignUpForm extends Component {
             <div className="signUpForm">
               <form onSubmit={ this.handleSubmit }>
                   <div> 
-                    <label>First Name</label>
+                    <label>Student First Name</label>
                     <input id='firstName' type='text' onChange={ this.handleChange } value={this.state.firstName}/>
                   </div>
                   <div> 
-                    <label>Last Name</label>
+                    <label>Student Last Name</label>
                     <input id='lastName' type='text' onChange={ this.handleChange } value={this.state.lastName}/>
-                  </div>
-                  <div>
-                    <label>Username</label>
-                    <input id='username' type='text' onChange={ this.handleChange } value={this.state.username}/>
                   </div>
                   <div>
                     <label>Password</label>
@@ -207,15 +195,13 @@ class SignUpForm extends Component {
                     <label>Parent Email</label>
                     <input id='parentEmail' type='text' onChange={ this.handleChange } value={this.state.parentEmail}/>
                   </div>
-                    <label>Agency Code</label>
-                    <input id='code' type='text' onChange={ this.handleChange}  value={this.state.agencyCode}/>
                   <div>
-                  <label>Student</label>
-                  <input name = "userRole" id = "ur1" type='radio' value="Student" onChange={this.handleChange} checked={this.state.userRole==="Student"}/>
-                  <label>Tutor</label>
-                  <input name = "userRole" id = "ur2" type='radio' value="Tutor" onChange={this.handleChange} checked={this.state.userRole==="Tutor"}/>
-                  <label>Admin</label>
-                  <input name= "userRole" id = "ur3" type='radio' value="Admin" onChange={this.handleChange} checked={this.state.userRole==="Admin"}/>
+                    <label>Student</label>
+                    <input name = "userRole" id = "ur1" type='radio' value="Student" onChange={this.handleChange} checked={this.state.userRole==="Student"}/>
+                    <label>Tutor</label>
+                    <input name = "userRole" id = "ur2" type='radio' value="Tutor" onChange={this.handleChange} checked={this.state.userRole==="Tutor"}/>
+                    <label>Admin</label>
+                    <input name= "userRole" id = "ur3" type='radio' value="Admin" onChange={this.handleChange} checked={this.state.userRole==="Admin"}/>
                   </div>
                   <div>
                     <button>Sign up</button>

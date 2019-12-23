@@ -10,6 +10,11 @@
             "StackName": "amplify-thrive-app-2-dev-103020",
             "StackId": "arn:aws:cloudformation:us-east-1:811941869351:stack/amplify-thrive-app-2-dev-103020/a366ec30-233d-11ea-9ec2-0e09773e6f3f",
             "AmplifyAppId": "d2k988xsjox0ti"
+        },
+        "categories": {
+            "auth": {
+                "thriveapp2fd2145bf": {}
+            }
         }
     },
     "prod": {

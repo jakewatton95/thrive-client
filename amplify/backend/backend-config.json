@@ -1,3 +1,11 @@
 {
-	"hosting": {}
+	"hosting": {},
+	"auth": {
+		"thriveapp2fd2145bf": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"function": {}
 }
