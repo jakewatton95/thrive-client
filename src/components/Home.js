@@ -8,36 +8,37 @@ class Home extends Component{
         super(props)
         
         this.state = {
-            userRole : "Admin"//TODO this.props.userInfo.attributes["custom:userRole"]
+            
         }
     }
     
     render(){
         let {students, tutors, products} = this.props
+        let {UserType} = this.props.userInfo
         let modules;
-        if (this.state.userRole === "Student"){
+        if (UserType === "Student"){
             modules=
             <div>
                 <ScheduleSession studentID = {this.props.studentID} products={this.props.products} userInfo={this.props.userInfo}/>
                 <UpcomingSessions studentID = {this.props.studentID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>
             </div>
-        } else if (this.state.userRole === "Tutor") {
+        } else if (UserType === "Tutor") {
             modules=
             <div>
                 <ScheduleSession tutorID = {this.props.tutorID} products={this.props.products} userInfo={this.props.userInfo}/>
                 <UpcomingSessions tutorID = {this.props.tutorID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>
             </div>
         } else {
-            /*modules=
+            modules=
             <div>
                 <ScheduleSession userInfo={this.props.userInfo} products={this.props.products}/>
                 <UpcomingSessions userInfo={this.props.userInfo} sessions = {this.props.sessions}/>
-            </div>*/
+            </div>
         }
         return (
             <div className = "main">
-                <h2>Welcome back, {this.props.userInfo.username}!</h2>
-                {this.state.userRole === "Admin" ? <AddProduct tutors={tutors} students={students}/> : null}
+                <h2>Welcome back, {this.props.userInfo.Name}!</h2>
+                {UserType === "Admin" ? <AddProduct tutors={tutors} students={students}/> : null}
                 {modules}
             </div>
         )

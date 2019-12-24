@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Auth } from 'aws-amplify'
+import {Form, Button} from 'react-bootstrap'
 import StudentContainer from '../../containers/StudentContainer.js'
 import AdminContainer from '../../containers/AdminContainer.js'
 import TutorContainer from '../../containers/TutorContainer.js'
 import ConfirmationForm from '../ConfirmationForm/ConfirmationForm'
-import {Redirect} from 'react-router-dom'
 import './SignInForm.css'
 
 class SignInForm extends Component {
@@ -16,9 +16,9 @@ class SignInForm extends Component {
             password: '',
             userRole: '',
             signedIn: false,
-            showLoading: false,
             showConfirmation: false,
             showError: false,
+            errorMessage: '',
             userInfo: null
         }
         this.handleChange = this.handleChange.bind(this)
@@ -37,23 +37,31 @@ class SignInForm extends Component {
  
     signIn() {
         const { email, password } = this.state  
-        console.log(email)
         Auth.signIn({
             username: email,
             password: password
         })
-        .then(() => this.getUserRole())
+        .then(() => {
+            this.setState({
+                signedIn: true,
+                showError: false,
+                showConfirmation: false,
+                password: ''
+            })
+            this.getUserRole()
+        })
         .catch(err => {
             if (err.code == "UserNotConfirmedException"){
                 this.setState({
                     showConfirmation: true
                 })
+            } else {
+                console.log(err)
+                this.setState({
+                    showError: true,
+                    errorMessage: err.message
+                })
             }
-            console.log(err)
-            this.setState({
-                showLoading: false,
-                showError: true
-            })
         })
     }
   
@@ -65,13 +73,8 @@ class SignInForm extends Component {
     }
   
     handleSubmit(e) {
-        console.log("A")
         e.preventDefault()
-        this.setState({
-            showLoading: true
-        })
         this.signIn()
-        //this.getUserRole();
         //this.confirmSignIn() only needed for 2FA
     }
   
@@ -93,16 +96,17 @@ class SignInForm extends Component {
     }
     
     getUserRole(){
-        Auth.currentUserInfo()
-        .then(user => {
+        let {email} = this.state
+        const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/users?email="+email
+        fetch(endpoint)
+        .then(response => response.json())
+        .then(response => {
             this.setState({
-                userRole: "Admin", //have to get user role here TODO
-                signedIn: true,
-                showError: false,
-                userInfo: {}//user
+                userRole: response.UserType,
+                userInfo: response
             })
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log("Error", err))
     }
     
     signOut(){
@@ -110,7 +114,6 @@ class SignInForm extends Component {
         .catch(err=>console.log(err))
         this.setState({
             signedIn: false,
-            showLoading: false,
             userRole: '',
             showError: false
         })
@@ -118,18 +121,18 @@ class SignInForm extends Component {
     
     checkAlreadySignedIn(){
         Auth.currentAuthenticatedUser()
-        .then(()=>{
+        .then(response=>{
             this.setState({
-                signedIn: true
+                signedIn: true,
+                email: response.attributes.email
             })
             this.getUserRole()
         })
-        .catch(err => console.log("err: " + err))
+        .catch(err => {})
     }
     
     render() {
-        const { signedIn, showConfirmation, email } = this.state
-        console.log("Signed In", signedIn)
+        const {signedIn, showConfirmation, email, password, errorMessage, userRole} = this.state
         if (signedIn) {
             if (this.state.userRole === "Tutor")
                 return <TutorContainer signOut={this.signOut} userInfo={this.state.userInfo}/>
@@ -141,27 +144,31 @@ class SignInForm extends Component {
                 return <div> Loading... </div>
         } else if (showConfirmation){
             return (
-                <ConfirmationForm email={email} />
+                <ConfirmationForm email={email} handleSignup={this.signIn}/>
             )
         } else {
-            console.log(this.state.showLoading)
             return (
-                <div>
-                    <div className={this.state.showLoading ? 'showLoading' : 'hideLoading'}>Loading...</div>
-                    <form className="signInForm" onSubmit={ this.handleSubmit }>
-                        <label>Email</label>
-                        <input id='email' type='text' onChange={ this.handleChange }/>
+                <div className = "sign-in-wrapper">
+                    <Form className="sign-in-form" onSubmit={this.handleSubmit}>
+                        <div className="sign-in-title">Sign In</div>
+                        {errorMessage != '' && <div className="error-message">Error: {errorMessage} Please make sure the information entered is correct.</div>}
                         <br/>
-                        <label>Password</label>
-                        <input id='password' type='password' onChange={ this.handleChange }/>
-                        <br/>
-                        <div className={this.state.showError ? 'showError' : 'hideError'}>Error! The information you entered was incorrect</div>
-                        <button>Sign In</button>
-                        <div> New User? <a href="/" onClick={this.handleNotSignedUp}>Click Here to sign up!</a></div>
-                    </form>
+                        <Form.Group controlId="email">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control required type="email" value={email} onChange={this.handleChange}/>
+                        </Form.Group>
+                        <Form.Group controlId="password">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control required type="password" value={password} onChange={this.handleChange}/>
+                        </Form.Group>
+                        <Button variant="primary" type="submit">
+                            Sign In
+                        </Button>
+                    </Form>
+                    <div> New User? <a href="/" onClick={this.handleNotSignedUp}>Click Here to sign up!</a></div>
                 </div>
-        )
-      }
+            )
+        }
     }
 }
 

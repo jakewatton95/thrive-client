@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Auth } from 'aws-amplify';
+import {Form, Button, InputGroup} from 'react-bootstrap'
 import './SignUpForm.css'
+import ConfirmationForm from '../ConfirmationForm/ConfirmationForm'
 
 
 class SignUpForm extends Component {
@@ -8,8 +10,7 @@ class SignUpForm extends Component {
         super(props);
   
         this.state = {
-            firstName: '',
-            lastName: '',
+            name: '',
             password: '',
             phone_number: '',
             email: '',
@@ -18,79 +19,66 @@ class SignUpForm extends Component {
             confirmationCode: '',
             userRole: '',
             verified: false,
-            signUpError: false
+            signUpError: false,
+            phoneError: false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.signUp = this.signUp.bind(this);
-        this.confirmSignUp = this.confirmSignUp.bind(this);
         this.handleAlreadySignedUp=this.handleAlreadySignedUp.bind(this)
         this.addUser = this.addUser.bind(this)
     }
   
     signUp() {
-        const { password, email, phone_number, firstName, lastName} = this.state;  
+        const { password, email, phone_number, name} = this.state;  
         Auth.signUp({
             username: email,
             password: password,
             attributes: {
                 email: email,
-                phone_number: phone_number,
-                name: firstName + ' ' + lastName
+                phone_number: "+1" + phone_number,
+                name: name
             }
         }).then(data => {
-          this.setState({
-            verified: true,
-            signUpError: false
-          })
+            this.addUser()
+            this.setState({
+                verified: true,
+                signUpError: false
+            })
         }).catch(err => {
-          console.log(`Error signing up: ${ err }`)
-          this.setState({
-            signUpError: true
-          })
+        	console.log(err)
+          	if (err.code == "InvalidParameterException" || err.code == "InvalidPasswordException") {
+            	alert("Please make sure your password follows the guidelines")
+            	this.setState({
+              		signUpError: true,
+              		password: ''
+            	})
+          	} else {
+            	alert(err.message)
+          	}
         }) 
     }
     
-    addUser(){
-      let {userRole} = this.state
-      if (userRole && userRole !== '' && userRole !== 'Admin') {
-          const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/"
-          const fullURL = endpoint + this.state.userRole.toLowerCase() + "s?name=" + this.state.firstName + " " + this.state.lastName + "&email=" + this.state.email
-          fetch(fullURL, {method: "POST"})
-          .then(response => console.log(response.json()))
-          .catch(err => console.log("ERR: " + err))
-      }
+    addUser() {
+      let {userRole, name, email, phone_number} = this.state
+      const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/users"
+      fetch(endpoint, {method: "POST", body:JSON.stringify({userRole: userRole, name: name, email: email, phone_number: phone_number})}) //TODO body userRole name email phone number
+      .then(response => console.log(response.json()))
+      .catch(err => console.log("ERR: " + err))
     }
-  
-    confirmSignUp() {
-        const { email, confirmationCode } = this.state;
-        Auth.confirmSignUp(email, confirmationCode)
-        .then(() => {
-            console.log('Successfully confirmed signed up')
-            this.addUser();
-            this.props.handleSignup();
-        })
-        .catch((err) => console.log(`Error confirming sign up - ${ err }`))
-    }
-  
+
     handleSubmit(e) {
-      const { verified } = this.state;
-  
+        let {userRole, phone_number} = this.state
         e.preventDefault();
-  
-        if (verified) {
-          this.confirmSignUp();
-          this.setState({
-             confirmationCode: '',
-          });
+        if (userRole == ''){
+          alert("Please choose Student or Tutor")
+        } else if (phone_number.length != 10){
+          this.setState({phoneError:true})
         } else {
+          this.setState({phoneError:false})
           this.signUp();
-          this.setState({
-            password: '',
-          });
         }
-        e.target.reset();
     }
     
     handleAlreadySignedUp(e){
@@ -111,21 +99,13 @@ class SignUpForm extends Component {
           this.setState({
               email: e.target.value
           });
-        } else if (e.target.id === 'confirmationCode') {
-          this.setState({
-              confirmationCode: e.target.value
-          });
         } else if (e.target.name === 'userRole') {
           this.setState({
-              userRole: e.target.value
+              userRole: e.target.id
           });
-        } else if (e.target.id === 'firstName') {
+        } else if (e.target.id === 'name') {
           this.setState({
-            firstName: e.target.value
-          });
-        } else if (e.target.id === 'lastName') {
-          this.setState({
-            lastName: e.target.value
+            name: e.target.value
           });
         } else if (e.target.id === 'parentEmail') {
           this.setState({
@@ -139,77 +119,55 @@ class SignUpForm extends Component {
     }
   
     render() {
-      const { verified } = this.state;
+      const { verified, email, signUpError, phoneError, name, phone_number, password} = this.state;
       if (verified) {
           return (
-              <div>
-                <div> Please check your email ({this.state.email}) for your confirmation code!</div>
-                <div> It may take up to 5 minutes to appear. </div>
-                <form onSubmit={ this.handleSubmit }>
-                    <label>Confirmation Code</label>
-                    <input id='confirmationCode' type='text' onChange={ this.handleChange }/>
-                    <button>Confirm Sign up</button>
-                </form>
-              </div>
+            <ConfirmationForm email = {email} handleSignup={this.props.handleSignup}/>
           );
       } else {
         return (
-          <React.Fragment>
-            <div className={this.state.signUpError ? 'signUpError' : 'noError'}>
-                There was an Error with one or more of your fields... please make sure of the following: 
-                <ul>
-                  <li> Username has no spaces </li>
-                  <li> Password is at least 8 characters </li>
-                  <li> Phone number is of the format +12223334444 </li>
-                  <li> email is of the format: email@website.com </li>
-                  <li> You have selected 'Student', 'Tutor', or 'Admin' </li>
-                </ul>
-            </div>            
-            <div className="signUpForm">
-              <form onSubmit={ this.handleSubmit }>
-                  <div> 
-                    <label>Student First Name</label>
-                    <input id='firstName' type='text' onChange={ this.handleChange } value={this.state.firstName}/>
-                  </div>
-                  <div> 
-                    <label>Student Last Name</label>
-                    <input id='lastName' type='text' onChange={ this.handleChange } value={this.state.lastName}/>
-                  </div>
-                  <div>
-                    <label>Password</label>
-                    <input id='password' type='password' onChange={ this.handleChange }/>
-                  </div>
-                  <div>
-                    <label>Phone Number</label>
-                    <input id='phone_number' type='text' onChange={ this.handleChange } value={this.state.phone_number} placeholder="+14445556666"/>
-                  </div>
-                  <div>
-                    <label>Email</label>
-                    <input id='email' type='text' onChange={ this.handleChange } value={this.state.email}/>
-                  </div>
-                  <div>
-                    <label>Parent Phone Number</label>
-                    <input id='parentPhone' type='text' onChange={ this.handleChange } value={this.state.parentPhone} placeholder="+19102223333"/>
-                  </div>
-                  <div>
-                    <label>Parent Email</label>
-                    <input id='parentEmail' type='text' onChange={ this.handleChange } value={this.state.parentEmail}/>
-                  </div>
-                  <div>
-                    <label>Student</label>
-                    <input name = "userRole" id = "ur1" type='radio' value="Student" onChange={this.handleChange} checked={this.state.userRole==="Student"}/>
-                    <label>Tutor</label>
-                    <input name = "userRole" id = "ur2" type='radio' value="Tutor" onChange={this.handleChange} checked={this.state.userRole==="Tutor"}/>
-                    <label>Admin</label>
-                    <input name= "userRole" id = "ur3" type='radio' value="Admin" onChange={this.handleChange} checked={this.state.userRole==="Admin"}/>
-                  </div>
-                  <div>
-                    <button>Sign up</button>
-                  </div>
-              </form>
-              <div> Already signed up? <a href="/" onClick={this.handleAlreadySignedUp}>Click Here to sign in</a></div>
-            </div>
-          </React.Fragment>
+          <div className="signUpWrapper">     
+              <Form className="signUpForm" onSubmit={this.handleSubmit}>
+                <div className="signUpTitle">Sign Up Form</div>
+                <br/>
+                <Form.Group controlId="name">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control required type="text" value={name} onChange={this.handleChange}/>
+                </Form.Group>
+                <Form.Group controlId="email">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control required type="email" value={email} onChange={this.handleChange}/>
+                </Form.Group>
+                <Form.Group controlId="phone_number">
+                  <Form.Label>Phone Number</Form.Label>
+                  <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="inputGroupPrepend">+1</InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control required type="number" value={phone_number} onChange={this.handleChange}/>
+                  </InputGroup>
+                  <Form.Text className={"text-muted phone-info " + (phoneError ? "sign-up-error" : '')}>
+                    Please make sure your phone number is 10 digits and includes the area code.
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group controlId="password">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control required type="password" value={password} onChange={this.handleChange}/>
+                  <Form.Text className={"text-muted password-info " + (signUpError ? "sign-up-error" : '')}>
+                    Your password must be 8 characters long and include an upercase letter, lowercase letter, and number.
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group controlId="userRole">
+                <Form.Label>Are you a student or tutor?</Form.Label><br/>
+                  <Form.Check inline name='userRole' label="Student" type='radio' id="Student" onChange={this.handleChange} checked={this.state.userRole==="Student"}/>
+                  <Form.Check inline name='userRole' label="Tutor" type='radio' id="Tutor" onChange={this.handleChange} checked={this.state.userRole==="Tutor"}/>              
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Sign Up
+                </Button>
+              </Form>
+            <div> Already signed up? <a href="/" onClick={this.handleAlreadySignedUp}>Click Here to sign in</a></div>
+          </div>
         );
       }
     }

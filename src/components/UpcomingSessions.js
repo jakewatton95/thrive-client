@@ -8,7 +8,7 @@ class UpcomingSessions extends Component {
         super(props)
         if (this.props.userInfo) {
             this.state = {
-                userRole: props.userInfo.attributes["custom:userRole"],
+                userRole: props.userInfo.UserType,
                 loading: true,
                 secondaryRole: null
             }

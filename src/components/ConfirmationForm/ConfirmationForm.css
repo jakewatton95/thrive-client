@@ -17,6 +17,11 @@
     box-sizing: border-box;
 }
 
+.confirmFormTitle {
+    font-size: 20px;
+    font-weight: 500;
+}
+
 @media only screen and (max-width: 599px) {
     .confirmationFormContainer {
         margin: 0;

@@ -13,12 +13,11 @@ class TutorContainer extends Component{
             products: []
         }
     }
-    
     async componentDidMount(){
-        this._isMounted=true
-        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/tutors?name=" + this.props.userInfo.username
+        this._isMounted = true
+        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/tutors?email=" + this.props.userInfo.Email
         await fetch(url)
-        .then(response => response.json())
+        .then(response =>  response.json())
         .then(response => {
             if (this._isMounted) {
                 this.setState({
@@ -28,7 +27,7 @@ class TutorContainer extends Component{
         })
         .catch(err => console.log("ERR: " + err))
         
-        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions?tutorID=' + this.state.tutorID)
+        await fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions?tutorID=' + this.state.tutorID)
         .then(response => response.json())
         .then(response => {
             if (this._isMounted) {
@@ -39,7 +38,7 @@ class TutorContainer extends Component{
         })
         .catch(err => console.log("ERR: " + err))
         
-        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products?tutorID=' + this.state.tutorID)
+        await fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products?tutorID=' + this.state.tutorID)
         .then(response => response.json())
         .then(response => {
             if (this._isMounted) {
@@ -50,7 +49,7 @@ class TutorContainer extends Component{
         })
         .catch(err => console.log("ERR: " + err))
         
-        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?tutorID=' + this.state.tutorID)
+        await fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?tutorID=' + this.state.tutorID)
         .then(response => response.json())
         .then(response => {
             if (this._isMounted) {
@@ -61,7 +60,7 @@ class TutorContainer extends Component{
         })
         .catch(err => console.log("Err: " + err))
         
-        fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/billing?tutorID=' + this.state.tutorID)
+        await fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/billing?tutorID=' + this.state.tutorID)
         .then(response => response.json())
         .then(response => {
             if (this._isMounted) {

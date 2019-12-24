@@ -17,7 +17,7 @@ class PaymentView extends Component{
     }
     
     componentDidMount(){
-        let userRole = this.props.userInfo.attributes['custom:userRole']
+        let userRole = this.props.userInfo.UserType
         if (userRole === 'Student') {
             this.setState({
                 viewing: this.props.userInfo.username
@@ -47,7 +47,7 @@ class PaymentView extends Component{
     render(){
         let {userType, viewing, selectedID} = this.state
         let {students, tutors, payments} = this.props
-        let userRole = this.props.userInfo.attributes['custom:userRole']
+        let userRole = this.props.userInfo.UserType
         let filteredPayments = [];
         let totalAmount = 0;
         if (userType === "everyone") {

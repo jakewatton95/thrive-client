@@ -11,7 +11,6 @@ class ScheduleSession extends Component {
         
         this.state = {
             productID: '',
-            userRole: props.userInfo.attributes["custom:userRole"],
             date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).setHours(20,0,0),
             sessionLength: '1.5',
             tutorID: '',
@@ -27,7 +26,8 @@ class ScheduleSession extends Component {
     
     handleSubmit(e){
         e.preventDefault()
-        let {productID, userRole, location, sessionLength, date} = this.state
+        let userRole = this.props.userInfo.UserType
+        let {productID, location, sessionLength, date} = this.state
         if (productID === '')
             alert("Please Select your Tutor and Subject")
         else {
@@ -78,7 +78,7 @@ class ScheduleSession extends Component {
     render(){
         let products
         let defaultString = ''
-        let {userRole} = this.state
+        let userRole = this.props.userInfo.UserType
         if (userRole === "Admin")
         {
             defaultString = "Product"

@@ -1,9 +1,35 @@
-.signUpForm{
-    padding-top: 20px;
-    padding-left: 40px;
-    padding-right: 40px;
+.signUpWrapper{
+        text-align: center;
+        margin-top: 20px;
+        margin: 5% auto 50px;
 }
 
-.noError{
-    display:none;
+.signUpForm{
+    position: relative; 
+    margin-bottom: 20px;
+    background-color: var(--form-color);
+    padding: 35px 40px;
+    text-align: left;
+    display: inline-block;
+    min-width: 460px;
+    border-radius: 6px;
+    box-shadow: 1px 1px 4px 0 rgba(0,0,0,0.15);
+    box-sizing: border-box;
+}
+
+.signUpTitle {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.sign-up-error {
+    color: red!important;
+}
+
+.password-info{
+    max-width: 460px;
+}
+
+.phone-info{
+    max-width: 460px;
 }

@@ -9,7 +9,6 @@ class BillingView extends Component{
         super(props)
         
         this.state = {
-            userRole : props.userInfo.attributes["custom:userRole"],
             startDate: new Date().setHours(0,0,0),
             endDate: new Date(new Date().getTime()+7*24*60*60*1000).setHours(23,59,59),            
             filteringDates: true
@@ -55,7 +54,7 @@ class BillingView extends Component{
     }
     
     render(){
-        let {userRole} = this.state
+        let {userRole} = this.props.userInfo.UserType
         /*let totalCost = this.state.filteringDates ? 
                     this.state.billings.filter(session => 
                         new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&

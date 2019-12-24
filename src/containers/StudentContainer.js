@@ -17,13 +17,12 @@ class StudentContainer extends Component{
     
     async componentDidMount(){
         this._isMounted=true
-        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/students?name=" + this.props.userInfo.username
+        let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/students?email=" + this.props.userInfo.Email
         await fetch(url)
         .then(response => response.json())
         .then(response => {
             this.setState({
                 studentID: response[0].StudentID,
-              //  loading: this.state.loading+1
             })
         })
         .catch(err => console.log("ERR: " + err))

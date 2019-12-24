@@ -9,7 +9,6 @@ class SessionView extends Component{
     constructor(props){
         super(props)
         this.state = {
-            userRole : props.userInfo.attributes["custom:userRole"],
             sessions: [],
             startDate: new Date().setHours(0,0,0),
             endDate: new Date(new Date().getTime()+7*24*60*60*1000).setHours(23,59,59),
@@ -56,6 +55,7 @@ class SessionView extends Component{
     }
     
     render(){
+        let userRole = this.props.userInfo.UserType
         return(
             <div className = "sessionViewContainer">
                 <form className = "dateSelectors">

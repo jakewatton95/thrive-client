@@ -11,9 +11,9 @@ class ConfirmationForm extends Component {
             confirmationCode : ''
         }
         this.handleChange = this.handleChange.bind(this)
-        this.confirmSignUp = this.confirmSignUp.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
+
 
     handleChange(e) {
         let {id, value} = e.target
@@ -30,21 +30,13 @@ class ConfirmationForm extends Component {
         e.preventDefault()
         Auth.confirmSignUp(email, confirmationCode)
         .then(() => {
-            alert("TODO Handle Signup")
-            //add user and change signedup in app.js
+            alert("Success! You're account is confirmed. You will now be redirected to the login page or the home page.")
+            this.props.handleSignup()
         })
-        .catch(err => console.log(`Error confirming sign up - ${ err }`))
-    }
-
-    confirmSignUp() {
-        const { email, confirmationCode } = this.state;
-        Auth.confirmSignUp(email, confirmationCode)
-        .then(() => {
-            console.log('Successfully confirmed signed up')
-            this.addUser();
-            this.props.handleSignup();
+        .catch(err => {
+            console.log(err)
+            alert(err.message)
         })
-        .catch((err) => console.log(`Error confirming sign up - ${ err }`))
     }
 
     render() {
@@ -53,6 +45,10 @@ class ConfirmationForm extends Component {
         return (
             <div className = "confirmationFormContainer">
                 <div className = "confirmationFormSection">
+                    <div className = "confirmFormTitle">Confirm Sign Up</div>
+                    <Form.Text className="text-muted">
+                        Please check your email for a confirmation code.
+                    </Form.Text>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group controlId="formConfirmationEmail">
                             <Form.Label>Email address</Form.Label>
@@ -64,7 +60,7 @@ class ConfirmationForm extends Component {
 
                         <Form.Group controlId="confirmationCode">
                             <Form.Label>Confirmation Code</Form.Label>
-                            <Form.Control type="number" placeholder="Code" value = {confirmationCode} onChange = {this.handleChange} />
+                            <Form.Control required type="number" placeholder="Code" value = {confirmationCode} onChange = {this.handleChange} />
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit
