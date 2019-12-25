@@ -5,7 +5,7 @@ import SignInForm from './SignIn/SignInForm';
 import SignUpForm from './SignUp/SignUpForm';
 import SiteHeader from './SiteHeader'
 import {withAuthenticator} from 'aws-amplify-react'
-
+import './App.css'
 Amplify.configure(awsconfig);
 
 class App extends Component{

@@ -53,7 +53,7 @@ class ConfirmationForm extends Component {
                         <Form.Group controlId="formConfirmationEmail">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control disabled type="email" value={email} />
-                            <Form.Text className="text-muted">
+                            <Form.Text className="text-muted confirm-info">
                             If this is not your email address, please sign up again or contact an administrator.
                             </Form.Text>
                         </Form.Group>
@@ -67,6 +67,7 @@ class ConfirmationForm extends Component {
                         </Button>
                     </Form>
                 </div>
+                <div> Don't have a confirmation code? <a href="/" onClick={this.props.exit}>Click here</a></div>
             </div>
         )
     }

@@ -71,14 +71,14 @@ class AddProduct extends Component {
                         <label className="formLabel">Tutor: </label>
                         <select id="tutor" onChange={this.handleChange} defaultValue=''>
                             <option disabled="disabled" value=''>---Select a Tutor---</option>
-                            {this.props.tutors.map(tutor => <option key = {tutor.Name} value = {tutor.TutorID}>{tutor.Name}</option> )}
+                            {this.props.tutors.map(tutor => <option key = {tutor.TutorID} value = {tutor.TutorID}>{tutor.Name}</option> )}
                         </select>
                     </div>
                     <div>
                         <label className="formLabel">Student: </label>
                         <select id='student' onChange={this.handleChange} defaultValue=''>
                              <option disabled="disabled" value=''>---Select a Student---</option>
-                            {this.props.students.map(student => <option key = {student.Name} value = {student.StudentID}>{student.Name}</option> )}
+                            {this.props.students.map(student => <option key = {student.StudentID} value = {student.StudentID}>{student.Name}</option> )}
                         </select>
                     </div>
                     <div>

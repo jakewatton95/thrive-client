@@ -16,7 +16,6 @@ class SignUpForm extends Component {
             email: '',
             parentEmail: '',
             parentPhone: '',
-            confirmationCode: '',
             userRole: '',
             verified: false,
             signUpError: false,
@@ -28,6 +27,7 @@ class SignUpForm extends Component {
         this.signUp = this.signUp.bind(this);
         this.handleAlreadySignedUp=this.handleAlreadySignedUp.bind(this)
         this.addUser = this.addUser.bind(this)
+        this.leaveConfirmation=this.leaveConfirmation.bind(this)
     }
   
     signUp() {
@@ -85,6 +85,14 @@ class SignUpForm extends Component {
       e.preventDefault();
       this.props.handleSignup();
     }
+
+    leaveConfirmation(e){
+      e.preventDefault()
+      this.setState({
+        verified: false,
+        password: ''
+      })
+    }
   
     handleChange(e) {
         if (e.target.id === 'password') {
@@ -122,7 +130,7 @@ class SignUpForm extends Component {
       const { verified, email, signUpError, phoneError, name, phone_number, password} = this.state;
       if (verified) {
           return (
-            <ConfirmationForm email = {email} handleSignup={this.props.handleSignup}/>
+            <ConfirmationForm email = {email} handleSignup={this.props.handleSignup} exit={this.leaveConfirmation}/>
           );
       } else {
         return (

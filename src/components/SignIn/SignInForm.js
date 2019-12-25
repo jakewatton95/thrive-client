@@ -29,10 +29,19 @@ class SignInForm extends Component {
         this.getUserRole = this.getUserRole.bind(this)
         this.signOut=this.signOut.bind(this)
         this.checkAlreadySignedIn = this.checkAlreadySignedIn.bind(this)
+        this.leaveConfirmation = this.leaveConfirmation.bind(this)
     }
     
     componentDidMount(){
         this.checkAlreadySignedIn();
+    }
+
+    leaveConfirmation(e) {
+        e.preventDefault()
+        this.setState({
+            showConfirmation: false,
+            password: ''
+        })
     }
  
     signIn() {
@@ -144,7 +153,7 @@ class SignInForm extends Component {
                 return <div> Loading... </div>
         } else if (showConfirmation){
             return (
-                <ConfirmationForm email={email} handleSignup={this.signIn}/>
+                <ConfirmationForm email={email} handleSignup={this.signIn} exit={this.leaveConfirmation}/>
             )
         } else {
             return (

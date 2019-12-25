@@ -67,8 +67,8 @@ class PaymentView extends Component{
                     <label className="formLabel">User: </label>
                     <select id="user" onChange={this.handleChange} defaultValue=''>
                         <option disabled="disabled" value=''>---Select a Person---</option>
-                        {tutors.map(tutor => <option key = {tutor.Name} value = {"tutor="+tutor.Name+"="+tutor.TutorID}>{tutor.Name}</option> )}
-                        {students.map(student => <option key = {student.Name} value = {"student="+student.Name+"="+student.StudentID}>{student.Name}</option>)}
+                        {tutors.map(tutor => <option key = {tutor.TutorID} value = {"tutor="+tutor.Name+"="+tutor.TutorID}>{tutor.Name}</option> )}
+                        {students.map(student => <option key = {student.StudentID} value = {"student="+student.Name+"="+student.StudentID}>{student.Name}</option>)}
                     </select>
                 </div>
             </form></React.Fragment> : null}
