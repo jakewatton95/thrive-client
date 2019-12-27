@@ -1,10 +1,23 @@
-.newProductForm{
-    padding: 20px;
+.new-product-form{
+    padding: 40px;
     border: solid;
     border-color: black;
-    margin: 20px;
+    margin: 5% auto;
+    width: 80%;
+    background-color: beige
 }
 
-.formLabel {
-    padding-right: 10px
+@media screen and (min-width: 768px) {
+    .new-product-form{
+        padding: 40px;
+        border: solid;
+        border-color: black;
+        margin: 20px;
+        width: 45%;
+        background-color: beige
+    }
+    
+    .formLabel {
+        padding-right: 10px
+    }
 }

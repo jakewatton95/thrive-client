@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import './ScheduleSession.css'
 import DatePicker from "react-datepicker"
+import {Form, Button, InputGroup} from "react-bootstrap"
 import "react-datepicker/dist/react-datepicker.css"
 import Times from "../data/times"
 
 class ScheduleSession extends Component {
-    _isMounted = false
     constructor(props){
         super(props)
         
@@ -94,30 +94,34 @@ class ScheduleSession extends Component {
                 <option key = {product.ProductID} value = {product.ProductID}>{product.Subject} with {product.Student}</option>)
         }
         return (
-            <div className = "scheduleSessionField">
-                <h2> Request a Session Here: </h2>
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                        <select id="sessionType" onChange={this.handleChange} value={this.state.productID}>
-                            <option disabled="disabled" value=''>---Select a {defaultString}---</option>
-                            {products}
-                        </select>               
-                    </div>
-                    <div>
-                        Date: <DatePicker selected={this.state.date} onChange={this.handleCalendarChange} showTimeSelect dateFormat = 'Pp' minDate={new Date()}/>
-                    </div>
-                    <div>
-                        Length: <select id = "sessionLength" onChange={this.handleChange} value = {this.state.sessionLength}>
-                            {Times.map(time => <option key = {time.time} value = {time.value}>{time.time}</option>)}
-                        </select>
-                    </div>
-                    <div>
-                        Location: <input id = "location" type="text" placeholder='i.e. Online, Library, etc.' value={this.state.location} onChange={this.handleChange} required>
-                        </input>
-                    </div>
-                    <button> Request</button>
-                </form>
-            </div>
+            <Form className="new-session-form" onSubmit={this.handleSubmit}>
+                <div className="new-session-title">Request A Session</div>
+                <br />
+                <Form.Group controlId="sessionType">
+                    <Form.Label>Product:</Form.Label>
+                    <Form.Control className="session-type-input" required as="select" defaultValue='' onChange={this.handleChange}>
+                        <option disabled="disabled" value=''>---Select a Tutor---</option>
+                        {products}
+                    </Form.Control>
+                </Form.Group>
+                <Form.Group controlId="date">
+                    <Form.Label>Date:</Form.Label><br/>
+                    <DatePicker className="schedule-session-datepicker" selected={this.state.date} onChange={this.handleCalendarChange} showTimeSelect dateFormat = 'Pp' minDate={new Date()}/>
+                </Form.Group>
+                <Form.Group controlId="sessionLength">
+                    <Form.Label>Length:</Form.Label>
+                    <Form.Control className="length-input" required as="select" value={this.state.sessionLength} onChange={this.handleChange}>
+                        {Times.map(time => <option key={time.time} value={time.value}>{time.time}</option>)}
+                    </Form.Control>
+                </Form.Group>
+                <Form.Group controlId="location">
+                    <Form.Label>Location:</Form.Label>
+                    <Form.Control className="location-input" required type="text" value={this.state.location} onChange={this.handleChange} />
+                </Form.Group>
+                <Button variant="success" type="submit">
+                    Schedule Session
+                </Button>
+            </Form>
         )
     }
 }

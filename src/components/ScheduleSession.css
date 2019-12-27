@@ -1,6 +1,27 @@
-.scheduleSessionField{
-    padding: 20px;
+.new-session-form{
+    padding: 40px;
     border: solid;
     border-color: black;
-    margin: 20px;
+    margin: 5% auto;
+    width: 80%;
+    background-color: beige
+}
+
+.schedule-session-datepicker{
+    width:100%
+}
+
+@media screen and (min-width: 768px) {
+    .new-session-form{
+        padding: 40px;
+        border: solid;
+        border-color: black;
+        margin: 20px;
+        width: 45%;
+        background-color: beige
+    }
+    
+    .formLabel {
+        padding-right: 10px
+    }
 }

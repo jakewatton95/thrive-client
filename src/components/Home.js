@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import AddProduct from './AddProduct'
 import UpcomingSessions from './UpcomingSessions'
 import ScheduleSession from './ScheduleSession'
+import './Home.css'
 
 class Home extends Component{
     constructor(props){
@@ -18,28 +19,30 @@ class Home extends Component{
         let modules;
         if (UserType === "Student"){
             modules=
-            <div>
+            <React.Fragment>
                 <ScheduleSession studentID = {this.props.studentID} products={this.props.products} userInfo={this.props.userInfo}/>
                 <UpcomingSessions studentID = {this.props.studentID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>
-            </div>
+            </React.Fragment>
         } else if (UserType === "Tutor") {
             modules=
-            <div>
+            <React.Fragment>
                 <ScheduleSession tutorID = {this.props.tutorID} products={this.props.products} userInfo={this.props.userInfo}/>
                 <UpcomingSessions tutorID = {this.props.tutorID} sessions = {this.props.sessions} userInfo={this.props.userInfo}/>
-            </div>
+            </React.Fragment>
         } else {
             modules=
-            <div>
+            <React.Fragment>
                 <ScheduleSession userInfo={this.props.userInfo} products={this.props.products}/>
                 <UpcomingSessions userInfo={this.props.userInfo} sessions = {this.props.sessions}/>
-            </div>
+            </React.Fragment>
         }
         return (
             <div className = "main">
                 <h2>Welcome back, {this.props.userInfo.Name}!</h2>
-                {UserType === "Admin" ? <AddProduct tutors={tutors} students={students}/> : null}
-                {modules}
+                <div className="modules-container">
+                    {UserType === "Admin" ? <AddProduct tutors={tutors} students={students} /> : null}
+                    {modules}
+                </div>
             </div>
         )
     }
