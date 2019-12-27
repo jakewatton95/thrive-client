@@ -1,16 +1,22 @@
 .new-product-form{
     padding: 40px;
-    border: solid;
+    border-radius: 15px;
+    border: double;
     border-color: black;
     margin: 5% auto;
     width: 80%;
     background-color: beige
 }
 
+.new-product-title{
+    font-weight: 400;
+    font-size: 24px;
+}
+
 @media screen and (min-width: 768px) {
     .new-product-form{
         padding: 40px;
-        border: solid;
+        border: double;
         border-color: black;
         margin: 20px;
         width: 45%;

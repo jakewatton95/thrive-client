@@ -1,4 +1,5 @@
 import React,{Component} from 'react'
+import {Form} from 'react-bootstrap'
 import './ViewWithTable.css'
 
 
@@ -26,8 +27,8 @@ class StudentTutorView extends Component{
         let {filterName} = this.state
         return(
             <React.Fragment>
-            <form>
-                <label>Tutor Name: </label>
+            <form className="name-search-form">
+                <label> Name: </label>
                 <input id = 'name' type ="text" onChange={this.handleChange}></input> 
             </form>
             <table>

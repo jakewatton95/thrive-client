@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Button} from 'react-bootstrap'
 import './UpcomingSessions.css'
 import Session from './Session'
 
@@ -32,23 +33,23 @@ class UpcomingSessions extends Component {
     }
 
     render(){
-        let weekSessions = this.state.secondaryRole ? 
-            this.props.sessions.filter(session => new Date(Date.parse(session.date)) <= new Date(new Date().getTime()+7*24*60*60*1000) &&
-                        new Date(Date.parse(session.date)) >= new Date() && (session.StudentID == this.props.studentID || session.TutorID == this.props.tutorID))
-        
-        : this.props.sessions.filter(session => new Date(Date.parse(session.date)) <= new Date(new Date().getTime()+7*24*60*60*1000) &&
-                        new Date(Date.parse(session.date)) >= new Date())
+        let {loading, secondaryRole, userRole} = this.state
+        let {sessions, studentID, tutorID} = this.props
+        let weekSessions = secondaryRole ?
+            sessions.filter(session => new Date(Date.parse(session.date)) <= new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000) &&
+                new Date(Date.parse(session.date)) >= new Date() && (session.StudentID == studentID || session.TutorID == tutorID))
+            :
+            sessions.filter(session => new Date(Date.parse(session.date)) <= new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000) &&
+                new Date(Date.parse(session.date)) >= new Date())
 
         return (
-            <React.Fragment>
-            <div className="upcomingSessionsInfo">
-                <h2> This Week's Sessions: </h2>
+            <div className="upcoming-sessions-info">
+                <div className= "upcoming-sessions-title"> This Week's Sessions: </div>
                 {weekSessions == 0 ?
-                    this.state.loading == true ? <div> Loading... </div> : <div> No sessions this week, schedule one on the home page! </div> :
-                    weekSessions.map(session => <Session userRole={this.state.userRole} secondaryRole={this.state.secondaryRole} key = {session.ID} sessionInfo={session}/>)
+                    loading ? <div> Loading... </div> : <div> No sessions this week, schedule one on the home page! </div> :
+                    weekSessions.map(session => <Session userRole={userRole} secondaryRole={secondaryRole} key = {session.ID} sessionInfo={session}/>)
                 }
             </div>
-            </React.Fragment>
         )
     }
 }

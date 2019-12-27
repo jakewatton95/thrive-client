@@ -4,6 +4,7 @@ import StudentNav from '../components/Nav/StudentNav.js'
 class StudentContainer extends Component{
     _isMounted=false
     constructor (props){
+        let a = 2
         super(props)
         this.state = {
             studentID: '',
@@ -76,6 +77,17 @@ class StudentContainer extends Component{
     componentWillUnmount(){
         this._isMounted = false
     }    
+
+    cancelSession(ID) {
+        let {sessions, billings} = this.state
+        console.log(sessions, payments, billings)
+        let filteredSessions = sessions.filter(session => session.ID != ID)
+        let filteredBillings = billings.filter(billing => billing.sessionID != ID)
+        this.setState({
+            sessions: filteredSessions,
+            billings: filteredBillings
+        })
+    }
     
     render(){
         return (

@@ -190,32 +190,35 @@ class Session extends Component {
         </Modal>
             
         <div className = {show ? "flexContainer sessionWrapper" : "hiddenWrapper"}>
-            <div>
+            <div className = "session-info">
                 {userRole !== 'Student' ? <div>Student: {Student} </div> : null}
                 {userRole !== 'Tutor' ? <div> Tutor: {Tutor} </div> : null}
-                <div> Subject: {Subject}
+                <div> 
+                    Subject: {Subject}
                 </div>
                 <div>
-                Location: {Location} on {dateFormatted.toLocaleDateString()} at {dateFormatted.toLocaleTimeString()}
+                    Location: {Location} 
                 </div>
-                {userRole == 'Student' && !studentConfirmed && 
-                !this.props.secondaryRole && new Date() < new Date(Date.parse(date)) ? // && this.props.isPrimary ? 
-                    <button onClick={this.confirm}> Confirm </button> : null}
-                {userRole == 'Tutor' && !tutorConfirmed && !this.props.secondaryRole && new Date() < new Date(Date.parse(date)) ? //&& this.props.isPrimary ?
-                    <button onClick={this.confirm}> Confirm </button> : null}
                 <div>
-                    StudentConfirmed: {studentConfirmed == 1? 'yes' : 'no'}
+                    Date: {dateFormatted.toLocaleDateString()} at {dateFormatted.toLocaleTimeString()}
+                </div>
+                <div>
+                    Length: {Times.find(time => time.value == SessionLength).time}
+                </div>
+                <div>
+                    Student Confirmed: {studentConfirmed == 1? 'yes' : 'no'}
                     <br/>
-                    TutorConfirmed: {tutorConfirmed == 1? 'yes': 'no'}
+                    Tutor Confirmed: {tutorConfirmed == 1? 'yes': 'no'}
                 </div>
             </div>
-            <div> 
-                <div>
-                    {(userRole == 'Student' || userRole == 'Tutor') && secondaryRole !== 'Admin' && new Date() < new Date(Date.parse(date)) ? <button className="cancel-button" onClick = {this.handleCancel}> Cancel </button> : null} 
-                </div>
-                <div>
-                    {(userRole == 'Student' || userRole == 'Tutor') && secondaryRole !== 'Admin' && new Date() < new Date(Date.parse(date)) ? <button className="edit-button" onClick = {this.handleEdit}> Edit </button> : null}
-                </div>
+            <div className = "session-button-container"> 
+                {(userRole == 'Student' || userRole == 'Tutor') && secondaryRole !== 'Admin' && new Date() < new Date(Date.parse(date)) ? <Button variant="danger" onClick = {this.handleCancel}> Cancel </Button> : null} 
+                {(userRole == 'Student' || userRole == 'Tutor') && secondaryRole !== 'Admin' && new Date() < new Date(Date.parse(date)) ? <Button variant="secondary" onClick = {this.handleEdit}> Edit </Button> : null}
+                {userRole == 'Student' && !studentConfirmed && 
+                !this.props.secondaryRole && new Date() < new Date(Date.parse(date)) ? // && this.props.isPrimary ? 
+                    <Button variant='success' onClick={this.confirm}> Confirm </Button> : null}
+                {userRole == 'Tutor' && !tutorConfirmed && !this.props.secondaryRole && new Date() < new Date(Date.parse(date)) ? //&& this.props.isPrimary ?
+                    <Button variant='success' onClick={this.confirm}> Confirm </Button> : null}
             </div>
         </div>
         </React.Fragment>

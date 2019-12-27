@@ -28,7 +28,6 @@ class App extends Component{
         const {signedUp} = this.state
         return (
             <React.Fragment>
-                <SiteHeader/>
                 { !signedUp ? <SignInForm handleSignup = {this.handleSignup}/> : <SignUpForm handleSignup={ this.handleSignup }/>}
             </React.Fragment>
         )

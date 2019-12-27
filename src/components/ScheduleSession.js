@@ -100,7 +100,7 @@ class ScheduleSession extends Component {
                 <Form.Group controlId="sessionType">
                     <Form.Label>Product:</Form.Label>
                     <Form.Control className="session-type-input" required as="select" defaultValue='' onChange={this.handleChange}>
-                        <option disabled="disabled" value=''>---Select a Tutor---</option>
+                        <option disabled="disabled" value=''>---Select a {defaultString}---</option>
                         {products}
                     </Form.Control>
                 </Form.Group>

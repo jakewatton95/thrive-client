@@ -23,3 +23,7 @@ form{
 .category{
     font-weight: bold;
 }
+
+.name-search-form {
+  text-align: center;
+}

@@ -70,9 +70,9 @@ class SessionView extends Component{
                     {this.state.filteringDates ? 
                     this.props.sessions.filter(session => 
                         new Date(Date.parse(session.date)) <= new Date(new Date(this.state.endDate).getTime()+24*60*60*1000) &&
-                        new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).map(session => <Session userRole={this.state.userRole} key={session.ID} sessionInfo={session}/>) 
+                        new Date(Date.parse(session.date)) >= new Date(new Date(this.state.startDate))).map(session => <Session userRole={userRole} key={session.ID} sessionInfo={session}/>) 
                     :
-                    this.props.sessions.map(session => <Session userRole={this.state.userRole} key={session.ID} sessionInfo={session}/>)} 
+                    this.props.sessions.map(session => <Session userRole={userRole} key={session.ID} sessionInfo={session}/>)} 
                 </div>
             </div>
             

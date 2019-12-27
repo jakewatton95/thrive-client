@@ -1,8 +1,16 @@
-.upcomingSessionsInfo{
+.upcoming-sessions-info{
+    width: 80%;
     padding: 20px;
-    border: solid;
+    border: double;
+    border-radius: 15px;
     border-color: black;
-    margin: 20px;
+    margin: 5% auto;
     max-height: 500px;
     overflow-y: scroll;
+    background-color: beige;
+}
+
+.upcoming-sessions-title{
+    font-weight: 400;
+    font-size: 24px;
 }
