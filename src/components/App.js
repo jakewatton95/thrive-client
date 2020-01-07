@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
+import {Switch, Route} from 'react-router-dom'
 import Amplify from 'aws-amplify';
 import awsconfig from '../aws-exports';
 import SignInForm from './SignIn/SignInForm';
 import SignUpForm from './SignUp/SignUpForm';
-import SiteHeader from './SiteHeader'
-import {withAuthenticator} from 'aws-amplify-react'
 import HomePage from './InfoPage'
+import ErrorPage from './ErrorPage'
 import './App.css'
 Amplify.configure(awsconfig);
 
@@ -13,9 +13,7 @@ class App extends Component{
     constructor(){
         super()
         this.state={
-            signedUp : false
         }
-        this.handleSignup = this.handleSignup.bind(this)
     }
     
     handleSignup(e) {
@@ -27,12 +25,17 @@ class App extends Component{
 
     render(){
         const {signedUp} = this.state
-        const pageSwitcher = false;
         return (
-            pageSwitcher ? 
-                !signedUp ? <SignInForm handleSignup = {this.handleSignup}/> : <SignUpForm handleSignup={this.handleSignup}/>
-                :
-                <HomePage/>
+            <Switch>
+                <Route exact path="/" render={() => <HomePage/>}>
+                </Route>
+                <Route exact path="/sign_in" render={() => <SignInForm/>}>
+                </Route>
+                <Route exact path="/sign_up" render={() => <SignUpForm/>}>
+                </Route>
+                <Route component={ErrorPage}>
+                </Route>
+            </Switch>
         )
     }
 }

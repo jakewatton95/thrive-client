@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './InfoPage.css'
+import {NavLink} from 'react-router-dom'
 import book_logo from '../media/book_logo.png'
 import calendar_logo from '../media/calendar_logo.png'
 import clock_logo from '../media/clock_logo.png'
@@ -14,7 +15,10 @@ class InfoPage extends Component {
         }
     }
 
+
+
     render() {
+        let {signIn, signUp} = this.props
         return (
             <React.Fragment>
                 <header className="header">
@@ -24,12 +28,12 @@ class InfoPage extends Component {
                     <div className="nav-container">
                         <nav>
                             <div className="nav-buttons-wrapper">
-                                <button className="nav-button">
-                                    Sign In
-                        </button>
-                                <button className="nav-button">
-                                    Sign Up
-                        </button>
+                                    <NavLink to="/sign_in" className = "nav-tab">
+                                        Sign In
+                                    </NavLink>
+                                    <NavLink  to="/sign_up" className = "nav-tab">
+                                        Sign Up
+                                    </NavLink>
                             </div>
                         </nav>
                     </div>
