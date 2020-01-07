@@ -22,8 +22,8 @@ class SignUpForm2 extends Component {
                     <input required type="text" placeholder="FIRST NAME" className = "sign-in-form-field" onChange={this.handleChange} />
                     <input required type="text" placeholder="LAST NAME" className = "sign-in-form-field" onChange={this.handleChange} />
                     <input required type="email" placeholder="EMAIL" className = "sign-in-form-field" onChange={this.handleChange} />
-                    <input required type="tel" placeholder="PHONE NUMBER" className = "sign-in-form-field has-tip" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={this.handleChange} />
-                    <div className="tip phone-number-tip">Format: 123-456-7890</div>
+                    <input required type="tel" placeholder="PHONE NUMBER" className = "sign-in-form-field has-tip" pattern="[0-9]{10}" onChange={this.handleChange} />
+                    <div className="tip phone-number-tip">Format: 1234567890</div>
                     <input required type="password" placeholder="PASSWORD" className = "sign-in-form-field has-tip" onChange={this.handleChange} />
                     <div className="tip password-tip">At least 8 characters long, one uppercase letter, one lowercase letter, and one number </div>
                     <input required type="password" placeholder="CONFIRM PASSWORD" className = "sign-in-form-field" onChange={this.handleChange} />
