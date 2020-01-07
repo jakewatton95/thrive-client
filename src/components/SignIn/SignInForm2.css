@@ -1,0 +1,73 @@
+.log-in-title{
+    text-align: center;
+    margin-top: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    color: #013862;
+}
+
+.big-thrive {
+    font-weight: 800;
+}
+
+input[type=text] {
+    border: 4px solid #013862;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #013862;
+    padding-left: 10px;
+}
+
+input[type=password]{
+    border: 4px solid #013862;
+    margin-bottom: 15px;
+    color: #013862;
+    padding-left: 10px;
+}
+
+.sign-in-button-wrapper {
+    margin-top: 30px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.sign-in-button{
+    align-items: center;
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    background-color: #f7976e;
+    color: white;
+    padding: 10px;
+}
+
+.forgot-password{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #f7976e;
+    display: block;
+}
+
+::-webkit-input-placeholder { /* Edge */
+    color: #013862;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #013862;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+  }
+  
+  ::placeholder {
+    color: #013862;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+  }
+
+.sign-in-form-field {
+    width: 100%;
+    line-height: 40px;
+}

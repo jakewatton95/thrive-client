@@ -4,6 +4,8 @@ import Amplify from 'aws-amplify';
 import awsconfig from '../aws-exports';
 import SignInForm from './SignIn/SignInForm';
 import SignUpForm from './SignUp/SignUpForm';
+import SignIn from './SignIn/SignIn2'
+import SignUp from './SignUp/SignUp2'
 import HomePage from './InfoPage'
 import ErrorPage from './ErrorPage'
 import './App.css'
@@ -29,9 +31,9 @@ class App extends Component{
             <Switch>
                 <Route exact path="/" render={() => <HomePage/>}>
                 </Route>
-                <Route exact path="/sign_in" render={() => <SignInForm/>}>
+                <Route exact path="/sign_in" render={() => <SignIn/>}>
                 </Route>
-                <Route exact path="/sign_up" render={() => <SignUpForm/>}>
+                <Route exact path="/sign_up" render={() => <SignUp/>}>
                 </Route>
                 <Route component={ErrorPage}>
                 </Route>

@@ -28,11 +28,11 @@ class InfoPage extends Component {
                     <div className="nav-container">
                         <nav>
                             <div className="nav-buttons-wrapper">
-                                    <NavLink to="/sign_in" className = "nav-tab">
-                                        Sign In
+                                    <NavLink to="/sign_in" activeClassName="active-tab" className = "nav-tab">
+                                        SIGN IN
                                     </NavLink>
-                                    <NavLink  to="/sign_up" className = "nav-tab">
-                                        Sign Up
+                                    <NavLink  to="/sign_up" activeClassName="active-tab" className = "nav-tab">
+                                        SIGN UP
                                     </NavLink>
                             </div>
                         </nav>

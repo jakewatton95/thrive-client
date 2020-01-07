@@ -8,9 +8,21 @@ header {
   background-color: beige;
 }
 
+.nav-container.sign-in-up {
+  background-color: white;
+}
+
+.nav-buttons-wrapper.sign-in-up {
+  justify-content: space-between;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
 .nav-container {
   background-color: #f7976e;
 }
+
+
 
 .nav-buttons-wrapper{
   display: flex;
@@ -43,7 +55,21 @@ header {
   font-family: 'Montserrat', sans-serif;
   font-size: 20px;
   font-weight: 300;
+  outline: #f7976e;
 }
+
+.nav-tab.sign-in-up{
+  color: #013862;
+  background-color: white;
+  border: 5px solid #013862;
+}
+
+.nav-tab.sign-in-up-home{
+  color: #f7976e;
+  background-color: white;
+  border: 5px solid #f7976e;
+}
+
 
 .welcome-section {
   text-align: center;
