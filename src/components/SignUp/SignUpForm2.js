@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './SignUpForm2.css'
-import {NavLink} from 'react-router-dom'
 
 
 class SignUpForm2 extends Component {

@@ -26,11 +26,11 @@ class SignInUpNav extends Component {
                                          HOME
                                     </NavLink>
                                     {signIn ? 
-                                        <NavLink  to="/sign_up" className = "nav-tab sign-in-up">
+                                        <NavLink  to="/sign_up" className = "nav-tab sign-in-up" exact={true}>
                                             SIGN UP
                                         </NavLink> 
                                         :
-                                        <NavLink to="/sign_in" className = "nav-tab sign-in-up">
+                                        <NavLink to="/sign_in" className = "nav-tab sign-in-up" exact={true}>
                                             SIGN IN
                                         </NavLink>
                                     }
