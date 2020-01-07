@@ -67,6 +67,10 @@ header.sign-up-pages{
   text-decoration:none;
 }
 
+.nav-tab.home-page{
+  color: white;
+}
+
 .nav-tab.sign-in-up{
   color: #013862;
   background-color: white;
