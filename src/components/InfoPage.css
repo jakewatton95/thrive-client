@@ -16,6 +16,7 @@ header {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  height:10vh;
 }
 
 .nav-button{
@@ -48,6 +49,12 @@ header {
   font-weight: bolder; 
 }
 
+@media screen and (max-width: 360px){
+  .welcome-section .company-name {
+    font-size: 60px;
+  }
+}
+
 .mission-statement {
   text-align: justify;
   margin-top: 20px;
@@ -70,24 +77,21 @@ header {
 }
 
 .learn-more {
-  display:flex;
-  justify-content: center;
   margin-top: 40px;
-  align-items: center;
+  text-align: center;
 }
 
 .learn-more-text{
   font-family: 'Montserrat', sans-serif;
-  margin-right: 15px;
+  display: inline-block;
 }
 
 .down-arrow {
   max-width: 40px;
+  display: inline-block;
 }
 
 .hero-section {
-  min-height: calc(100vh - 73px);
-  justify-content: center;
-  display: flex;
-  flex-flow: column;
+  min-height: 90vh;
+  overflow: hidden;
 }
