@@ -3,6 +3,10 @@ header {
   top: 0;
 }
 
+header.sign-up-pages{
+  position: relative;
+}
+
 .promotions {
   display: none;
   background-color: beige;
@@ -56,6 +60,11 @@ header {
   font-size: 20px;
   font-weight: 300;
   outline: #f7976e;
+  text-decoration: none;
+}
+
+.nav-tab:hover, .nav-tab:active, .nav-tab:visited, .nav-tab:focus {
+  text-decoration:none;
 }
 
 .nav-tab.sign-in-up{

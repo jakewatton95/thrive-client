@@ -18,7 +18,7 @@ class SignInUpNav extends Component {
         let {signIn} = this.props
         return (
             <React.Fragment>
-                <header className="header">
+                <header className="header sign-up-pages">
                     <div className="nav-container sign-in-up">
                         <nav>
                             <div className="nav-buttons-wrapper sign-in-up">
