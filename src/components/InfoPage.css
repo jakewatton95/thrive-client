@@ -1,0 +1,91 @@
+header {
+  position: sticky;
+  top: 0;
+}
+
+.promotions {
+  display: none;
+  background-color: beige;
+}
+
+.nav-container {
+  background-color: #f7976e;
+}
+
+.nav-buttons-wrapper{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.nav-button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 30%;
+    border-color: white;
+    border-width: thick;
+    color: white;
+    background-color: #f7976e;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 21px;
+    font-weight: 300;
+
+}
+
+.welcome-section {
+  text-align: center;
+  margin: 30px;
+  font-family: 'Montserrat', sans-serif;
+  color: #013862;
+}
+
+.welcome-text {
+  font-size: 35px;
+}
+
+.welcome-section .company-name {
+  font-size: 75px;
+  font-weight: bolder; 
+}
+
+.mission-statement {
+  text-align: justify;
+  margin-top: 20px;
+}
+
+.emphasize { 
+  font-weight: 600;
+}
+
+.icons {
+  margin: 30px 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  max-width: 25%;
+  margin: 10px;
+}
+
+.learn-more {
+  display:flex;
+  justify-content: center;
+  margin-top: 40px;
+  align-items: center;
+}
+
+.learn-more-text{
+  font-family: 'Montserrat', sans-serif;
+  margin-right: 15px;
+}
+
+.down-arrow {
+  max-width: 40px;
+}
+
+.hero-section {
+  min-height: calc(100vh - 73px);
+  justify-content: center;
+  display: flex;
+  flex-flow: column;
+}

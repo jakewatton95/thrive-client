@@ -6,6 +6,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(png|jpg)$/,
+        loader: 'file-loader'
+      },
+      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']

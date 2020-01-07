@@ -5,6 +5,7 @@ import SignInForm from './SignIn/SignInForm';
 import SignUpForm from './SignUp/SignUpForm';
 import SiteHeader from './SiteHeader'
 import {withAuthenticator} from 'aws-amplify-react'
+import HomePage from './InfoPage'
 import './App.css'
 Amplify.configure(awsconfig);
 
@@ -26,12 +27,13 @@ class App extends Component{
 
     render(){
         const {signedUp} = this.state
+        const pageSwitcher = false;
         return (
-            <React.Fragment>
-                { !signedUp ? <SignInForm handleSignup = {this.handleSignup}/> : <SignUpForm handleSignup={ this.handleSignup }/>}
-            </React.Fragment>
+            pageSwitcher ? 
+                !signedUp ? <SignInForm handleSignup = {this.handleSignup}/> : <SignUpForm handleSignup={this.handleSignup}/>
+                :
+                <HomePage/>
         )
     }
 }
 export default App
-//export default withAuthenticator(App); 

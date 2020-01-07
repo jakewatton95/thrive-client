@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './Nav.css'
 import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
-import {Nav} from 'react-bootstrap'
+import {Nav, Navbar} from 'react-bootstrap'
 import Home from '../Home'
 import BillingView from '../BillingView'
 import ErrorPage from '../ErrorPage'
@@ -25,41 +25,34 @@ class AdminNav extends Component {
         let {students, tutors, billings, payments, sessions, userInfo, products} = this.props
         return(
             <React.Fragment>
-                <Nav className= "nav-tabs">
-                    <div className = "navItem">
-                        <NavLink to="/admin" exact={true} activeClassName="active-tab" className="nav-link">
-                            Home
+                <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark">
+                    <Navbar.Brand>Thrive Tutors</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav>
+                            <NavLink to="/" exact={true} activeClassName="active-tab" className="nav-link">
+                                Home
                         </NavLink>
-                    </div>
-                    <div className = "navItem">
-                        <NavLink to="/students" activeClassName="active-tab" className="nav-link">
-                            Students
+                            <NavLink to="/students" activeClassName="active-tab" className="nav-link">
+                                Students
                         </NavLink>
-                    </div>
-                    <div className = "navItem">
-                        <NavLink to="/tutors" activeClassName="active-tab" className="nav-link">
-                            Tutors
+                            <NavLink to="/tutors" activeClassName="active-tab" className="nav-link">
+                                Tutors
                         </NavLink>
-                    </div>
-                    <div className = "navItem">
-                        <NavLink to="/sessions" exact={true} activeClassName="active-tab" className="nav-link">
-                            Sessions
+                            <NavLink to="/sessions" exact={true} activeClassName="active-tab" className="nav-link">
+                                Sessions
                         </NavLink>
-                    </div>
-                    <div className = "navItem">
-                        <NavLink to="/billing" exact={true} activeClassName="active-tab" className="nav-link">
-                            Billing
+                            <NavLink to="/billing" exact={true} activeClassName="active-tab" className="nav-link">
+                                Billing
                         </NavLink>
-                    </div>
-                    <div className = "navItem">
-                        <NavLink to="/payment" exact={true} activeClassName="active-tab" className="nav-link">
-                            Payments
+                            <NavLink to="/payment" exact={true} activeClassName="active-tab" className="nav-link">
+                                Payments
                         </NavLink>
-                    </div>
-                    <div className = "navItem">
-                        <button className="nav-link" onClick={this.props.signOut}> Sign Out </button>
-                    </div>
-                </Nav>
+                            <button className="sign-out-button" onClick={this.props.signOut}> Sign Out </button>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
+
                 <Switch>
                     <Route exact path="/students" render={() => <StudentView students={students}/>}>
                     </Route>
@@ -73,15 +66,12 @@ class AdminNav extends Component {
                     </Route>
                     <Route exact path ="/billing" render={()=><BillingView billings={billings} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path="/admin" render={()=><Home userInfo={userInfo} students={students} tutors={tutors} products={products} sessions = {sessions}/>}>
+                    <Route exact path="/" render={()=><Home userInfo={userInfo} students={students} tutors={tutors} products={products} sessions = {sessions}/>}>
                     </Route>
                     <Route exact path="/payment" render={()=><PaymentView userInfo={userInfo} students = {students} payments={payments} tutors = {tutors}/>}>
                     </Route>
-                    <Redirect exact from='/' to="/admin"/>
                     <Route component = {ErrorPage}>
                     </Route>
-
-
                 </Switch>
             </React.Fragment>      
         )

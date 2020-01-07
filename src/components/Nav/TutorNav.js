@@ -25,7 +25,7 @@ class TutorNav extends Component {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav>
-                        <NavLink to="/tutor" activeClassName="active" className="nav-link">
+                        <NavLink to="/" activeClassName="active" className="nav-link">
                             Home
                         </NavLink>
                         <NavLink to="/students" activeClassName="active" className="nav-link">
@@ -47,7 +47,7 @@ class TutorNav extends Component {
             
 
                 <Switch>
-                    <Route exact path="/tutor" render={()=><Home tutorID = {tutorID} sessions = {sessions} products={products} userInfo={userInfo}/>}>
+                    <Route exact path="/" render={()=><Home tutorID = {tutorID} sessions = {sessions} products={products} userInfo={userInfo}/>}>
                     </Route>
                     <Route path ="/sessions" render={()=> <SessionView tutorID = {tutorID} sessions = {sessions} userInfo={userInfo}/>}>
                     </Route>
@@ -57,7 +57,6 @@ class TutorNav extends Component {
                     </Route>
                     <Route exact path ="/payment" render = {() => <PaymentView tutorID = {tutorID} userInfo={userInfo} payments={payments} tutors={[]} students={[]}/>}>
                     </Route>
-                    <Redirect exact from="/" to="/tutor" />
                     <Route component = {ErrorPage}>
                     </Route>
                 </Switch>
