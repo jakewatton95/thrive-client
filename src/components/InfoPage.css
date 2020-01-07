@@ -1,5 +1,6 @@
 header {
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
 }
 
@@ -144,5 +145,4 @@ header.sign-up-pages{
 
 .hero-section {
   min-height: 90vh;
-  overflow: hidden;
 }
