@@ -15,12 +15,13 @@ header {
 .nav-buttons-wrapper{
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .nav-button{
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 30%;
+    width: 35%;
     border-color: white;
     border-width: thick;
     color: white;
@@ -60,11 +61,11 @@ header {
   margin: 30px 0px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .icon {
   max-width: 25%;
-  max-height: 25%;
   margin: 10px;
 }
 
