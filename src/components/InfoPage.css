@@ -147,3 +147,9 @@ header.sign-up-pages{
   justify-content: space-around;
   align-items: center;
 }
+
+@media screen and (max-width: 415px){
+  .hero-section {
+    height: calc(90vh - 100px);
+  }
+}
