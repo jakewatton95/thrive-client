@@ -141,7 +141,8 @@ header.sign-up-pages{
 }
 
 .hero-section {
-  min-height: 90vh;
+  height: 90vh;
+  height: calc(var(--vh, 1vh) * 90);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
