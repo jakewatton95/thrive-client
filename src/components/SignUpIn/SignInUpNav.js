@@ -2,7 +2,6 @@ import React from 'react'
 import '../InfoPage/InfoPage.css'
 import { NavLink } from 'react-router-dom'
 
-
 const SignInUpNav = ({signIn}) => 
     (
         <React.Fragment>

@@ -68,7 +68,7 @@ const SignUpForm = props =>
                 <input required type="text" id="lastName" value = {lastName} placeholder="LAST NAME" className = "sign-in-form-field" onChange={e => setLastName(e.target.value)} />
                 <input required type="email" id="email" value={email} placeholder="EMAIL" className = "sign-in-form-field" onChange={e => setEmail(e.target.value)} />
                 <input required type="tel" id="phoneNumber" value={phoneNumber} placeholder="PHONE NUMBER" className = "sign-in-form-field has-tip" pattern="[0-9]{10}" onChange={e => setPhoneNumber(e.target.value)} />
-                <div className="tip phone-number-tip">Format: 1234567890</div>
+                <div className="tip phone-number-tip">Format: 1234567890 (your 10 digit phone number)</div>
                 <input required type="password" id="password" value={password} placeholder="PASSWORD" className = "sign-in-form-field has-tip" onChange={e => setPassword(e.target.value)} />
                 <div className="tip password-tip">At least 8 characters long, one uppercase letter, one lowercase letter, and one number </div>
                 <input required type="password" id="confirmPassword" value={confirmPassword} placeholder="CONFIRM PASSWORD" className = "sign-in-form-field" onChange={e => setConfirmPassword(e.target.value)} />
