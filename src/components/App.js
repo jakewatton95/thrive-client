@@ -9,6 +9,7 @@ import SignUp from './SignUp/SignUp2'
 import HomePage from './InfoPage'
 import ErrorPage from './ErrorPage'
 import './App.css'
+import Confirmation2 from './ConfirmationForm/Confirmation2';
 Amplify.configure(awsconfig);
 
 class App extends Component{
@@ -34,6 +35,8 @@ class App extends Component{
                 <Route exact path="/sign_in" render={() => <SignIn/>}>
                 </Route>
                 <Route exact path="/sign_up" render={() => <SignUp/>}>
+                </Route>
+                <Route exact path="/confirm" render = {() => <Confirmation2/>}>
                 </Route>
                 <Route component={ErrorPage}>
                 </Route>

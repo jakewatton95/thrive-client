@@ -8,6 +8,7 @@ class ConfirmationForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            email: '',
             confirmationCode : ''
         }
         this.handleChange = this.handleChange.bind(this)
@@ -17,25 +18,21 @@ class ConfirmationForm extends Component {
 
     handleChange(e) {
         let {id, value} = e.target
-        if (id === 'confirmationCode') {
-          this.setState({
-              confirmationCode: value
-          })
-        }
+        this.setState({
+            [id]: value
+        })
     }
 
     handleSubmit(e){
-        let {email} = this.props
-        let {confirmationCode} = this.state
+        let {email, confirmationCode} = this.state
+        console.log(email)
         e.preventDefault()
         Auth.confirmSignUp(email, confirmationCode)
         .then(() => {
-            alert("Success! You're account is confirmed. You will now be redirected to the login page or the home page.")
-            this.props.handleSignup()
+            window.location.href = "/sign_in"
         })
         .catch(err => {
             console.log(err)
-            alert(err.message)
         })
     }
 
@@ -50,9 +47,9 @@ class ConfirmationForm extends Component {
                         Please check your email for a confirmation code.
                     </Form.Text>
                     <Form onSubmit={this.handleSubmit}>
-                        <Form.Group controlId="formConfirmationEmail">
+                        <Form.Group controlId="email">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control disabled type="email" value={email} />
+                            <Form.Control required type="email" value={email} onChange={this.handleChange}/>
                             <Form.Text className="text-muted confirm-info">
                             If this is not your email address, please sign up again or contact an administrator.
                             </Form.Text>

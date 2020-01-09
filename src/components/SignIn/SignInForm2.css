@@ -71,3 +71,11 @@ input[type=password]{
     width: 100%;
     line-height: 40px;
 }
+
+.error-message {
+    color: #f7976e;
+    font-size: 14px;
+    font-weight: 400;
+    max-width: 400px;
+    text-align: justify;
+}

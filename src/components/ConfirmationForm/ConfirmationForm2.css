@@ -1,0 +1,15 @@
+.confirmation-title{
+    text-align: center;
+    padding-top: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    color: #013862;
+}
+
+.confirmation-sub-title{
+    text-align: center;
+    margin-top: 0px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #013862;
+}
