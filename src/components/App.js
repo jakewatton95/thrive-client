@@ -2,14 +2,13 @@ import React, {Component} from 'react'
 import {Switch, Route} from 'react-router-dom'
 import Amplify from 'aws-amplify';
 import awsconfig from '../aws-exports';
-import SignInForm from './SignIn/SignInForm';
-import SignUpForm from './SignUp/SignUpForm';
-import SignIn from './SignIn/SignIn2'
-import SignUp from './SignUp/SignUp2'
-import HomePage from './InfoPage'
+import SignIn from './SignUpIn/SignIn/SignIn'
+import SignUp from './SignUpIn/SignUp/SignUp'
+import HomePage from './InfoPage/InfoPage'
 import ErrorPage from './ErrorPage'
+import Home from './Home'
 import './App.css'
-import Confirmation2 from './ConfirmationForm/Confirmation2';
+import Confirmation from './SignUpIn/ConfirmationForm/Confirmation';
 Amplify.configure(awsconfig);
 
 class App extends Component{
@@ -36,7 +35,9 @@ class App extends Component{
                 </Route>
                 <Route exact path="/sign_up" render={() => <SignUp/>}>
                 </Route>
-                <Route exact path="/confirm" render = {() => <Confirmation2/>}>
+                <Route exact path="/confirm" render = {() => <Confirmation/>}>
+                </Route>
+                <Route exact path ="/home" render = {(props) => <Home {...props}/>}>
                 </Route>
                 <Route component={ErrorPage}>
                 </Route>

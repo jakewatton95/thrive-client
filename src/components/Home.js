@@ -1,9 +1,38 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
+import {Auth} from 'aws-amplify'
+import {NavLink, useHistory} from 'react-router-dom'
 import AddProduct from './AddProduct'
 import UpcomingSessions from './UpcomingSessions'
 import ScheduleSession from './ScheduleSession'
 import './Home.css'
 
+const Home = (props) => {
+    let history = useHistory()
+    let [userInfo, setUserInfo] = useState({})
+    Auth.currentAuthenticatedUser()
+    .then(() => setUserInfo(props.location.state.userInfo))
+    .catch(err => {
+        history.push("/sign_in")
+    })
+
+    const signOut = () =>
+    {
+        Auth.signOut()
+        .then(history.push("/sign_in"))
+    }
+
+    return (
+        //If user is Admin, render AdminContainer with its new Router
+        //If user is Student ... StudentContainer
+        //If user is Tutor ... TutorContainer (Tutor Home)
+        <div>
+            <button onClick ={signOut}>Sign Out</button>
+            {userInfo && <div> You are a {userInfo.UserType}</div>}
+        </div>
+    )
+}
+
+/*
 class Home extends Component{
     constructor(props){
         super(props)
@@ -14,6 +43,13 @@ class Home extends Component{
     }
     
     render(){
+        console.log(this.props)
+        return (
+            <div>
+                Hi
+                <div>{this.props.location.state.proppy}</div>
+            </div>
+        )
         let {students, tutors, products} = this.props
         let {UserType} = this.props.userInfo
         let modules;
@@ -46,6 +82,6 @@ class Home extends Component{
             </div>
         )
     }
-}
+}*/
     
 export default Home
