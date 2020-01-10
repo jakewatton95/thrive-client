@@ -27,8 +27,6 @@ header.sign-up-pages{
   background-color: #f7976e;
 }
 
-
-
 .nav-buttons-wrapper{
   display: flex;
   justify-content: space-evenly;
@@ -124,6 +122,12 @@ header.sign-up-pages{
 .icon {
   max-width: 25%;
   margin: 10px;
+}
+
+@media screen and (min-width: 768px){
+  .icon {
+    max-width: 200px
+  }
 }
 
 .learn-more {

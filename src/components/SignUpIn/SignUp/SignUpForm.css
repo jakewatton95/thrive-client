@@ -10,6 +10,13 @@
     padding:30px;
 }
 
+@media screen and (min-width: 768px) {
+    .sign-up-form {
+        max-width: 600px;
+        margin: auto;
+    }
+}
+
 input[type=number]{
     border: 4px solid #013862;
     margin-bottom: 15px;

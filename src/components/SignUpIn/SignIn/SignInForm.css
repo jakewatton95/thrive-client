@@ -10,6 +10,14 @@
     padding: 30px;
 }
 
+@media screen and (min-width: 768px) {
+    .sign-in-form {
+        max-width: 600px;
+        margin: auto;
+    }
+}
+
+
 .big-thrive {
     font-weight: 800;
 }
