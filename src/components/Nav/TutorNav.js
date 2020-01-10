@@ -7,7 +7,6 @@ import ErrorPage from '../ErrorPage'
 import SessionView from '../SessionView'
 import StudentTutorView from '../StudentTutorView'
 import PaymentView from '../PaymentView'
-import './Nav.css'
 
 const TutorNav = props => {
     let { sessions, payments, userInfo, billings, tutorID, products } = props

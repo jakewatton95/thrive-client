@@ -8,15 +8,8 @@ import { Auth } from 'aws-amplify'
 import SessionView from '../SessionView'
 import StudentTutorView from '../StudentTutorView'
 import PaymentView from '../PaymentView'
-import './Nav.css'
-
 
 const StudentNav = (props) => {
-
-    const signOut = e =>
-    {
-        Auth.signOut()
-    }
 
     let { sessions, studentID, userInfo, payments, billings, products } = props
     return (
@@ -25,7 +18,7 @@ const StudentNav = (props) => {
                 <Navbar.Brand>Thrive Tutors</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="nav-tabs">
+                    <Nav>
                         <NavLink to="/dashboard" activeClassName="active-tab" className="nav-link">
                             Home
                         </NavLink>
@@ -41,7 +34,7 @@ const StudentNav = (props) => {
                         <NavLink to="/dashboard/payment" activeClassName="active-tab" className="nav-link">
                             Payment
                         </NavLink>
-                        <NavLink to="/sign_in" className="nav-link" onClick={signOut}> 
+                        <NavLink to="/sign_in" className="nav-link" onClick={() => Auth.signOut()}> 
                             Sign Out
                         </NavLink>
                     </Nav>

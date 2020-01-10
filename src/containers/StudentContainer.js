@@ -16,7 +16,6 @@ class StudentContainer extends Component{
     }
     
     async componentDidMount(){
-        console.log(this.props.userInfo)
         this._isMounted=true
         let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/students?email=" + this.props.userInfo.Email
         await fetch(url)
@@ -26,7 +25,7 @@ class StudentContainer extends Component{
                 studentID: response[0].StudentID,
             })
         })
-        .catch(err => console.log("ERR: " + err))
+        .catch(err => console.log("Error fetching StudentID", err))
         
         
         fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products?studentID=' + this.state.studentID)
@@ -38,7 +37,7 @@ class StudentContainer extends Component{
                 })
             }
         })
-        .catch(err => console.log("ERR: " + err))
+        .catch(err => console.log("Error fetching products", err))
         
         fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/sessions?studentID=' + this.state.studentID)
         .then(response => response.json())
@@ -49,7 +48,7 @@ class StudentContainer extends Component{
                 })
             }
         })
-        .catch(err => console.log("ERR: " + err))
+        .catch(err => console.log("Error fetching sessions", err))
         
         fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?studentID=' + this.state.studentID)
         .then(response => response.json())
@@ -60,7 +59,7 @@ class StudentContainer extends Component{
                 })
             }
         })
-        .catch(err => console.log("Err: " + err))
+        .catch(err => console.log("Error fetching payments", err))
         
         fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/billing?studentID=' + this.state.studentID)
         .then(response => response.json())
@@ -71,7 +70,7 @@ class StudentContainer extends Component{
                 })
             }
         })
-        .catch(err => console.log("Err" + err))        
+        .catch(err => console.log("Error fetching billings", err))        
     }
 
     componentWillUnmount(){
