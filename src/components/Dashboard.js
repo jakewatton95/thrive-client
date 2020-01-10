@@ -1,17 +1,34 @@
 import React, {useState} from 'react'
 import {Auth} from 'aws-amplify'
-import {NavLink, useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
+import TutorContainer from '../containers/TutorContainer'
+import StudentContainer from '../containers/StudentContainer'
+import AdminContainer from '../containers/AdminContainer'
 import AddProduct from './AddProduct'
 import UpcomingSessions from './UpcomingSessions'
 import ScheduleSession from './ScheduleSession'
-import './Home.css'
+import './Dashboard.css'
 
 const Home = (props) => {
     let history = useHistory()
-    let [userInfo, setUserInfo] = useState({})
+
+    const [userInfo, setUserInfo] = useState({})
+
+    const getUserRole = async (email) => 
+    {
+        let userInfo = {};
+        const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/users?email="+email
+        await fetch(endpoint)
+        .then(response => userInfo = response.json())
+        .catch(err => console.log("Error", err))
+        return userInfo
+    }
+
     Auth.currentAuthenticatedUser()
-    .then(() => setUserInfo(props.location.state.userInfo))
+    .then(response => getUserRole(response.attributes.email))
+    .then(response => setUserInfo(response))
     .catch(err => {
+        console.log(err)
         history.push("/sign_in")
     })
 
@@ -25,10 +42,16 @@ const Home = (props) => {
         //If user is Admin, render AdminContainer with its new Router
         //If user is Student ... StudentContainer
         //If user is Tutor ... TutorContainer (Tutor Home)
+       <React.Fragment>
         <div>
             <button onClick ={signOut}>Sign Out</button>
             {userInfo && <div> You are a {userInfo.UserType}</div>}
         </div>
+        {(userInfo && userInfo.UserType === 'Tutor') && <TutorContainer userInfo={userInfo}/>}
+        {(userInfo && userInfo.UserType === 'Student') && <StudentContainer userInfo={userInfo}/>}
+        {(userInfo && userInfo.UserType === 'Admin') && <AdminContainer userInfo={userInfo}/>}
+
+        </React.Fragment>
     )
 }
 

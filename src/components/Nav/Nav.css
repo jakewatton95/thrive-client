@@ -1,3 +1,7 @@
 .sign-out-button{
     color: #343a40;
 }
+
+.nav-tabs {
+    border-bottom: none;
+}

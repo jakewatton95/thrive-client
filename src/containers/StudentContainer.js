@@ -4,7 +4,6 @@ import StudentNav from '../components/Nav/StudentNav.js'
 class StudentContainer extends Component{
     _isMounted=false
     constructor (props){
-        let a = 2
         super(props)
         this.state = {
             studentID: '',
@@ -17,6 +16,7 @@ class StudentContainer extends Component{
     }
     
     async componentDidMount(){
+        console.log(this.props.userInfo)
         this._isMounted=true
         let url = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/students?email=" + this.props.userInfo.Email
         await fetch(url)
@@ -92,7 +92,7 @@ class StudentContainer extends Component{
     render(){
         return (
             <div>
-                <StudentNav signOut={this.props.signOut} 
+                <StudentNav 
                             studentID = {this.state.studentID} 
                             userInfo = {this.props.userInfo}
                             sessions = {this.state.sessions}

@@ -79,7 +79,7 @@ class TutorContainer extends Component{
     render(){
         return (
             <div>
-                <TutorNav signOut={this.props.signOut} 
+                <TutorNav 
                           tutorID = {this.state.tutorID} 
                           userInfo = {this.props.userInfo}
                           sessions = {this.state.sessions}

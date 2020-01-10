@@ -17,21 +17,10 @@ const SignInForm = (props) => {
     const checkAlreadySignedIn = () => 
     {
         Auth.currentAuthenticatedUser()
-        .then(response=> getUserRole(response.attributes.email))
-        .then((ret) => history.push("/home", {source: "checkAlreadySignedIn", userInfo: ret}))
+        .then(() => history.push("/dashboard"))
         .catch(err => {})
-            //TODO Set User Info in Redux?
+        //TODO Set User Info in Redux?
         //.catch(err => console.log("Error", err)) Usually just userNotAuthenticated so no need for this
-    }
-
-    const getUserRole = async (email) => 
-    {
-        let userInfo = {};
-        const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/users?email="+email
-        await fetch(endpoint)
-        .then(response => userInfo = response.json())
-        .catch(err => console.log("Error", err))
-        return userInfo
     }
 
     const signIn = () =>
@@ -40,9 +29,7 @@ const SignInForm = (props) => {
             username: email,
             password: password
         })
-        .then(() => setErrorMessage(''))
-        .then(() =>  getUserRole(email))
-        .then((ret) => history.push("/home", {source: "normalSignIn", userInfo: ret}))
+        .then(() => history.push("/dashboard"))
         .catch(err => {
             if (err.code == "UserNotConfirmedException"){
                 history.push("/confirm")

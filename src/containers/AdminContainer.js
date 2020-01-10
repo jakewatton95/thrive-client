@@ -90,7 +90,7 @@ class AdminContainer extends Component{
     }
     
     render(){
-        return <AdminNav signOut={this.props.signOut} 
+        return <AdminNav 
                          userInfo = {this.props.userInfo} 
                          billings={this.state.billings} 
                          sessions = {this.state.sessions} 

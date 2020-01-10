@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './Nav.css'
 import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
 import {Nav, Navbar} from 'react-bootstrap'
-import Home from '../Home'
+import Home from '../Dashboard'
 import BillingView from '../BillingView'
 import ErrorPage from '../ErrorPage'
 //import { Auth } from 'aws-amplify'
@@ -30,22 +30,22 @@ class AdminNav extends Component {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav>
-                            <NavLink to="/" exact={true} activeClassName="active-tab" className="nav-link">
+                            <NavLink to="/dashboard" exact={true} activeClassName="active-tab" className="nav-link">
                                 Home
                         </NavLink>
-                            <NavLink to="/students" activeClassName="active-tab" className="nav-link">
+                            <NavLink to="/dashboard/students" activeClassName="active-tab" className="nav-link">
                                 Students
                         </NavLink>
-                            <NavLink to="/tutors" activeClassName="active-tab" className="nav-link">
+                            <NavLink to="/dashboard/tutors" activeClassName="active-tab" className="nav-link">
                                 Tutors
                         </NavLink>
-                            <NavLink to="/sessions" exact={true} activeClassName="active-tab" className="nav-link">
+                            <NavLink to="/dashboard/sessions" exact={true} activeClassName="active-tab" className="nav-link">
                                 Sessions
                         </NavLink>
-                            <NavLink to="/billing" exact={true} activeClassName="active-tab" className="nav-link">
+                            <NavLink to="/dashboard/billing" exact={true} activeClassName="active-tab" className="nav-link">
                                 Billing
                         </NavLink>
-                            <NavLink to="/payment" exact={true} activeClassName="active-tab" className="nav-link">
+                            <NavLink to="/dashboard/payment" exact={true} activeClassName="active-tab" className="nav-link">
                                 Payments
                         </NavLink>
                             <button className="sign-out-button" onClick={this.props.signOut}> Sign Out </button>
@@ -54,21 +54,21 @@ class AdminNav extends Component {
                 </Navbar>
 
                 <Switch>
-                    <Route exact path="/students" render={() => <StudentView students={students}/>}>
+                    <Route exact path="/dashboard/students" render={() => <StudentView students={students}/>}>
                     </Route>
-                    <Route path = "/students/:studentID" render={props => <StudentProfile {...props} students={students} payments={payments} sessions = {sessions} billings={billings}/>}>
+                    <Route path = "/dashboard/students/:studentID" render={props => <StudentProfile {...props} students={students} payments={payments} sessions = {sessions} billings={billings}/>}>
                     </Route>
-                    <Route exact path ="/tutors" render={() => <TutorView tutors={tutors}/>}>
+                    <Route exact path ="/dashboard/tutors" render={() => <TutorView tutors={tutors}/>}>
                     </Route>
-                    <Route path = "/tutors/:tutorID" render={props => <TutorProfile {...props} tutors={tutors} payments={payments} sessions = {sessions} billings={billings}/>}>
+                    <Route path = "/dashboard/tutors/:tutorID" render={props => <TutorProfile {...props} tutors={tutors} payments={payments} sessions = {sessions} billings={billings}/>}>
                     </Route>
-                    <Route exact path ="/sessions" render={()=> <SessionView sessions={sessions} userInfo={userInfo}/>}>
+                    <Route exact path ="/dashboard/sessions" render={()=> <SessionView sessions={sessions} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path ="/billing" render={()=><BillingView billings={billings} userInfo={userInfo}/>}>
+                    <Route exact path ="/dashboard/billing" render={()=><BillingView billings={billings} userInfo={userInfo}/>}>
                     </Route>
-                    <Route exact path="/" render={()=><Home userInfo={userInfo} students={students} tutors={tutors} products={products} sessions = {sessions}/>}>
+                    <Route exact path="/dashboard" render={()=><Home userInfo={userInfo} students={students} tutors={tutors} products={products} sessions = {sessions}/>}>
                     </Route>
-                    <Route exact path="/payment" render={()=><PaymentView userInfo={userInfo} students = {students} payments={payments} tutors = {tutors}/>}>
+                    <Route exact path="/dashboard/payment" render={()=><PaymentView userInfo={userInfo} students = {students} payments={payments} tutors = {tutors}/>}>
                     </Route>
                     <Route component = {ErrorPage}>
                     </Route>
