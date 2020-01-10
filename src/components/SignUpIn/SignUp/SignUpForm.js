@@ -44,7 +44,11 @@ const SignUpForm = props =>
         }).catch(err => {
             setPassword('')
             setConfirmPassword('')
-            setErrorMessage(err.message)
+            if (err.code === "InvalidParameterException")
+                setErrorMessage("Please make sure your password fits the requirements")
+            else 
+                setErrorMessage(err.message)
+            console.log(err)
         }) 
     } 
 

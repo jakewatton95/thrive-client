@@ -14,7 +14,7 @@ import TutorProfile from '../TutorProfile'
 
 const AdminNav = (props) => {
 
-    let {students, tutors, billings, payments, sessions, userInfo} = props
+    let {students, tutors, billings, payments, sessions, userInfo, products} = props
 
     return(
         <React.Fragment>
