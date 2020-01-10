@@ -1,13 +1,12 @@
 .sign-up-title{
     text-align: center;
-    margin-top: 20px;
     font-family: 'Montserrat', sans-serif;
     font-size: 30px;
     color: #013862;
 }
 
 .sign-up-form{
-    padding:30px;
+    padding: 15px 30px 10px 30px;
 }
 
 @media screen and (min-width: 768px) {
@@ -56,4 +55,8 @@ input.has-tip {
     color: #013862;
     margin-bottom: 0;
     margin-right: 2px;
+}
+
+.sign-up-button-wrapper {
+    text-align: center;
 }

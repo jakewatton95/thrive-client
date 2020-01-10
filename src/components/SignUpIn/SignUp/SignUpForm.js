@@ -81,7 +81,7 @@ const SignUpForm = props =>
                     <label className="field-label">TUTOR</label><input required type="radio" name="user-type" id="userRole-b" value="Tutor" onChange={e => setUserRole(e.target.value)}/>
                 </div>
                 <div className="tip user-tip"> Select one </div>
-                 <div className = "sign-in-button-wrapper">
+                 <div className = "sign-up-button-wrapper">
                     <button type="submit" className = "sign-in-button" value="LOGIN">
                         LET'S GO
                     </button>
