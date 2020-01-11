@@ -21,7 +21,7 @@ const App = () => (
         </Route>
         <Route exact path="/confirm" render={() => <Confirmation />}>
         </Route>
-        <Route path="/dashboard" render={(props) => <Dashboard {...props} />}>
+        <Route path="/dashboard" render={() => <Dashboard />}>
         </Route>
         <Route component={ErrorPage}>
         </Route>
