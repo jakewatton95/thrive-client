@@ -31,12 +31,10 @@ const SignInForm = (props) => {
         })
         .then(() => history.push("/dashboard"))
         .catch(err => {
-            if (err.code == "UserNotConfirmedException"){
+            if (err.code == "UserNotConfirmedException")
                 history.push("/confirm")
-            } else {
-                console.log(err)
+            else
                 setErrorMessage(err.message)
-            }
         })
     }
 

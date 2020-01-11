@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { NavLink, Switch, Route, Redirect } from 'react-router-dom'
+import React from 'react';
+import { NavLink, Switch, Route} from 'react-router-dom'
 import { Nav, Navbar } from 'react-bootstrap'
-import Home from '../Dashboard'
 import ErrorPage from '../ErrorPage'
 import BillingView from '../BillingView'
 import { Auth } from 'aws-amplify'
