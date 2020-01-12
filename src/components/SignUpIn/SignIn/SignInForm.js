@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './SignInForm.css'
+import '../SignInUp.css'
 import {NavLink, useHistory} from 'react-router-dom'
 import { Auth } from 'aws-amplify'
 
@@ -46,7 +47,7 @@ const SignInForm = (props) => {
 
     return (
         <React.Fragment>
-            <div className="log-in-title">
+            <div className="sign-in-title">
                 Log in to <span className="big-thrive"> THRIVE </span>
             </div>
             <form className="sign-in-form" onSubmit={handleSubmit}>

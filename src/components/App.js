@@ -7,6 +7,7 @@ import SignUp from './SignUpIn/SignUp/SignUp'
 import HomePage from './InfoPage/InfoPage'
 import ErrorPage from './ErrorPage'
 import Dashboard from './Dashboard'
+import ForgotPassword from './SignUpIn/ForgotPassword/ForgotPassword'
 import './App.css'
 import Confirmation from './SignUpIn/ConfirmationForm/Confirmation';
 Amplify.configure(awsconfig);
@@ -18,6 +19,8 @@ const App = () => (
         <Route exact path="/sign_in" render={() => <SignIn />}>
         </Route>
         <Route exact path="/sign_up" render={() => <SignUp />}>
+        </Route>
+        <Route exact path="/forgot_password" render={() => <ForgotPassword />}>
         </Route>
         <Route exact path="/confirm" render={() => <Confirmation />}>
         </Route>

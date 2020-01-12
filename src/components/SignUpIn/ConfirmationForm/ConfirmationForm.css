@@ -13,3 +13,14 @@
     font-size: 14px;
     color: #013862;
 }
+
+.confirmation-form{
+    padding: 30px;
+}
+
+@media screen and (min-width: 768px) {
+    .confirmation-form {
+        max-width: 600px;
+        margin: auto;
+    }
+}

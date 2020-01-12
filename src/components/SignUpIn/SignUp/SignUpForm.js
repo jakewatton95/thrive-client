@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './SignUpForm.css'
+import '../SignInUp.css'
 import { Auth } from 'aws-amplify';
 import {useHistory} from 'react-router-dom'
 
@@ -48,7 +49,6 @@ const SignUpForm = props =>
                 setErrorMessage("Please make sure your password fits the requirements")
             else 
                 setErrorMessage(err.message)
-            console.log(err)
         }) 
     } 
 

@@ -60,6 +60,7 @@ header.sign-up-pages{
   font-weight: 300;
   outline: #f7976e;
   text-decoration: none;
+  max-width: 200px;
 }
 
 .nav-tab:hover, .nav-tab:active, .nav-tab:visited, .nav-tab:focus {
