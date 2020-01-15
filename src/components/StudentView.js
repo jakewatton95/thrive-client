@@ -35,8 +35,8 @@ class StudentView extends Component{
                         <th className="category">Email</th>
                         <th className="category">Phone Number</th>
                     </tr>
-                    {this.state.filterName === '' ? this.props.students.map(student=> <tr key={student.StudentID}><th><NavLink to={"/students/"+student.StudentID} exact={true}> {student.Name}</NavLink></th><th>{student.Email}</th><th>{student.Phone}</th></tr>) :
-                    this.props.students.filter(student=>student.Name.includes(this.state.filterName)).map(student=><tr key={student.StudentID}><th><NavLink to={"/students/"+student.StudentID} exact={true}> {student.Name}</NavLink></th><th>{student.Email}</th><th>{student.Phone}</th></tr>)}
+                    {this.state.filterName === '' ? this.props.students.map(student=> <tr key={student.StudentID}><th><NavLink to={"/dashboard/students/"+student.StudentID} exact={true}> {student.Name}</NavLink></th><th>{student.Email}</th><th>{student.Phone}</th></tr>) :
+                    this.props.students.filter(student=>student.Name.includes(this.state.filterName)).map(student=><tr key={student.StudentID}><th><NavLink to={"/dashboard/students/"+student.StudentID} exact={true}> {student.Name}</NavLink></th><th>{student.Email}</th><th>{student.Phone}</th></tr>)}
                 </tbody>
             </table>
             </React.Fragment>

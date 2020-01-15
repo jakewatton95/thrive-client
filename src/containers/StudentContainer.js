@@ -1,5 +1,14 @@
-import React, {Component} from 'react'
-import StudentNav from '../components/Nav/StudentNav.js'
+import React, { Component } from 'react'
+import Nav from '../components/Nav/Nav'
+import SessionView from '../components/SessionView'
+import StudentTutorView from '../components/StudentTutorView'
+import PaymentView from '../components/PaymentView'
+import ErrorPage from '../components/ErrorPage'
+import BillingView from '../components/BillingView'
+import ScheduleSession from '../components/ScheduleSession'
+import { Switch, Route } from 'react-router-dom'
+import UpcomingSessions from '../components/UpcomingSessions.js'
+
 
 class StudentContainer extends Component{
     _isMounted=false
@@ -89,16 +98,35 @@ class StudentContainer extends Component{
     }
     
     render(){
+        let { sessions, studentID, payments, billings, products } = this.state
+        let { userInfo } = this.props
+
+        const renderStudentHome = () => (
+            <React.Fragment>
+                <ScheduleSession products={products} userInfo={userInfo}/>
+                <UpcomingSessions sessions={sessions} userInfo={userInfo}/>
+            </React.Fragment>
+        )
+
+
         return (
-            <div>
-                <StudentNav 
-                            studentID = {this.state.studentID} 
-                            userInfo = {this.props.userInfo}
-                            sessions = {this.state.sessions}
-                            payments = {this.state.payments}
-                            billings = {this.state.billings}
-                            products = {this.state.products}/>
-            </div>
+            <React.Fragment>
+                <Nav user="student"/>
+                <Switch>
+                    <Route exact path="/dashboard" render={renderStudentHome}>
+                    </Route>
+                    <Route path="/dashboard/sessions" render={() => <SessionView sessions={sessions} studentID={studentID} userInfo={userInfo} />}>
+                    </Route>
+                    <Route path="/dashboard/tutors" render={() => <StudentTutorView studentID={studentID} products={products} />}>
+                    </Route>
+                    <Route path="/dashboard/billing" render={() => <BillingView studentID={studentID} billings={billings} userInfo={userInfo} />}>
+                    </Route>
+                    <Route path="/dashboard/payment" render={() => <PaymentView studentID={studentID} userInfo={userInfo} payments={payments} tutors={[]} students={[]} />}>
+                    </Route>
+                    <Route component={ErrorPage}>
+                    </Route>
+                </Switch> 
+            </React.Fragment>
         )
     }
 }

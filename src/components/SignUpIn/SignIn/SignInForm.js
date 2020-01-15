@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import './SignInForm.css'
-import '../SignInUp.css'
 import {NavLink, useHistory} from 'react-router-dom'
 import { Auth } from 'aws-amplify'
-
+import './SignInForm.css'
+import '../SignInUp.css'
 
 const SignInForm = (props) => {
    
@@ -57,11 +56,11 @@ const SignInForm = (props) => {
                 <input required type="password" placeholder="PASSWORD" id="password" value={password} className="sign-in-form-field" onChange={e => setPassword(e.target.value)} />
                 <NavLink to="/forgot_password" className="forgot-password">
                     Forgot your password?
-                    </NavLink>
+                </NavLink>
                 <div className="sign-in-button-wrapper">
                     <button type="submit" className="sign-in-button" value="LOGIN">
                         LOGIN
-                        </button>
+                    </button>
                 </div>
             </form>
         </React.Fragment>

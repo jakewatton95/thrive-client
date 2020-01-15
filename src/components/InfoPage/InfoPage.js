@@ -6,11 +6,10 @@ import calendar_logo from '../../media/calendar_logo.png'
 import clock_logo from '../../media/clock_logo.png'
 import down_arrow from '../../media/down_arrow.png'
 
-const InfoPage = props => (
+const InfoPage = () => (
     <React.Fragment>
         <header className="header">
             <div className="promotions">
-
             </div>
             <div className="nav-container">
                 <nav>

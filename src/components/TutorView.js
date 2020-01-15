@@ -36,8 +36,8 @@ class TutorView extends Component{
                         <th className="category">Email</th>
                         <th className="category">Phone Number</th>
                     </tr>
-                    {this.state.filterName === '' ? this.props.tutors.map(tutor=> <tr key = {tutor.TutorID}><th><NavLink to={"/tutors/"+tutor.TutorID} exact={true}> {tutor.Name}</NavLink></th><th>{tutor.Email}</th><th>{tutor.Phone}</th></tr>) :
-                    this.props.tutors.filter(tutor=>tutor.Name.includes(this.state.filterName)).map(tutor=><tr key = {tutor.TutorID}><th><NavLink to={"/tutors/"+tutor.TutorID} exact={true}> {tutor.Name}</NavLink></th><th>{tutor.Email}</th><th>{tutor.Phone}</th></tr>)}
+                    {this.state.filterName === '' ? this.props.tutors.map(tutor=> <tr key = {tutor.TutorID}><th><NavLink to={"/dashboard/tutors/"+tutor.TutorID} exact={true}> {tutor.Name}</NavLink></th><th>{tutor.Email}</th><th>{tutor.Phone}</th></tr>) :
+                    this.props.tutors.filter(tutor=>tutor.Name.includes(this.state.filterName)).map(tutor=><tr key = {tutor.TutorID}><th><NavLink to={"/dashboard/tutors/"+tutor.TutorID} exact={true}> {tutor.Name}</NavLink></th><th>{tutor.Email}</th><th>{tutor.Phone}</th></tr>)}
                 </tbody>
             </table>
             </React.Fragment>

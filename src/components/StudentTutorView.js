@@ -41,12 +41,12 @@ class StudentTutorView extends Component{
                     </tr>
                     { this.props.studentID ?
                             filterName === '' ?
-                                products.map(product=> <tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/tutors/' + product.TutorID}>{product.Tutor}</a></th><th>{product.TutorEmail}</th><th>{product.TutorPhone}</th><th>{product.Subject}</th></tr>) :
-                                products.filter(product=>product.Tutor.includes(filterName)).map(product=><tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/tutors/' + product.TutorID}>{product.Tutor}</a></th><th>{product.TutorEmail}</th><th>{product.TutorPhone}</th><th>{product.Subject}</th></tr>)
+                                products.map(product=> <tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/dashboard/tutors/' + product.TutorID}>{product.Tutor}</a></th><th>{product.TutorEmail}</th><th>{product.TutorPhone}</th><th>{product.Subject}</th></tr>) :
+                                products.filter(product=>product.Tutor.includes(filterName)).map(product=><tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/dashboard/tutors/' + product.TutorID}>{product.Tutor}</a></th><th>{product.TutorEmail}</th><th>{product.TutorPhone}</th><th>{product.Subject}</th></tr>)
                             :
                             filterName === '' ?
-                                products.map(product=> <tr key = {product.StudentID + '-' + product.Subject}><th><a href={'/students/' + product.StudentID}>{product.Student}</a></th><th>{product.StudentEmail}</th><th>{product.StudentPhone}</th><th>{product.Subject}</th></tr>) :
-                                products.filter(product=>product.Student.includes(filterName)).map(product=><tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/students/' + product.StudentID}>{product.Student}</a></th><th>{product.StudentEmail}</th><th>{product.StudentPhone}</th><th>{product.Subject}</th></tr>)
+                                products.map(product=> <tr key = {product.StudentID + '-' + product.Subject}><th><a href={'/dashboard/students/' + product.StudentID}>{product.Student}</a></th><th>{product.StudentEmail}</th><th>{product.StudentPhone}</th><th>{product.Subject}</th></tr>) :
+                                products.filter(product=>product.Student.includes(filterName)).map(product=><tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/dashboard/students/' + product.StudentID}>{product.Student}</a></th><th>{product.StudentEmail}</th><th>{product.StudentPhone}</th><th>{product.Subject}</th></tr>)
                     }
                 </tbody>
             </table>

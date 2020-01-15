@@ -1,5 +1,17 @@
 import React, {Component} from 'react'
-import AdminNav from '../components/Nav/AdminNav.js'
+import { Switch, Route } from 'react-router-dom'
+import Nav from '../components/Nav/Nav'
+import ScheduleSession from '../components/ScheduleSession'
+import UpcomingSessions from '../components/UpcomingSessions'
+import AddProduct from '../components/AddProduct'
+import BillingView from '../components/BillingView'
+import ErrorPage from '../components/ErrorPage'
+import StudentView from '../components/StudentView'
+import TutorView from '../components/TutorView'
+import SessionView from '../components/SessionView'
+import PaymentView from '../components/PaymentView'
+import StudentProfile from '../components/StudentProfile'
+import TutorProfile from '../components/TutorProfile'
 
 class AdminContainer extends Component{
     _isMounted=false
@@ -90,14 +102,44 @@ class AdminContainer extends Component{
     }
     
     render(){
-        return <AdminNav 
-                         userInfo = {this.props.userInfo} 
-                         billings={this.state.billings} 
-                         sessions = {this.state.sessions} 
-                         payments = {this.state.payments} 
-                         tutors={this.state.tutors} 
-                         students={this.state.students}
-                         products = {this.state.products}/>
+        let {students, tutors, billings, payments, sessions, products} = this.state
+        let { userInfo } = this.props
+
+        const renderAdminHome = () => (
+                <React.Fragment>
+                    <AddProduct tutors = {tutors} students = {students}/>
+                    <ScheduleSession products = {products} userInfo = {userInfo}/>
+                    <UpcomingSessions sessions = {sessions} userInfo = {userInfo}/>
+                </React.Fragment>
+            )
+        
+
+        return (
+            <React.Fragment>
+                <Nav user="admin"/>
+                <Switch>
+                    <Route exact path="/dashboard/students" render={() => <StudentView students={students}/>}>
+                    </Route>
+                    <Route path = "/dashboard/students/:studentID" render={props => <StudentProfile {...props} students={students} payments={payments} sessions = {sessions} billings={billings}/>}>
+                    </Route>
+                    <Route exact path ="/dashboard/tutors" render={() => <TutorView tutors={tutors}/>}>
+                    </Route>
+                    <Route path = "/dashboard/tutors/:tutorID" render={props => <TutorProfile {...props} tutors={tutors} payments={payments} sessions = {sessions} billings={billings}/>}>
+                    </Route>
+                    <Route exact path ="/dashboard/sessions" render={()=> <SessionView sessions={sessions} userInfo={userInfo}/>}>
+                    </Route>
+                    <Route exact path ="/dashboard/billing" render={()=><BillingView billings={billings} userInfo={userInfo}/>}>
+                    </Route>
+                    <Route exact path="/dashboard" render={renderAdminHome}>
+                    </Route>
+                    <Route exact path="/dashboard/payment" render={()=><PaymentView userInfo={userInfo} students = {students} payments={payments} tutors = {tutors}/>}>
+                    </Route>
+                    <Route component = {ErrorPage}>
+                    </Route>
+                </Switch>
+            </React.Fragment>
+
+        )
     }
 }
 
