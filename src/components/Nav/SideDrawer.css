@@ -44,3 +44,7 @@
         display: none;
     }
 }
+
+.side-drawer-logo {
+  border-bottom: 2px solid #013862;
+}
