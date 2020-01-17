@@ -17,7 +17,7 @@ const ForgotPassword = (props) => {
 
     const getCode = () =>
     {  
-        Auth.forgotPassword(email)
+        Auth.forgotPassword(email.toLowerCase())
         .then(() => {
             setHasCode(true)
             setErrorMessage('')
@@ -27,7 +27,7 @@ const ForgotPassword = (props) => {
 
     const resetPassword = () => 
     {
-        Auth.forgotPasswordSubmit(email, code, newPassword)
+        Auth.forgotPasswordSubmit(email.toLowerCase(), code, newPassword)
         .then(() => {
             alert("You have successfully reset your password. Please login again.")
             history.push("/sign_in")

@@ -1,10 +1,37 @@
-import React, {Component} from 'react'
-import './Session.css'
+import React, {useState} from 'react'
+import moment from 'moment'
+import SessionInfoModal from './SessionInfoModal'
+import './Session.less'
 import {Modal, Button} from 'react-bootstrap'
-import Times from "../data/times"
+import Times from "../../data/times"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
+const Session = props => {
+    const [showInfoModal, setShowInfoModal] = useState(false)
+
+    let {Tutor, Student, Subject, Location, date, SessionLength} = props.sessionInfo
+    let {userRole, secondaryRole, view = "day"} = props
+    return(
+        <React.Fragment>
+
+        <SessionInfoModal showModal={showInfoModal} hideModal={() => setShowInfoModal(false)} modalInfo = {props}/>
+        <div onClick = {() => setShowInfoModal(true)} className= {`session ${view}-view`}>
+            <div className="people-info">
+                {Tutor} &lt;&gt;  {Student}
+            </div>
+            <div className="time-info hide-small-screens-week">
+                {moment(date).format('LT')}
+            </div>
+            <div className="subject-info hide-medium-screens">
+                {Subject}
+            </div>
+        </div>
+        </React.Fragment>
+
+    )
+}
+/*
 class Session extends Component {
     constructor(props){
         super(props)
@@ -224,5 +251,5 @@ class Session extends Component {
         </React.Fragment>
         )
     }
-}
+}*/
 export default Session

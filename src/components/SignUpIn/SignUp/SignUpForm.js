@@ -31,10 +31,10 @@ const SignUpForm = props =>
     {
         let name = firstName + ' ' + lastName
         Auth.signUp({
-            username: email,
+            username: email.toLowerCase(),
             password: password,
             attributes: {
-                email: email,
+                email: email.toLowerCase(),
                 phone_number: "+1" + phoneNumber,
                 name: name
             }
@@ -56,7 +56,7 @@ const SignUpForm = props =>
     {
         let name = firstName + ' ' + lastName
         const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/users"
-        await fetch(endpoint, {method: "POST", body:JSON.stringify({userRole: userRole, name: name, email: email, phone_number: phoneNumber})}) 
+        await fetch(endpoint, {method: "POST", body:JSON.stringify({userRole: userRole, name: name, email: email.toLowerCase(), phone_number: phoneNumber})}) 
         .then(() => console.log("User Signed Up"))
         .catch(err => console.log("Error", err))
     }

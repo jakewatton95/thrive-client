@@ -1,5 +1,4 @@
 import React,{Component} from 'react'
-import Session from './Session'
 import Payment from './Payment'
 import './ViewWithTable.css'
 

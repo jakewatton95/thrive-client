@@ -14,7 +14,7 @@ const AdminLinks = props => (
             Tutors
         </NavLink>
         <NavLink to="/dashboard/sessions" onClick={props.toggle ? props.toggle : null} exact={true} activeClassName="active-tab" className="nav-link">
-            Sessions
+            Schedule
         </NavLink>
         <NavLink to="/dashboard/billing" onClick={props.toggle ? props.toggle : null} exact={true} activeClassName="active-tab" className="nav-link">
             Billing

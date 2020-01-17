@@ -26,7 +26,7 @@ const SignInForm = (props) => {
     const signIn = () =>
     {  
         Auth.signIn({
-            username: email,
+            username: email.toLowerCase(),
             password: password
         })
         .then(() => history.push("/dashboard"))

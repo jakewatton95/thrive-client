@@ -1,0 +1,98 @@
+.session-view-container {
+    display: flex;
+    flex-direction: column;
+
+    .sessions-list {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        .session-day-containers {
+            flex: 1;
+
+            .session-day-container {
+                border-left: 1px solid #CCCCCC;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                width: calc(100%/7);
+            }
+        }
+    }
+
+    .date-select-container {
+        display: flex;
+        margin: 10px 0px;
+        justify-content: space-between;
+        align-items: center;
+
+        label{
+            margin: 0 5px;
+        }
+
+        .date-selection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            input {
+                margin: 0 5px 0 0;
+            }
+
+            @media screen and (max-width: 480px){
+                .today-button{
+                    display: none;
+                }
+
+                input {
+                    width: 120px;
+                }
+            }
+        }
+        .date-range {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            select {
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+.sticky-under-header{
+    position: sticky;
+    top: 56px;
+    border-bottom: 1px solid #CCCCCC;
+    background-color: white;
+}
+
+.calendar-row {
+    display: flex;
+    margin: 0;
+
+    &.day-numbers{
+        .selected {
+            .day-number {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: #f7976e;
+                border: 2px solid #013862;
+                color: #013862
+            }
+        }
+    }
+
+    .day {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: 1px solid #CCCCCC;
+    }
+}

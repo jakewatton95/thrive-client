@@ -1,0 +1,36 @@
+.session {
+    border: 1px solid #013862;
+    padding: 5px;
+    margin: 0px 20px;
+    cursor: pointer;
+
+    &.week-view {
+        height: 80px;
+        font-size: 8px;
+        overflow: hidden;
+        margin: 0;
+        overflow-wrap: break-word;
+
+        @media screen and (max-width: 480px) {
+            .hide-small-screens-week {
+                display:none
+            }
+        }
+    }
+
+    &:hover {
+        background-color: rgba(1,56,98, .2);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hide-small-screens {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .hide-medium-screens {
+        display:none;
+    }
+}

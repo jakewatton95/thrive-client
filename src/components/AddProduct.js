@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { Form, Button, InputGroup } from 'react-bootstrap'
 import './AddProduct.css'
 
+
+//TODO Note that products should have an active/inactive field (lets say the price changes, rather than 
+//changing the product rate [which will affect prior sessions] the tutor should make a new product and maake
+//the old product inactive)
+
 class AddProduct extends Component {
     constructor(props) {
         super(props)

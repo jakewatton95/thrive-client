@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import UpcomingSessions from './UpcomingSessions'
+import UpcomingSessions from './Sessions/UpcomingSessions'
 import './Profile.css'
 
 class TutorProfile extends Component {

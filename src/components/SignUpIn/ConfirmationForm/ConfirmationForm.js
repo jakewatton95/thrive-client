@@ -16,7 +16,7 @@ const ConfirmationForm = props =>
     const handleSubmit = e =>
     {
         e.preventDefault()
-        Auth.confirmSignUp(email, confirmationCode)
+        Auth.confirmSignUp(email.toLowerCase(), confirmationCode)
         .then(() => {
             alert("Your account has been confirmed! Please sign in again.")
             history.push("/sign_in")
@@ -30,11 +30,10 @@ const ConfirmationForm = props =>
         if (email === '') {
             setErrorMessage("Please enter your email and then press the link again")
         } else {
-            Auth.resendSignUp(email)
+            Auth.resendSignUp(email.toLowerCase())
             .then(() => alert("Your code has been resent. Please make sure you check your spam folder. If you still cannot find the code, please contact an administrator."))
             .catch(err => setErrorMessage(err.message))
         }
-        Auth.resendSignUp(email)
     }
 
     return (

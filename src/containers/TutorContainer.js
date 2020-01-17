@@ -3,11 +3,11 @@ import { Switch, Route } from 'react-router-dom'
 import Nav from '../components/Nav/Nav'
 import BillingView from '../components/BillingView'
 import ErrorPage from '../components/ErrorPage'
-import SessionView from '../components/SessionView'
+import SessionView from '../components/Sessions/SessionView'
 import StudentTutorView from '../components/StudentTutorView'
 import PaymentView from '../components/PaymentView'
 import ScheduleSession from '../components/ScheduleSession'
-import UpcomingSessions from '../components/UpcomingSessions'
+import UpcomingSessions from '../components/Sessions/UpcomingSessions'
 
 class TutorContainer extends Component{
     _isMounted=false

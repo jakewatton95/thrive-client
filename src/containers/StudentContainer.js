@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import Nav from '../components/Nav/Nav'
-import SessionView from '../components/SessionView'
+import SessionView from '../components/Sessions/SessionView'
 import StudentTutorView from '../components/StudentTutorView'
 import PaymentView from '../components/PaymentView'
 import ErrorPage from '../components/ErrorPage'
 import BillingView from '../components/BillingView'
 import ScheduleSession from '../components/ScheduleSession'
 import { Switch, Route } from 'react-router-dom'
-import UpcomingSessions from '../components/UpcomingSessions.js'
+import UpcomingSessions from '../components/Sessions/UpcomingSessions.js'
 
 
 class StudentContainer extends Component{
