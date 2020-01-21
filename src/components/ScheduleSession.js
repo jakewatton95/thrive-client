@@ -18,7 +18,7 @@ const ScheduleSession = () => {
     const userInfo = useSelector(state => state.userInfo)
 
     const [productID, setProductID] = useState('')
-    const [date, setDate] = useState(moment())
+    const [date, setDate] = useState(moment().startOf('day').add(1, 'day').hour(19))
     const [sessionLength, setSessionLength] = useState('1.5')
     const [location, setLocation] = useState('')
 
@@ -26,12 +26,14 @@ const ScheduleSession = () => {
 
     const findStudentID =  () => {
         const studentName = products.find(product => product.ProductID == productID).Student
-        return students.find(student => student.Name == studentName).StudentID
+        const student = students.find(student => student.Name == studentName)
+        return student ? student.StudentID : null
     }
 
     const findTutorID =  () => {
         const tutorName = products.find(product => product.ProductID == productID).Tutor
-        return tutors.find(tutor => tutor.Name == tutorName).TutorID
+        const tutor = tutors.find(tutor => tutor.Name == tutorName)
+        return tutor ? tutor.TutorID : null
     }
 
     const handleSubmit = e => {

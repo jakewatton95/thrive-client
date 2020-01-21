@@ -1,35 +1,18 @@
-import React,{Component} from 'react'
+import React, { Component, useState } from 'react'
 import './ViewWithTable.css'
+import { useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 
+const StudentTutorView = () => {
+    const products = useSelector(state => state.products)
+    const userInfo = useSelector(state => state.userInfo)
+    const userRole = userInfo.UserType
+    const [filterName, setFilterName] = useState('')
 
-class StudentTutorView extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            filterName: ''
-        }
-
-        this.handleChange=this.handleChange.bind(this)
-    }
-    
-    handleChange(e){
-        let {id, value} = e.target
-        if (id === "name"){
-            this.setState({
-                filterName: value
-            })
-        }
-    }
-    
-    render(){
-        let {products} = this.props
-        let {filterName} = this.state
-        return(
-            <React.Fragment>
-            <form className="name-search-form">
-                <label> Name: </label>
-                <input id = 'name' type ="text" onChange={this.handleChange}></input> 
-            </form>
+    return (
+        <React.Fragment>
+            <label> Name: </label>
+            <input id='name' type="text" value={filterName} onChange={e => setFilterName(e.target.value)}></input>
             <table>
                 <tbody>
                     <tr>
@@ -38,20 +21,14 @@ class StudentTutorView extends Component{
                         <th className="category">Phone Number</th>
                         <th className="category">Subject</th>
                     </tr>
-                    { this.props.studentID ?
-                            filterName === '' ?
-                                products.map(product=> <tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/dashboard/tutors/' + product.TutorID}>{product.Tutor}</a></th><th>{product.TutorEmail}</th><th>{product.TutorPhone}</th><th>{product.Subject}</th></tr>) :
-                                products.filter(product=>product.Tutor.includes(filterName)).map(product=><tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/dashboard/tutors/' + product.TutorID}>{product.Tutor}</a></th><th>{product.TutorEmail}</th><th>{product.TutorPhone}</th><th>{product.Subject}</th></tr>)
-                            :
-                            filterName === '' ?
-                                products.map(product=> <tr key = {product.StudentID + '-' + product.Subject}><th><a href={'/dashboard/students/' + product.StudentID}>{product.Student}</a></th><th>{product.StudentEmail}</th><th>{product.StudentPhone}</th><th>{product.Subject}</th></tr>) :
-                                products.filter(product=>product.Student.includes(filterName)).map(product=><tr key = {product.TutorID + '-' + product.Subject}><th><a href={'/dashboard/students/' + product.StudentID}>{product.Student}</a></th><th>{product.StudentEmail}</th><th>{product.StudentPhone}</th><th>{product.Subject}</th></tr>)
+                    {userRole === 'Student' ?
+                        products.filter(product => product.Tutor.toLowerCase().includes(filterName.toLowerCase())).map(product => <tr key={product.TutorID + '-' + product.Subject}><th><NavLink to={`/dashboard/tutors/${product.TutorID}`}>{product.Tutor}</NavLink></th><th>{product.TutorEmail}</th><th>{product.TutorPhone}</th><th>{product.Subject}</th></tr>)
+                        :
+                        products.filter(product => product.Student.toLowerCase().includes(filterName.toLowerCase())).map(product => <tr key={product.TutorID + '-' + product.Subject}><th><NavLink to={`/dashboard/students/${product.StudentID}`}>{product.Student}</NavLink></th><th>{product.StudentEmail}</th><th>{product.StudentPhone}</th><th>{product.Subject}</th></tr>)
                     }
                 </tbody>
             </table>
-            </React.Fragment>
-        )
-    }
+        </React.Fragment>
+    )
 }
-
 export default StudentTutorView

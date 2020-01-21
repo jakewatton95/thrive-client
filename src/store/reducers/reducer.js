@@ -1,3 +1,5 @@
+import moment from "moment"
+
 const initialState = {
     userInfo: {},
     sessions: [],
@@ -47,6 +49,7 @@ const reducer = (state = initialState, action) => {
             break
         case "ADD_SESSION":
             newState.sessions = [...newState.sessions, payload]
+            newState.sessions.sort((sesA, sesB) => moment(sesA.date).diff(moment(sesB.date)))
             break
     }
 

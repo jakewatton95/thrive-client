@@ -83,8 +83,8 @@ const TutorContainer = () => {
 
     const renderTutorHome = () => (
         <React.Fragment>
-            <ScheduleSession products={products} userInfo={userInfo} />
-            <UpcomingSessions sessions={sessions} userInfo={userInfo} />
+            <ScheduleSession />
+            <UpcomingSessions />
         </React.Fragment>
     )
 
@@ -92,18 +92,12 @@ const TutorContainer = () => {
         <React.Fragment>
             <Nav user="tutor" />
             <Switch>
-                <Route exact path="/dashboard" render={renderTutorHome}>
-                </Route>
-                <Route path="/dashboard/sessions" render={() => <SessionView tutorID={tutorID} sessions={sessions} userInfo={userInfo} />}>
-                </Route>
-                <Route exact path="/dashboard/students" render={() => <StudentTutorView tutorID={tutorID} products={products} />}>
-                </Route>
-                <Route exact path="/dashboard/billing" render={() => <BillingView billings={billings} tutorID={tutorID} userInfo={userInfo} />}>
-                </Route>
-                <Route exact path="/dashboard/payment" render={() => <PaymentView tutorID={tutorID} userInfo={userInfo} payments={payments} tutors={[]} students={[]} />}>
-                </Route>
-                <Route component={ErrorPage}>
-                </Route>
+                <Route exact path="/dashboard" render={renderTutorHome} />
+                <Route exact path="/dashboard/sessions" component={SessionView} />
+                <Route path="/dashboard/students" component={StudentTutorView} />
+                <Route exact path="/dashboard/billing" component={BillingView} />
+                <Route exact path="/dashboard/payment" component={PaymentView} />
+                <Route component={ErrorPage} />
             </Switch>
         </React.Fragment>
     )

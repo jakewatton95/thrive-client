@@ -13,24 +13,7 @@ import { storeBillings, storeStudentID, storePayments, storeProducts, storeSessi
 
 const StudentContainer = () => {
     const userInfo = useSelector(state => state.userInfo)
-    const studentID = useSelector(state => state.studentID)
-    const sessions = useSelector(state => state.sessions)
-    const payments = useSelector(state => state.payments)
-    const billings = useSelector(state => state.billings)
-    const products = useSelector(state => state.products)
-
     const dispatch = useDispatch()
-
-    /*const cancelSession = ID => {
-        let { sessions, billings } = this.state
-        console.log(sessions, payments, billings)
-        let filteredSessions = sessions.filter(session => session.ID != ID)
-        let filteredBillings = billings.filter(billing => billing.sessionID != ID)
-        this.setState({
-            sessions: filteredSessions,
-            billings: filteredBillings
-        })
-    }*/
 
     useEffect(() => {
         let isCancelled = false
@@ -48,7 +31,7 @@ const StudentContainer = () => {
                 })
                 .catch(err => console.log("Error fetching StudentID", err))
 
-            
+
             fetch('https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products?studentID=' + tempStudentID)
                 .then(response => response.json())
                 .then(response => {
@@ -96,8 +79,8 @@ const StudentContainer = () => {
 
     const renderStudentHome = () => (
         <React.Fragment>
-            <ScheduleSession products={products} userInfo={userInfo} />
-            <UpcomingSessions sessions={sessions} userInfo={userInfo} />
+            <ScheduleSession />
+            <UpcomingSessions />
         </React.Fragment>
     )
 
@@ -105,18 +88,12 @@ const StudentContainer = () => {
         <React.Fragment>
             <Nav user="student" />
             <Switch>
-                <Route exact path="/dashboard" render={renderStudentHome}>
-                </Route>
-                <Route path="/dashboard/sessions" render={() => <SessionView />}>
-                </Route>
-                <Route path="/dashboard/tutors" render={() => <StudentTutorView studentID={studentID} products={products} />}>
-                </Route>
-                <Route path="/dashboard/billing" render={() => <BillingView studentID={studentID} billings={billings} userInfo={userInfo} />}>
-                </Route>
-                <Route path="/dashboard/payment" render={() => <PaymentView studentID={studentID} userInfo={userInfo} payments={payments} tutors={[]} students={[]} />}>
-                </Route>
-                <Route component={ErrorPage}>
-                </Route>
+                <Route exact path="/dashboard" render={renderStudentHome} />
+                <Route path="/dashboard/sessions" component={SessionView} />
+                <Route path="/dashboard/tutors" component={StudentTutorView} />
+                <Route path="/dashboard/billing" component={BillingView} />
+                <Route path="/dashboard/payment" component={PaymentView} />
+                <Route component={ErrorPage} />
             </Switch>
         </React.Fragment>
     )
