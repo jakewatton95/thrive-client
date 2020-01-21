@@ -28,7 +28,7 @@ const SessionInfoModal = ({showModal, modalInfo, hideModal}) => {
                 Location: {Location}
             </div>
         </Modal.Body>
-        {(userRole == 'Student' || userRole == 'Tutor') &&
+        {!modalInfo.secondaryRole && (userRole == 'Student' || userRole == 'Tutor') &&
         <Modal.Footer>
             <button>edit session</button>
             <button>cancel session</button>

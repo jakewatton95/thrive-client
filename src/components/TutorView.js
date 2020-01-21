@@ -1,33 +1,17 @@
-import React,{Component} from 'react'
+import React, { useState } from 'react'
 import './ViewWithTable.css'
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-class TutorView extends Component{
+const TutorView = () => {
+    const [filterName, setFilterName] = useState('')
+    const tutors = useSelector(state => state.tutors)
 
-    constructor(props){
-        super(props)
-        this.state = {
-            filterName: ''
-        }
-
-        this.handleChange=this.handleChange.bind(this)
-    }
-    
-    handleChange(e){
-        let {id, value} = e.target
-        if (id === "name"){
-            this.setState({
-                filterName: value
-            })
-        }
-    }
-    
-    render(){
-        return(
-            <React.Fragment>
+    return (
+        <React.Fragment>
             <form>
                 <label>Tutor Name: </label>
-                <input id = 'name' type ="text" onChange={this.handleChange}></input> 
+                <input id='name' type="text" value={filterName} onChange={e => setFilterName(e.target.value)}></input>
             </form>
             <table>
                 <tbody>
@@ -36,13 +20,12 @@ class TutorView extends Component{
                         <th className="category">Email</th>
                         <th className="category">Phone Number</th>
                     </tr>
-                    {this.state.filterName === '' ? this.props.tutors.map(tutor=> <tr key = {tutor.TutorID}><th><NavLink to={"/dashboard/tutors/"+tutor.TutorID} exact={true}> {tutor.Name}</NavLink></th><th>{tutor.Email}</th><th>{tutor.Phone}</th></tr>) :
-                    this.props.tutors.filter(tutor=>tutor.Name.includes(this.state.filterName)).map(tutor=><tr key = {tutor.TutorID}><th><NavLink to={"/dashboard/tutors/"+tutor.TutorID} exact={true}> {tutor.Name}</NavLink></th><th>{tutor.Email}</th><th>{tutor.Phone}</th></tr>)}
+                    {filterName === '' ? tutors.map(tutor => <tr key={tutor.TutorID}><th><NavLink to={"/dashboard/tutors/" + tutor.TutorID} exact={true}> {tutor.Name}</NavLink></th><th>{tutor.Email}</th><th>{tutor.Phone}</th></tr>) :
+                        tutors.filter(tutor => tutor.Name.toLowerCase().includes(filterName.toLowerCase())).map(tutor => <tr key={tutor.TutorID}><th><NavLink to={"/dashboard/tutors/" + tutor.TutorID} exact={true}> {tutor.Name}</NavLink></th><th>{tutor.Email}</th><th>{tutor.Phone}</th></tr>)}
                 </tbody>
             </table>
-            </React.Fragment>
-        )
-    }
+        </React.Fragment>
+    )
 }
 
 export default TutorView

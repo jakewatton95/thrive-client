@@ -4,8 +4,12 @@ import "react-datepicker/dist/react-datepicker.css"
 import Session from './Session'
 import moment from 'moment'
 import "./SessionView.less"
+import { useSelector } from 'react-redux'
 
-const SessionView = ({ sessions, userInfo }) => {
+const SessionView = () => {
+
+    const userInfo = useSelector(state => state.userInfo)
+    const sessions = useSelector(state => state.sessions)
 
     const [viewDate, setViewDate] = useState(moment().startOf('day'))
     const [viewing, setViewing] = useState('week')

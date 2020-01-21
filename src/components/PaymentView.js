@@ -1,6 +1,64 @@
-import React,{Component} from 'react'
+import React,{Component, useState} from 'react'
 import Payment from './Payment'
 import './ViewWithTable.css'
+import { useSelector } from 'react-redux'
+
+const PaymentView = () => {
+    const userInfo = useSelector(state => state.userInfo)
+    const students = useSelector(state => state.students)
+    const tutors = useSelector(state => state.tutors)
+    const payments = useSelector(state => state.payments)
+
+    const [viewing, setViewing] = useState(userInfo.UserType == 'Admin' ? 'everyone' : userInfo.Name)
+    const [userType, setUserType] = useState('everyone')
+    const [selectedID, setSelectedID] = useState(null)
+    const userRole = userInfo.UserType
+
+    const handleChangeViewer = e =>{
+        e.preventDefault()
+    }
+
+    let filteredPayments = [];
+    let totalAmount = 0;
+    if (userType === "everyone") {
+        filteredPayments = payments
+    } else if(userType === "tutor"){
+        filteredPayments = payments.filter(payment => payment.TutorID == selectedID)
+    } else if(userType === "student"){
+        filteredPayments = payments.filter(payment => payment.StudentID == selectedID)
+    }
+    totalAmount = filteredPayments.reduce((total, payment) => total += payment.Amount, 0)
+
+    return (
+        <React.Fragment>
+        <h2> Payments: </h2>
+        {userRole === "Admin" ? <React.Fragment><div> Viewing Payments for {viewing}:  </div> 
+        <form>
+            <div>
+                <label className="formLabel">User: </label>
+                <select id="user" onChange={handleChangeViewer} defaultValue=''>
+                    <option disabled="disabled" value=''>---Select a Person---</option>
+                    {tutors.map(tutor => <option key = {tutor.TutorID} value = {"tutor="+tutor.Name+"="+tutor.TutorID}>{tutor.Name}</option> )}
+                    {students.map(student => <option key = {student.StudentID} value = {"student="+student.Name+"="+student.StudentID}>{student.Name}</option>)}
+                </select>
+            </div>
+        </form></React.Fragment> : null}
+        {userRole !== "Admin" ? <div> Total amount paid: {totalAmount}</div>  : null}
+        <table>
+            <tbody>
+                <tr key="categories">
+                    <th className="category">Date</th>
+                    {userType !== "tutor" && userRole === "Admin" ? <th className="category">Student</th> : null} 
+                    {userType !== "student"  && userRole === "Admin"? <th className="category">Tutor</th> : null} 
+                    <th className="category">Amount</th>
+                </tr>
+                {filteredPayments.map(payment => <Payment key = {payment.PaymentID} students={students} tutors = {tutors} userType={userType} paymentInfo={payment} userRole={userRole} viewing={viewing}/>)}
+            </tbody>
+        </table>
+        </React.Fragment>
+    )
+}
+/*
 
 class PaymentView extends Component{
     constructor(props){
@@ -89,6 +147,6 @@ class PaymentView extends Component{
         )
     }
 }
-
+*/
 
 export default PaymentView

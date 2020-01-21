@@ -1,7 +1,47 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import UpcomingSessions from './Sessions/UpcomingSessions'
 import './Profile.css'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
+const StudentProfile = () => {
+    const { studentID } = useParams()
+    const students = useSelector(state => state.students)
+    const billings = useSelector(state => state.billings)
+    const payments = useSelector(state => state.payments)
+    const sessions = useSelector(state => state.sessions)
+    const [paymentAmount, setPaymentAmount] = useState(100)
+
+    const student = students.find(student => student.StudentID == studentID)
+    let amountOwed = billings.filter(billing => billing.StudentID == studentID && Date.now() > Date.parse(billing.date)).reduce((total, billing) => total+= billing.Rate * billing.SessionLength, 0)
+    let amountPaid = payments.filter(payment => payment.StudentID == studentID).reduce((total, payment) => total += payment.Amount, 0)
+
+    const recordPayment = e => {
+        e.preventDefault()
+        let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?studentID=" + studentID + "&amount=" +  paymentAmount
+        fetch(endpoint, {method: "POST"})
+        .then(() => {
+            alert("Payment Logged")
+            //TODO dispatch
+        })
+        .catch(err => console.log("Error Recording Payment:" + err))
+    }
+
+    return (
+        student ? 
+        <React.Fragment>
+            <h2> Viewing info for {student.Name}</h2>
+            <div> Email: {student.Email} </div>
+            <div> Phone: {student.Phone} </div>
+            <div className="amountOwed" > Amount Student Owes: ${amountOwed.toFixed(2)} </div> 
+            <div className="amountPaid" > Amount Student Paid: ${amountPaid.toFixed(2)} </div>
+            {amountOwed > amountPaid ? <div> {student.Name} owes ${(amountOwed.toFixed(2) - amountPaid.toFixed(2)).toFixed(2)}  </div> : null }
+            <div> Record a payment: <form onSubmit = {e => e.preventDefault()} ><input type="number" min="0.01" step = ".01" value = {paymentAmount} onChange = {e => setPaymentAmount(e.target.value)} id="payment"/> $ <button> Submit </button></form></div>
+            <UpcomingSessions userRole = "Student" secondaryRole="Admin" studentID={studentID} sessions={sessions}/> 
+        </React.Fragment> : null
+    )
+}
+/*
 class StudentProfile extends Component {
     constructor(props) {
         super(props)
@@ -16,6 +56,9 @@ class StudentProfile extends Component {
         this.getAmountPaid = this.getAmountPaid.bind(this)
         this.getStudent = this.getStudent.bind(this)
         this.getAmountOwed = this.getAmountOwed.bind(this)
+
+
+        
     }
     
     recordPayment(e){
@@ -70,6 +113,6 @@ class StudentProfile extends Component {
         )
     }
 }
-
+*/
 
 export default StudentProfile

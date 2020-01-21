@@ -4,7 +4,7 @@ import { Auth } from 'aws-amplify'
 import './SignInForm.css'
 import '../SignInUp.css'
 
-const SignInForm = (props) => {
+const SignInForm = () => {
    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
