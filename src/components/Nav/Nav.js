@@ -29,6 +29,7 @@ const Nav = (props) => {
                 </div>
             </nav>
         </header>
+        <div className = "toolbar__buffer"></div>
         <SideDrawer user = {props.user} show={isDrawerOpen} toggle={() => setIsDrawerOpen(false)}/>
         {isDrawerOpen && <Backdrop click={() => setIsDrawerOpen(false)}/>}
         </React.Fragment>

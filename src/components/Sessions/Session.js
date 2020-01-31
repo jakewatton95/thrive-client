@@ -2,16 +2,12 @@ import React, {useState} from 'react'
 import moment from 'moment'
 import SessionInfoModal from './SessionInfoModal'
 import './Session.less'
-import {Modal, Button} from 'react-bootstrap'
-import Times from "../../data/times"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
 
 const Session = props => {
     const [showInfoModal, setShowInfoModal] = useState(false)
 
-    let {Tutor, Student, Subject, Location, date, SessionLength} = props.sessionInfo
-    let {userRole, secondaryRole, view = "day"} = props
+    const {Tutor, Student, Subject, date} = props.sessionInfo
+    const {view = "day", upcoming} = props
     return(
         <React.Fragment>
 
@@ -21,7 +17,7 @@ const Session = props => {
                 {Tutor} &lt;&gt;  {Student}
             </div>
             <div className="time-info hide-small-screens-week">
-                {moment(date).format('LT')}
+                {upcoming ? moment(date).format('ddd, MMM Do, h:mmA')  : moment(date).format('LT')}
             </div>
             <div className="subject-info hide-medium-screens">
                 {Subject}

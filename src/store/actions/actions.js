@@ -74,3 +74,10 @@ export const addSession = session => {
         payload: session
     }
 }
+
+export const addPayment = payment => {
+    return {
+        type: "ADD_PAYMENT",
+        payload: payment
+    }
+}

@@ -2,10 +2,13 @@ import React, { Component, useState } from 'react'
 import UpcomingSessions from './Sessions/UpcomingSessions'
 import './Profile.css'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import moment from 'moment'
+import {addPayment} from '../store/actions/actions'
 
 const TutorProfile = () => {
     const { tutorID } = useParams()
+    const dispatch = useDispatch()
     const tutors = useSelector(state => state.tutors)
     const billings = useSelector(state => state.billings)
     const payments = useSelector(state => state.payments)
@@ -18,11 +21,19 @@ const TutorProfile = () => {
     
     const recordPayment = e => {
         e.preventDefault()
-        let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?tutorID=" + this.state.tutorID + "&amount=" +  this.state.paymentAmount
+        let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?tutorID=" + tutorID + "&amount=" +  paymentAmount
         fetch(endpoint, {method: "POST"})
-        .then(() => {
+        .then(response => response.json())
+        .then(response => {
+            const paymentObject = {
+                PaymentID: response.insertId,
+                StudentID: null,
+                Amount: parseFloat(paymentAmount),
+                TutorID: tutorID,
+                Date: moment().toISOString()
+            }
+            dispatch(addPayment(paymentObject))
             alert("Payment Logged")
-            //TODO dispatch
         })
         .catch(err => console.log("Error Recording Payment:" + err))
     }
@@ -36,7 +47,7 @@ const TutorProfile = () => {
             <div className="amountOwed"> Total Amount Owed:  ${amountOwed.toFixed(2)}</div>
             <div className="amountPaid"> Total Amount Paid:  ${amountPaid.toFixed(2)}</div>
             {amountOwed > amountPaid ? <div> You owe {tutor.Name} ${(amountOwed.toFixed(2) - amountPaid.toFixed(2)).toFixed(2)}  </div> : null }
-            <div> Record a payment: <form onSubmit={e => e.preventDefault()} ><input type="number" min="0.01" step=".01" value={paymentAmount} onChange={e => setPaymentAmount(e.target.value)} id="payment" /> $ <button> Submit </button></form></div>
+            <div> Record a payment: <form onSubmit={recordPayment} ><input type="number" min="0.01" step=".01" value={paymentAmount} onChange={e => setPaymentAmount(e.target.value)} id="payment" /> $ <button> Submit </button></form></div>
             <UpcomingSessions userRole="Tutor" sessions={sessions} secondaryRole="Admin" tutorID={tutorID} />
         </React.Fragment> : null //Should have a loading screen before we find the tutor
     )

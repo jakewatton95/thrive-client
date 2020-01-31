@@ -39,7 +39,7 @@
   color: #013862;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 851px) {
     .side-drawer {
         display: none;
     }

@@ -1,0 +1,51 @@
+.home-container{
+    height: calc(100% - 56px);
+    display: flex;
+    flex-flow: column;
+
+    .home-row{
+        flex: 1;
+        display: flex;
+        flex-flow: row;
+        border-bottom: 1px white solid;
+
+        &.bottom {
+            border-bottom: none;
+        }
+
+
+
+        .cell{
+            flex: 1;
+            border-right: 1px white solid;
+            cursor: pointer;
+    
+            &.right {
+                border-right: none;
+            }
+
+            .layer {
+                background-color: rgba(1, 56, 98, 0.7);
+                
+
+                &:hover {
+                    background-color: rgba(1,56,98,0.5);
+                }
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+
+                .cell-text{
+                    color: white;
+                    font-size: 26px;
+                    text-align: center;
+                    padding: 0 10px;
+                    font-weight: 600;
+                }
+            }
+        }
+
+    }
+}

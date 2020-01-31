@@ -14,6 +14,7 @@ import StudentProfile from '../components/StudentProfile'
 import TutorProfile from '../components/TutorProfile'
 import { useDispatch } from 'react-redux'
 import { storeStudents, storeTutors, storeBillings, storePayments, storeProducts, storeSessions } from '../store/actions/actions'
+import Dashboard from '../components/Dashboard/Dashboard'
 
 const AdminContainer = () => {
     const dispatch = useDispatch()
@@ -81,25 +82,19 @@ const AdminContainer = () => {
         }
     }, [])
 
-    const renderAdminHome = () => (
-        <React.Fragment>
-            <AddProduct />
-            <ScheduleSession />
-            <UpcomingSessions />
-        </React.Fragment>
-    )
-
     return (
         <React.Fragment>
             <Nav user="admin" />
             <Switch>
                 <Route exact path="/dashboard/students" component={StudentView} />
+                <Route exact path="/dashboard/addProduct" component = {AddProduct} />
+                <Route exact path="/dashboard/scheduleSession" component = {ScheduleSession}/>
                 <Route path="/dashboard/students/:studentID" component={StudentProfile} />
                 <Route exact path="/dashboard/tutors" component={TutorView} />
                 <Route path="/dashboard/tutors/:tutorID" component={TutorProfile} />
                 <Route exact path="/dashboard/sessions" component={SessionView} />
                 <Route exact path="/dashboard/billing" component={BillingView} />
-                <Route exact path="/dashboard" render={renderAdminHome} />
+                <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/dashboard/payment" component={PaymentView} />
                 <Route component={ErrorPage} />
             </Switch>

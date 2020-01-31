@@ -1,6 +1,6 @@
 import React,{Component, useState} from 'react'
 import Payment from './Payment'
-import './ViewWithTable.css'
+//import './ViewWithTable.css'
 import { useSelector } from 'react-redux'
 
 const PaymentView = () => {

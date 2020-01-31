@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Nav from '../components/Nav/Nav'
 import SessionView from '../components/Sessions/SessionView'
-import StudentTutorView from '../components/StudentTutorView'
 import PaymentView from '../components/PaymentView'
 import ErrorPage from '../components/ErrorPage'
 import BillingView from '../components/BillingView'
@@ -10,6 +9,8 @@ import { Switch, Route } from 'react-router-dom'
 import UpcomingSessions from '../components/Sessions/UpcomingSessions.js'
 import { useSelector, useDispatch } from 'react-redux'
 import { storeBillings, storeStudentID, storePayments, storeProducts, storeSessions } from '../store/actions/actions'
+import Dashboard from '../components/Dashboard/Dashboard'
+import TutorView from '../components/TutorView'
 
 const StudentContainer = () => {
     const userInfo = useSelector(state => state.userInfo)
@@ -76,21 +77,14 @@ const StudentContainer = () => {
         }
     }, [])
 
-
-    const renderStudentHome = () => (
-        <React.Fragment>
-            <ScheduleSession />
-            <UpcomingSessions />
-        </React.Fragment>
-    )
-
     return (
         <React.Fragment>
             <Nav user="student" />
             <Switch>
-                <Route exact path="/dashboard" render={renderStudentHome} />
+                <Route exact path="/dashboard" component={Dashboard} />
                 <Route path="/dashboard/sessions" component={SessionView} />
-                <Route path="/dashboard/tutors" component={StudentTutorView} />
+                <Route path="/dashboard/scheduleSession" component={ScheduleSession}/>
+                <Route path="/dashboard/tutors" component={TutorView} />
                 <Route path="/dashboard/billing" component={BillingView} />
                 <Route path="/dashboard/payment" component={PaymentView} />
                 <Route component={ErrorPage} />

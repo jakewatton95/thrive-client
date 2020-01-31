@@ -12,7 +12,7 @@ const SessionView = () => {
     const sessions = useSelector(state => state.sessions)
 
     const [viewDate, setViewDate] = useState(moment().startOf('day'))
-    const [viewing, setViewing] = useState('week')
+    const [viewing, setViewing] = useState('month')
 
     useEffect(() => window.scroll({
         top: 0, 
@@ -73,6 +73,69 @@ const SessionView = () => {
         )
     }
 
+
+    const generateMonth = () => {
+        const offSetDays/*QUAVO*/=moment(viewDate).startOf('month').day()
+        const endOfMonth = moment(viewDate).endOf('month')
+        const dayIterator = moment(viewDate).startOf('month').subtract(offSetDays, 'days')
+        const days = []
+        
+        const hasConfirmed = () => {
+            const sessionList = sessions.filter(session => 
+                moment(session.date) >= moment(dayIterator).startOf('day') && moment(session.date) <= moment(dayIterator).endOf('day'))
+            
+                return !sessionList.length ? "" : 
+                    sessionList.filter(session => !session.StudentConfirmed || !session.TutorConfirmed).length ? 
+                    "unconfirmed" : "scheduled"
+        }
+
+        const dayClicked = e => {
+            const parseDay = e.currentTarget.getAttribute('data-value')
+            setViewDate(moment(parseDay))
+            setViewing("day");
+        }
+
+        for (dayIterator; dayIterator < endOfMonth || dayIterator.day() > 0; dayIterator.add(1, 'day')) {
+            days.push(
+                <div key= {moment(dayIterator).utc()} data-value={dayIterator.format()} onClick={dayClicked} className = {`day month-view ${hasConfirmed()}`}>
+                    <div className = {`day-number ${dayIterator.dayOfYear() == viewDate.dayOfYear() ? "selected" : ""}`}>
+                        {dayIterator.format('DD')}
+                    </div>
+                </div>
+            )
+        }
+        return (
+            <React.Fragment>
+                <div className="month-title">
+                    {viewDate.format('MMMM YYYY')}
+                </div>
+                <div className="sticky-under-header">
+                    {dayNames()}
+                </div>
+                <div className="month-container">
+                    {days}
+                </div>
+                <div className="legend">
+                    <div className = "legend-title">
+                        KEY:
+                    </div>
+                    <div className="legend-item">
+                        <div className = "yellow box"> </div> 
+                        Scheduled Sessions
+                    </div>
+                    <div className="legend-item">
+                        <div className = "orange box"> </div> 
+                        Unconfirmed Sessions
+                    </div>
+                    <div className="legend-item">
+                        <div className = "blue box"> </div> 
+                        Unscheduled Days
+                    </div>
+                </div>
+            </React.Fragment>
+        )
+    }
+
     const dayNames = () =>
         <div className="calendar-row day-names">
             <span className="day">Sun</span>
@@ -118,6 +181,7 @@ const SessionView = () => {
             <div className={`sessions-list ${viewing}-view`}>
                 {viewing == "day" && generateSingleDay()}
                 {viewing == "week" && generateWeek()}
+                {viewing == "month" && generateMonth()}
             </div>
         </div>
     )

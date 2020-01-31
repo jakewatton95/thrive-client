@@ -23,7 +23,7 @@ const UpcomingSessions = props => {
             <div className= "upcoming-sessions-title"> This Week's Sessions: </div>
             {weekSessions == 0 ?
                 <div> No sessions this week, schedule one on the home page! </div> :
-                weekSessions.map(session => <Session userRole={userRole} secondaryRole={secondaryRole} key = {session.ID} sessionInfo={session}/>)
+                weekSessions.map(session => <Session userRole={userRole} secondaryRole={secondaryRole} key = {session.ID} upcoming={true} sessionInfo={session}/>)
             }
         </div>
     )

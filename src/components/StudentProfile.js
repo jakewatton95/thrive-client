@@ -2,10 +2,13 @@ import React, {Component, useState} from 'react'
 import UpcomingSessions from './Sessions/UpcomingSessions'
 import './Profile.css'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addPayment } from '../store/actions/actions'
+import moment from 'moment'
 
 const StudentProfile = () => {
     const { studentID } = useParams()
+    const dispatch = useDispatch()
     const students = useSelector(state => state.students)
     const billings = useSelector(state => state.billings)
     const payments = useSelector(state => state.payments)
@@ -20,9 +23,17 @@ const StudentProfile = () => {
         e.preventDefault()
         let endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/payments?studentID=" + studentID + "&amount=" +  paymentAmount
         fetch(endpoint, {method: "POST"})
-        .then(() => {
+        .then(response => response.json())
+        .then(response => {
+            const paymentObject = {
+                PaymentID: response.insertId,
+                StudentID: studentID,
+                Amount: parseFloat(paymentAmount),
+                TutorID: null,
+                Date: moment().toISOString()
+            }
+            dispatch(addPayment(paymentObject))
             alert("Payment Logged")
-            //TODO dispatch
         })
         .catch(err => console.log("Error Recording Payment:" + err))
     }
@@ -36,7 +47,7 @@ const StudentProfile = () => {
             <div className="amountOwed" > Amount Student Owes: ${amountOwed.toFixed(2)} </div> 
             <div className="amountPaid" > Amount Student Paid: ${amountPaid.toFixed(2)} </div>
             {amountOwed > amountPaid ? <div> {student.Name} owes ${(amountOwed.toFixed(2) - amountPaid.toFixed(2)).toFixed(2)}  </div> : null }
-            <div> Record a payment: <form onSubmit = {e => e.preventDefault()} ><input type="number" min="0.01" step = ".01" value = {paymentAmount} onChange = {e => setPaymentAmount(e.target.value)} id="payment"/> $ <button> Submit </button></form></div>
+            <div> Record a payment: <form onSubmit = {recordPayment} ><input type="number" min="0.01" step = ".01" value = {paymentAmount} onChange = {e => setPaymentAmount(e.target.value)} id="payment"/> $ <button> Submit </button></form></div>
             <UpcomingSessions userRole = "Student" secondaryRole="Admin" studentID={studentID} sessions={sessions}/> 
         </React.Fragment> : null
     )

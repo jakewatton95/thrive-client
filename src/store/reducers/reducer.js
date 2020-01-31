@@ -51,6 +51,9 @@ const reducer = (state = initialState, action) => {
             newState.sessions = [...newState.sessions, payload]
             newState.sessions.sort((sesA, sesB) => moment(sesA.date).diff(moment(sesB.date)))
             break
+        case "ADD_PAYMENT":
+            newState.payments = [...newState.payments, payload]
+            break
     }
 
     return newState

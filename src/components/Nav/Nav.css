@@ -1,6 +1,6 @@
 .toolbar {
-    position: sticky;
-    position: -webkit-sticky;
+    position: fixed;
+    position: -webkit-fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -17,7 +17,11 @@
     padding: 0 1rem;
   }
 
-  @media (max-width: 768px) {
+  .toolbar__buffer{
+    height: 56px;
+  }
+
+  @media (max-width: 850px) {
     .toolbar__nav {
       justify-content: flex-start;
     }
@@ -59,13 +63,13 @@
       cursor: pointer;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     .toolbar__navigation-items {
       display: none;
     }
   }
   
-  @media (min-width: 769px) {
+  @media (min-width: 851px) {
     .toolbar__toggle-button {
       display: none;
     }
