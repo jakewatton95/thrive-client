@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { storeBillings, storeStudentID, storePayments, storeProducts, storeSessions } from '../store/actions/actions'
 import Dashboard from '../components/Dashboard/Dashboard'
 import TutorView from '../components/TutorView'
+import Profile from '../components/Profile'
 
 const StudentContainer = () => {
     const userInfo = useSelector(state => state.userInfo)
@@ -84,7 +85,8 @@ const StudentContainer = () => {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route path="/dashboard/sessions" component={SessionView} />
                 <Route path="/dashboard/scheduleSession" component={ScheduleSession}/>
-                <Route path="/dashboard/tutors" component={TutorView} />
+                <Route exact path="/dashboard/tutors" component={TutorView} />
+                <Route path="/dashboard/tutors/:ID" render={()=><Profile profileType="Tutor"/>} />
                 <Route path="/dashboard/billing" component={BillingView} />
                 <Route path="/dashboard/payment" component={PaymentView} />
                 <Route component={ErrorPage} />

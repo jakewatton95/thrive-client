@@ -16,6 +16,9 @@ const StudentLinks = props => (
         <NavLink to="/dashboard/messages" onClick={props.toggle ? props.toggle : null} activeClassName="active-tab" className="nav-link">
             Messages
         </NavLink>
+        <NavLink to="/dashboard/profile" onClick={props.toggle ? props.toggle : null} exact={true} activeClassName="active-tab" className="nav-link">
+            Profile
+        </NavLink>
         <NavLink to="/sign_in" className="nav-link" onClick={() => Auth.signOut()}>
             Sign Out
         </NavLink>

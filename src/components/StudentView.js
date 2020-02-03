@@ -7,7 +7,7 @@ import NoPicLogo from '../media/user-profile-no-pic-orange.png'
 
 const StudentView = () => {
 
-    const generateStudentArray = () => {
+    const generateStudentList = () => {
         //student - {StudentID: ID, Name: String, Email: String, Phone: Int, Subjects: [String]}
         let studentList = []
         useSelector(state => state.products).map(product => {
@@ -27,7 +27,7 @@ const StudentView = () => {
     const [filterName, setFilterName] = useState('')
     const userRole = useSelector(state=> state.userInfo.UserType)
     const students = userRole == 'Admin' ? useSelector(state => state.students) : 
-        generateStudentArray()
+        generateStudentList()
     const history = useHistory();
     
     return (

@@ -11,7 +11,7 @@ import TutorView from '../components/TutorView'
 import SessionView from '../components/Sessions/SessionView'
 import PaymentView from '../components/PaymentView'
 import StudentProfile from '../components/StudentProfile'
-import TutorProfile from '../components/TutorProfile'
+import Profile from '../components/Profile'
 import { useDispatch } from 'react-redux'
 import { storeStudents, storeTutors, storeBillings, storePayments, storeProducts, storeSessions } from '../store/actions/actions'
 import Dashboard from '../components/Dashboard/Dashboard'
@@ -89,9 +89,9 @@ const AdminContainer = () => {
                 <Route exact path="/dashboard/students" component={StudentView} />
                 <Route exact path="/dashboard/addProduct" component = {AddProduct} />
                 <Route exact path="/dashboard/scheduleSession" component = {ScheduleSession}/>
-                <Route path="/dashboard/students/:studentID" component={StudentProfile} />
+                <Route path="/dashboard/students/:ID" render={()=><Profile profileType="Student"/>} />
                 <Route exact path="/dashboard/tutors" component={TutorView} />
-                <Route path="/dashboard/tutors/:tutorID" component={TutorProfile} />
+                <Route path="/dashboard/tutors/:ID" render={()=><Profile profileType="Tutor"/>} />
                 <Route exact path="/dashboard/sessions" component={SessionView} />
                 <Route exact path="/dashboard/billing" component={BillingView} />
                 <Route exact path="/dashboard" component={Dashboard} />
