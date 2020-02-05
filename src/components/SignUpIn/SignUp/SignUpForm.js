@@ -3,7 +3,9 @@ import './SignUpForm.css'
 import '../SignInUp.css'
 import { Auth } from 'aws-amplify';
 import {useHistory} from 'react-router-dom'
-
+import {useMutation} from '@apollo/react-hooks'
+import gql from 'graphql-tag';
+import {createUser, createStudent, createTutor} from '../../../graphql/mutations'
 
 const SignUpForm = props =>
 {
@@ -15,8 +17,34 @@ const SignUpForm = props =>
     const [confirmPassword, setConfirmPassword] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [email, setEmail] = useState('')
-    const [userRole, setUserRole] = useState('')
+    const [role, setRole] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const [companyid, setCompanyid]  = useState(1)
+
+    const [addTutorToDB] = useMutation(gql(createTutor), {
+        onCompleted: data => {
+            console.log("Tutor Data", data)
+            history.push("/confirm")
+        },
+        onError: err => console.log("Error adding Tutor", err)
+    })
+    const [addStudentToDB] = useMutation(gql(createStudent), {
+        onCompleted: data => {
+            console.log("Student Data", data)
+            history.push("/confirm")
+        },
+        onError: err => console.log("Error adding Student", err)
+    })
+    const [addUserToDB] = useMutation(gql(createUser), {
+        onCompleted: (data) => {
+            console.log("data", data)
+            if (data.createUser.role == 'Student')
+                addStudentToDB({variables: {email: data.createUser.email, phone: phoneNumber, name: firstName + ' ' + lastName, companyid, userid: parseInt(data.createUser.id)}})
+            else if (data.createUser.role == 'Tutor')
+                addTutorToDB({variables: {email: data.createUser.email, phone: phoneNumber, name: firstName + ' ' + lastName, companyid, userid: parseInt(data.createUser.id)}})    
+        },
+        onError: (err) => console.log("There was an error signing up", err)
+    })
 
     const handleSubmit = e => 
     {
@@ -39,9 +67,7 @@ const SignUpForm = props =>
                 name: name
             }
         }).then(() => {
-            addUser()
-        }).then(()=>{
-            history.push("/confirm")
+            addUserToDB({variables:{email, role, companyid}})
         }).catch(err => {
             setPassword('')
             setConfirmPassword('')
@@ -51,15 +77,6 @@ const SignUpForm = props =>
                 setErrorMessage(err.message)
         }) 
     } 
-
-    const addUser = async () => 
-    {
-        let name = firstName + ' ' + lastName
-        const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/users"
-        await fetch(endpoint, {method: "POST", body:JSON.stringify({userRole: userRole, name: name, email: email.toLowerCase(), phone_number: phoneNumber})}) 
-        .then(() => console.log("User Signed Up"))
-        .catch(err => console.log("Error", err))
-    }
 
     return (
         <React.Fragment>
@@ -77,8 +94,8 @@ const SignUpForm = props =>
                 <div className="tip password-tip">At least 8 characters long, one uppercase letter, one lowercase letter, and one number </div>
                 <input required type="password" id="confirmPassword" value={confirmPassword} placeholder="CONFIRM PASSWORD" className = "sign-in-form-field" onChange={e => setConfirmPassword(e.target.value)} />
                 <div className="user-type-wrapper">
-                    <label className="field-label">STUDENT</label><input required type="radio" name="user-type" id="userRole-a" value="Student" onChange={e => setUserRole(e.target.value)}/>
-                    <label className="field-label">TUTOR</label><input required type="radio" name="user-type" id="userRole-b" value="Tutor" onChange={e => setUserRole(e.target.value)}/>
+                    <label className="field-label">STUDENT</label><input required type="radio" name="user-type" id="role-a" value="Student" onChange={e => setRole(e.target.value)}/>
+                    <label className="field-label">TUTOR</label><input required type="radio" name="user-type" id="role-b" value="Tutor" onChange={e => setRole(e.target.value)}/>
                 </div>
                 <div className="tip user-tip"> Select one </div>
                  <div className = "sign-up-button-wrapper">

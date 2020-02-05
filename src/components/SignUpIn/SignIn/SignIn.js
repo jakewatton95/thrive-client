@@ -2,7 +2,7 @@ import React from 'react'
 import SignInUpNav from '../SignInUpNav'
 import SignInForm from './SignInForm'
 
-const SignIn = (props) =>
+const SignIn = () =>
 {
     return (
         <React.Fragment>
