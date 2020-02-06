@@ -1,38 +1,20 @@
-import React,{useState, useEffect} from 'react'
-//import './ViewWithTable.css'
+import React, {useState} from 'react'
 import {NavLink, useHistory} from 'react-router-dom'
 import './UserView.less'
 import NoPicLogo from '../media/user-profile-no-pic-orange.png'
-import {useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import {getUserInfo, getStudentList} from '../helpers'
-import {students as studentQuery} from '../graphql/queries'
 
 const StudentView = () => {
 
     const {currentUserInfo} = getUserInfo()
+    const {role} = currentUserInfo
     const {data: studentData, loading, errors: studentErrors} = getStudentList(currentUserInfo)()
 
-
-    // const generateStudentList = () => {
-    //     //student - {StudentID: ID, Name: String, Email: String, Phone: Int, Subjects: [String]}
-    //     let studentList = []
-    //     // useSelector(state => state.products).map(product => {
-    //     //         const arrObj = studentList.find(student => student.StudentID == product.StudentID)
-    //     //         let newObj = {StudentID: product.StudentID, Name: product.Student, Email: product.StudentEmail, Phone: product.StudentPhone, Subject: [product.Subject]}
-    //     //         if (arrObj) {
-    //     //             studentList = studentList.map(student => student.StudentID == product.StudentID ? {...student, Subject: [...student.Subject, product.Subject]} : student)
-    //     //         } else {
-    //     //             studentList.push(newObj)
-    //     //         }
-    //     //     }
-    //     // )
-    //     return studentList
-    // }
-
     const [filterName, setFilterName] = useState('')
-    const students = (studentData && studentData.studentsByCompany)
+    const students = role == "Admin" ? (studentData && studentData.studentsByCompany) :
+                            role == "Tutor" ? (studentData && studentData.productsByTutor.map(product => product.student)) : []
     const history = useHistory();
+    
     if (loading) return <div> loading...</div>
     return (
         <React.Fragment>

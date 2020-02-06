@@ -1,8 +1,11 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, Button, InputGroup } from 'react-bootstrap'
 import './AddProduct.css'
-import { addProduct } from '../store/actions/actions'
-import {getUserInfo, getStudentList, getTutorList} from '../helpers'
+import {getUserInfo, getStudentList, getTutorList} from '../../helpers'
+import { useMutation } from '@apollo/react-hooks'
+import { createProduct } from '../../graphql/mutations'
+import { products as productsQuery} from '../../graphql/queries'
+import gql from 'graphql-tag'
 
 //TODO Note that products should have an active/inactive field (lets say the price changes, rather than 
 //changing the product rate [which will affect prior sessions] the tutor should make a new product and maake
@@ -11,6 +14,22 @@ const AddProduct = () => {
     const {currentUserInfo} = getUserInfo()
     const {data: studentData, loading: loading1, errors: studentErrors} = getStudentList(currentUserInfo)()
     const {data: tutorData, loading: loading2, errors: tutorErrors} = getTutorList(currentUserInfo)()
+    const [addProduct, {loading: loading3}]= useMutation(gql(createProduct), {
+        onCompleted: () => alert("Product successfully added!"), //maybe direct user to create another product or schedule a session
+        onError: err => alert("There was an error adding your product. Please try again or tell your administrator."),
+        update: (cache, {data: {createProduct}}) => {
+            try {
+                const { productsByCompany } = cache.readQuery({query: gql(productsQuery), variables: {companyid: parseInt(currentUserInfo.company.id)}});
+                cache.writeQuery({
+                    query: gql(productsQuery),
+                    variables: {companyid: parseInt(currentUserInfo.company.id)},
+                    data: {productsByCompany: productsByCompany.concat([createProduct])},
+                });
+            } catch{
+                console.log("Dont add to cache no need yet")
+            }
+        }
+    })
     const tutors = tutorData && tutorData.tutorsByCompany
     const students = studentData && studentData.studentsByCompany
 
@@ -21,23 +40,15 @@ const AddProduct = () => {
     const [tutorShare, setTutorShare] = useState('')
 
     const handleSubmit = e => {
-        console.log("Clicked")
         e.preventDefault()
-        // const studentName = students.find(student => student.id == studentID).name
-        // const tutorName = tutors.find(tutor => tutor.id == tutorID).name
-        // const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
-        // const fullURL = endpoint + "?tutorID=" + tutorID + "&studentID=" + studentID + "&rate=" + rate + "&subject=" + subject + "&tutorShare=" + tutorShare
-        // fetch(fullURL, { method: "POST" })
-        //     .then(response => response.json())
-        //     .then(response => {
-        //         dispatch(addProduct({ ProductID: response.insertId, Student: studentName, Subject: subject, Tutor: tutorName }))
-        //         alert("Product Added!")
-        //         //maybe move this to middleware
-        //     })
-        //     .catch(err => {
-        //         console.log("ERR: " + err)
-        //         alert("There was an Error Adding this Product: " + err)
-        //     })
+        addProduct({variables: {
+            tutorid: parseInt(tutorID),
+            studentid: parseInt(studentID),
+            rate: parseFloat(rate),
+            subject,
+            tutorshare: parseFloat(tutorShare),
+            companyid: parseInt(currentUserInfo.company.id)
+        }}) 
     }
     if (loading1 || loading2) return <div>Loading...</div>
     return (

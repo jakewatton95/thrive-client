@@ -1,12 +1,12 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Nav from '../components/Nav/Nav'
-import ScheduleSession from '../components/ScheduleSession'
-import AddProduct from '../components/AddProduct'
+import ScheduleSession from '../components/ScheduleSession/ScheduleSession'
+import AddProduct from '../components/AddProduct/AddProduct'
 import BillingView from '../components/BillingView'
 import ErrorPage from '../components/ErrorPage'
 import StudentView from '../components/StudentView'
-import TutorView from '../components/TutorView'
+import TutorView from '../components/TutorView/TutorView'
 import SessionView from '../components/Sessions/SessionView'
 import PaymentView from '../components/PaymentView'
 import Profile from '../components/Profile'
@@ -25,9 +25,7 @@ const AdminContainer = () => {
                 <Route exact path="/dashboard/tutors" component={TutorView} />
                 <Route path="/dashboard/tutors/:ID" render={()=><Profile profileType="Tutor"/>} />
                 <Route exact path="/dashboard/sessions" component={SessionView} />
-                <Route exact path="/dashboard/billing" component={BillingView} />
                 <Route exact path="/dashboard" component={Dashboard} />
-                <Route exact path="/dashboard/payment" component={PaymentView} />
                 <Route component={ErrorPage} />
             </Switch>
         </React.Fragment>

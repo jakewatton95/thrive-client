@@ -5,7 +5,7 @@ import {NavLink, useHistory} from 'react-router-dom'
 import { Auth } from 'aws-amplify'
 
 
-const ForgotPassword = (props) => {
+const ForgotPassword = () => {
    
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');

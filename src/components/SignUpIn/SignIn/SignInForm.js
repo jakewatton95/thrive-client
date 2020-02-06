@@ -19,8 +19,6 @@ const SignInForm = () => {
         Auth.currentAuthenticatedUser()
         .then(() => history.push("/dashboard"))
         .catch(err => {})
-        //TODO Set User Info in Redux?
-        //.catch(err => console.log("Error", err)) Usually just userNotAuthenticated so no need for this
     }
 
     const signIn = () =>

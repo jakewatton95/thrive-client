@@ -4,12 +4,17 @@ import "react-datepicker/dist/react-datepicker.css"
 import Session from './Session'
 import moment from 'moment'
 import "./SessionView.less"
-import { useSelector } from 'react-redux'
+import {getUserInfo, getSessionList} from '../../helpers'
 
 const SessionView = () => {
 
-    const userInfo = useSelector(state => state.userInfo)
-    const sessions = useSelector(state => state.sessions)
+    const {currentUserInfo} = getUserInfo()
+    let {role} = currentUserInfo
+    
+    const {data: sessionData, loading, errors: sessionErrors} = getSessionList(currentUserInfo)()
+    const sessions = role == "Admin" ? sessionData && sessionData.sessionsByCompany :
+                            role == "Student" ? sessionData && sessionData.sessionsByStudent :
+                                role == "Tutor" ? sessionData && sessionData.sessionsByTutor : []
 
     const [viewDate, setViewDate] = useState(moment().startOf('day'))
     const [viewing, setViewing] = useState('month')
@@ -29,7 +34,7 @@ const SessionView = () => {
         <div className="session-day-container" key={date.day()}>
             {sessions.filter(session =>
                 moment(session.date) >= moment(date).startOf('day') && moment(session.date) <= moment(date).endOf('day'))
-                .map(session => <Session view={viewing} userRole={userInfo.UserType} key={session.ID} sessionInfo={session} />)
+                .map(session => <Session view={viewing} userRole={role} key={session.id} sessionInfo={session} />)
             }
         </div>
     )
@@ -52,8 +57,6 @@ const SessionView = () => {
                 {generateDay()}
             </div>
         </React.Fragment>
-    
-
 
     const generateWeek = () => {
         let wholeWeek = [];
@@ -73,7 +76,6 @@ const SessionView = () => {
         )
     }
 
-
     const generateMonth = () => {
         const offSetDays/*QUAVO*/=moment(viewDate).startOf('month').day()
         const endOfMonth = moment(viewDate).endOf('month')
@@ -83,9 +85,8 @@ const SessionView = () => {
         const hasConfirmed = () => {
             const sessionList = sessions.filter(session => 
                 moment(session.date) >= moment(dayIterator).startOf('day') && moment(session.date) <= moment(dayIterator).endOf('day'))
-            
                 return !sessionList.length ? "" : 
-                    sessionList.filter(session => !session.StudentConfirmed || !session.TutorConfirmed).length ? 
+                    sessionList.filter(session => !session.studentconfirmed || !session.tutorconfirmed).length ? 
                     "unconfirmed" : "scheduled"
         }
 
@@ -160,7 +161,7 @@ const SessionView = () => {
             </div>
         )
     }
-
+    if (loading) return <div> loading...</div>
     return ( 
         <div className="session-view-container">
             <div className="date-select-container">

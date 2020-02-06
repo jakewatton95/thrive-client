@@ -4,10 +4,8 @@ import { useHistory } from 'react-router-dom'
 import TutorContainer from './TutorContainer'
 import StudentContainer from './StudentContainer'
 import AdminContainer from './AdminContainer'
-import { storeUserInfo } from '../store/actions/actions'
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { userByEmail } from "../graphql/queries"
-import {GET_USER_INFO} from "../graphql/cacheQueries"
 import gql from 'graphql-tag'
 
 const UserPortalContainer = () => {
@@ -23,7 +21,6 @@ const UserPortalContainer = () => {
     })
 
     useEffect(() => {
-
         Auth.currentAuthenticatedUser()
             .then(response => getUserInfoByEmail({variables: {email: response.attributes.email}}))
             .catch(err => {

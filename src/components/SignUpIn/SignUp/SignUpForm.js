@@ -5,7 +5,7 @@ import { Auth } from 'aws-amplify';
 import {useHistory} from 'react-router-dom'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag';
-import {createUser, createStudent, createTutor} from '../../../graphql/mutations'
+import {createUser, createStudentAndUser, createTutorAndUser} from '../../../graphql/mutations'
 
 const SignUpForm = props =>
 {
@@ -19,31 +19,21 @@ const SignUpForm = props =>
     const [email, setEmail] = useState('')
     const [role, setRole] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
-    const [companyid, setCompanyid]  = useState(1)
+    const [companyid, setCompanyid]  = useState('')
 
-    const [addTutorToDB] = useMutation(gql(createTutor), {
+    const [addTutorToDB] = useMutation(gql(createTutorAndUser), {
         onCompleted: data => {
             console.log("Tutor Data", data)
             history.push("/confirm")
         },
         onError: err => console.log("Error adding Tutor", err)
     })
-    const [addStudentToDB] = useMutation(gql(createStudent), {
+    const [addStudentToDB] = useMutation(gql(createStudentAndUser), {
         onCompleted: data => {
             console.log("Student Data", data)
             history.push("/confirm")
         },
         onError: err => console.log("Error adding Student", err)
-    })
-    const [addUserToDB] = useMutation(gql(createUser), {
-        onCompleted: (data) => {
-            console.log("data", data)
-            if (data.createUser.role == 'Student')
-                addStudentToDB({variables: {email: data.createUser.email, phone: phoneNumber, name: firstName + ' ' + lastName, companyid, userid: parseInt(data.createUser.id)}})
-            else if (data.createUser.role == 'Tutor')
-                addTutorToDB({variables: {email: data.createUser.email, phone: phoneNumber, name: firstName + ' ' + lastName, companyid, userid: parseInt(data.createUser.id)}})    
-        },
-        onError: (err) => console.log("There was an error signing up", err)
     })
 
     const handleSubmit = e => 
@@ -67,7 +57,11 @@ const SignUpForm = props =>
                 name: name
             }
         }).then(() => {
-            addUserToDB({variables:{email, role, companyid}})
+            if (role == 'Student'){
+                addStudentToDB({variables: {companyid: parseInt(companyid), name, email: email.toLowerCase(), phone: phoneNumber}})
+            } else if (role == 'Tutor') {
+                addTutorToDB({variables: {companyid: parseInt(companyid), name, email: email.toLowerCase(), phone: phoneNumber}})
+            }
         }).catch(err => {
             setPassword('')
             setConfirmPassword('')
@@ -93,6 +87,8 @@ const SignUpForm = props =>
                 <input required type="password" id="password" value={password} placeholder="PASSWORD" className = "sign-in-form-field has-tip" onChange={e => setPassword(e.target.value)} />
                 <div className="tip password-tip">At least 8 characters long, one uppercase letter, one lowercase letter, and one number </div>
                 <input required type="password" id="confirmPassword" value={confirmPassword} placeholder="CONFIRM PASSWORD" className = "sign-in-form-field" onChange={e => setConfirmPassword(e.target.value)} />
+                <input required type="number" id="companyid" value={companyid} placeholder="COMPANY ID" className = "sign-in-form-field has-tip" onChange={e => setCompanyid(e.target.value)} />
+                <div className="tip password-tip">Enter the company id given to you by your tutoring agency's administrator</div>
                 <div className="user-type-wrapper">
                     <label className="field-label">STUDENT</label><input required type="radio" name="user-type" id="role-a" value="Student" onChange={e => setRole(e.target.value)}/>
                     <label className="field-label">TUTOR</label><input required type="radio" name="user-type" id="role-b" value="Tutor" onChange={e => setRole(e.target.value)}/>
