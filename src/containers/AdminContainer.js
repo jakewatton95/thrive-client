@@ -3,14 +3,13 @@ import { Switch, Route } from 'react-router-dom'
 import Nav from '../components/Nav/Nav'
 import ScheduleSession from '../components/ScheduleSession/ScheduleSession'
 import AddProduct from '../components/AddProduct/AddProduct'
-import BillingView from '../components/BillingView'
-import ErrorPage from '../components/ErrorPage'
-import StudentView from '../components/StudentView'
+import ErrorPage from '../components/ErrorPage/ErrorPage'
+import StudentView from '../components/StudentView/StudentView'
 import TutorView from '../components/TutorView/TutorView'
 import SessionView from '../components/Sessions/SessionView'
-import PaymentView from '../components/PaymentView'
-import Profile from '../components/Profile'
+import Profile from '../components/OtherProfile/Profile'
 import Dashboard from '../components/Dashboard/Dashboard'
+import Invoice from '../components/Invoice/Invoice'
 
 const AdminContainer = () => {
 
@@ -25,6 +24,7 @@ const AdminContainer = () => {
                 <Route exact path="/dashboard/tutors" component={TutorView} />
                 <Route path="/dashboard/tutors/:ID" render={()=><Profile profileType="Tutor"/>} />
                 <Route exact path="/dashboard/sessions" component={SessionView} />
+                <Route exact path="/dashboard/invoice" component = {Invoice} />
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route component={ErrorPage} />
             </Switch>

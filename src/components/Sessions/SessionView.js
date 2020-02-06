@@ -34,6 +34,7 @@ const SessionView = () => {
         <div className="session-day-container" key={date.day()}>
             {sessions.filter(session =>
                 moment(session.date) >= moment(date).startOf('day') && moment(session.date) <= moment(date).endOf('day'))
+                .sort((sessiona, sessionb) => moment(sessiona.date) - moment(sessionb.date))
                 .map(session => <Session view={viewing} userRole={role} key={session.id} sessionInfo={session} />)
             }
         </div>

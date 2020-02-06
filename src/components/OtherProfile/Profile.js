@@ -1,14 +1,15 @@
 import React from 'react'
 import './Profile.less'
-import { useParams } from 'react-router-dom'
-import NoPicLogo from '../media/user-profile-no-pic.png'
-import NoPicLogoOrange from '../media/user-profile-no-pic-orange.png'
-import { getSingleStudent, getSingleTutor } from '../helpers'
+import { useParams, useHistory } from 'react-router-dom'
+import NoPicLogo from '../../media/user-profile-no-pic.png'
+import NoPicLogoOrange from '../../media/user-profile-no-pic-orange.png'
+import { getSingleStudent, getSingleTutor } from '../../helpers'
 
 const Profile = ({profileType}) => {
     //TODO CHECK THAT USER or TUTOR is associated with STUDENT 
     //IF NOT, push them to error page?
     const { ID } = useParams()
+    const history = useHistory()
     let profileData = {data: null, loading: null, errors: null}
 
     if (profileType == 'Student') {
@@ -36,6 +37,11 @@ const Profile = ({profileType}) => {
     return (
         tutor || student ? 
         <React.Fragment>
+            <div className = {`profile-back-to-list ${tutor? "tutors" : "students"}`}>
+                <div className = "profile-back-to-list-text" onClick={() => history.push(tutor ? "/dashboard/tutors" : "/dashboard/students")}>
+                    &lt;  {tutor ? "See All Tutors" : "See All Students"}
+                </div>
+            </div>
             <div className = "profile-container">
                 <img className="profile-pic" src={image} />
                 <div className={`profile-name ${profileType.toLowerCase()}`}>{name}</div>

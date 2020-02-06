@@ -5,7 +5,7 @@ import awsconfig from '../aws-exports';
 import SignIn from './SignUpIn/SignIn/SignIn'
 import SignUp from './SignUpIn/SignUp/SignUp'
 import InfoPage from './InfoPage/InfoPage'
-import ErrorPage from './ErrorPage'
+import ErrorPage from './ErrorPage/ErrorPage'
 import PortalContainer from '../containers/UserPortalContainer'
 import ForgotPassword from './SignUpIn/ForgotPassword/ForgotPassword'
 import './App.css'

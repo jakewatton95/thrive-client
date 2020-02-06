@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
-import '../UserView.less'
+import '../../styles/UserView.less'
 import NoPicLogo from '../../media/user-profile-no-pic.png'
 import { getUserInfo, getTutorList } from '../../helpers'
 
@@ -18,7 +18,7 @@ const TutorView = () => {
     if (loading) return <div> loading...</div>
     return (
         <React.Fragment>
-            <form>
+            <form className = "search-name-form">
                 <label>Search By Name: </label>
                 <input id='name' type="text" value={filterName} onChange={e => setFilterName(e.target.value)}></input>
             </form>
