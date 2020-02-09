@@ -9,6 +9,7 @@ import Dashboard from '../components/Dashboard/Dashboard'
 import StudentView from '../components/StudentView/StudentView'
 import Profile from '../components/OtherProfile/Profile'
 import Invoice from '../components/Invoice/Invoice'
+import UserProfile from '../components/UserProfile/UserProfile'
 
 
 const TutorContainer = () => {
@@ -21,8 +22,9 @@ const TutorContainer = () => {
                 <Route exact path="/dashboard/sessions" component={SessionView} />
                 <Route path="/dashboard/scheduleSession" component={ScheduleSession}/>
                 <Route exact path="/dashboard/students" component={StudentView} />
-                <Route exact path="/dashboard/invoice" component={Invoice}/>
+                <Route path="/dashboard/invoice" component={Invoice}/>
                 <Route path="/dashboard/students/:ID" render={()=><Profile profileType="Student"/>} />
+                <Route path="/dashboard/profile" component = {UserProfile} />
                 <Route component={ErrorPage} />
             </Switch>
         </React.Fragment>

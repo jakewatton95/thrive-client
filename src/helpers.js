@@ -1,7 +1,8 @@
 import {useApolloClient, useQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import { student, tutor, students, tutors, products, sessions, productsByStudent, productsByTutor,
-        sessionsByStudent, sessionsByTutor, productsByTutor as studentsByTutor, productsByStudent as tutorsByStudent} from './graphql/queries'
+import { adminByUser, student, tutor, students, tutors, products, sessions, productsByStudent, productsByTutor,
+        sessionsByStudent, sessionsByTutor, productsByTutor as studentsByTutor, productsByStudent as tutorsByStudent, 
+        tutorByUser, studentByUser} from './graphql/queries'
 import {createSession} from './graphql/mutations'
 
 const GET_USER_INFO = gql`
@@ -23,6 +24,31 @@ export const getUserInfo = () => {
     const retData = client.readQuery({query: GET_USER_INFO})
     return retData;
 }
+
+export const getStudentInfo = userInfo => {
+    return useQuery(gql(studentByUser), {
+        variables: {
+            userid: parseInt(userInfo.id)
+        }
+    })
+}
+
+export const getTutorInfo = userInfo => {
+    return useQuery(gql(tutorByUser), {
+        variables: {
+            userid: parseInt(userInfo.id)
+        }
+    })
+}
+
+export const getAdminInfo = userInfo => {
+    return useQuery(gql(adminByUser), {
+        variables: {
+            userid: parseInt(userInfo.id)
+        }
+    })
+}
+
 
 export const getStudentList = userInfo => {
     if (userInfo.role == 'Admin') {
@@ -116,6 +142,14 @@ export const getSessionList = userInfo => {
             }
         })
     }
+}
+
+export const getUninvoicedSessions = userInfo => {
+    return useQuery(gql(sessions), {
+        variables: {
+            companyid: parseInt(userInfo.company.id)
+        }
+    })
 }
 
 export const addSession = userInfo => {

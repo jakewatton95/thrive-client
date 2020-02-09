@@ -27,6 +27,7 @@ const Profile = ({profileType}) => {
         phone = tutor.phone
         image = NoPicLogo
     } else if (student) {
+        console.log(student)
         name = student.name
         email = student.user.email
         phone = student.phone

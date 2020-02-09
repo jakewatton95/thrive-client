@@ -10,6 +10,7 @@ import SessionView from '../components/Sessions/SessionView'
 import Profile from '../components/OtherProfile/Profile'
 import Dashboard from '../components/Dashboard/Dashboard'
 import Invoice from '../components/Invoice/Invoice'
+import UserProfile from '../components/UserProfile/UserProfile'
 
 const AdminContainer = () => {
 
@@ -24,8 +25,9 @@ const AdminContainer = () => {
                 <Route exact path="/dashboard/tutors" component={TutorView} />
                 <Route path="/dashboard/tutors/:ID" render={()=><Profile profileType="Tutor"/>} />
                 <Route exact path="/dashboard/sessions" component={SessionView} />
-                <Route exact path="/dashboard/invoice" component = {Invoice} />
-                <Route exact path="/dashboard" component={Dashboard} />
+                <Route path="/dashboard/invoice" component = {Invoice} />
+                <Route path="/dashboard/profile" component = {UserProfile} />
+                <Route exact path="/dashboard" component={Dashboard} />                
                 <Route component={ErrorPage} />
             </Switch>
         </React.Fragment>

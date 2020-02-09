@@ -12,6 +12,34 @@ export const userByEmail = `query User($email: String!) {
   }
   `;
 
+  export const adminByUser = `query AdminByUser($userid: Int!)
+  {
+      adminByUserID(userid: $userid){
+          id
+          name
+          phone
+      }
+  }`;
+
+  export const tutorByUser = `query TutorByUser($userid: Int!)
+  {
+      tutorByUserID(userid: $userid){
+          id
+          name
+          phone
+      }
+  }`;
+
+  export const studentByUser = `query StudentByUser($userid: Int!)
+  {
+      studentByUserID(userid: $userid){
+          id
+          name
+          phone
+      }
+  }`;
+
+
 export const student = `query Student($id: Int!)
 {
     studentByID(id: $id){
