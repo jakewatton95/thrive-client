@@ -16,7 +16,7 @@ import { createHttpLink } from 'apollo-link-http'
 
 const httpLink = createHttpLink({
 
-  uri: "http://3.231.93.61:4000/"
+  uri: "https://apollo.thrivetutoringapp.com/"
 });
 
 const client =  new ApolloClient({
