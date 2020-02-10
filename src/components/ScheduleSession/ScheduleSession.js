@@ -7,7 +7,7 @@ import Times from "../../data/times"
 import moment from 'moment'
 import { getUserInfo, getProductList, addSession } from '../../helpers'
 
-const ScheduleSession = () => {
+const ScheduleSession = ({fromInvoice}) => {
 
     const {currentUserInfo} = getUserInfo()
     const userRole = currentUserInfo.role
@@ -56,7 +56,7 @@ const ScheduleSession = () => {
     if (loading) return <div> loading...</div>
     return (
         <Form className="new-session-form" onSubmit={handleSubmit}>
-            <div className="new-session-title">Request A Session</div>
+            <div className="new-session-title">{fromInvoice ? "Create Old Session" : "Request A Session"}</div>
             <br />
             <Form.Group controlId="sessionType">
                 <Form.Label>Product:</Form.Label>
@@ -67,7 +67,7 @@ const ScheduleSession = () => {
             </Form.Group>
             <Form.Group controlId="date">
                 <Form.Label>Date:</Form.Label><br/>
-                <DatePicker className="schedule-session-datepicker" selected={date.toDate()} onChange={date => setDate(moment(date))} showTimeSelect dateFormat = 'Pp' minDate={moment().toDate()}/>
+                <DatePicker className="schedule-session-datepicker" selected={date.toDate()} onChange={date => setDate(moment(date))} showTimeSelect dateFormat = 'Pp' minDate={fromInvoice? null: moment().toDate()}/>
             </Form.Group>
             <Form.Group controlId="sessionLength">
                 <Form.Label>Length:</Form.Label>

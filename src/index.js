@@ -16,8 +16,7 @@ import { createHttpLink } from 'apollo-link-http'
 
 const httpLink = createHttpLink({
 
-  uri: "http://localhost:4000"
-  // Local docker mapping with home routeruri: "http://138.88.135.55:32123/"//graphql_endpoint
+  uri: "http://3.231.93.61:4000/"
 });
 
 const client =  new ApolloClient({
