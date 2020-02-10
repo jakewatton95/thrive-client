@@ -2,7 +2,7 @@ import React from 'react'
 import SignInUpNav from '../SignInUpNav'
 import ConfirmationForm from './ConfirmationForm'
 
-const Confirmation = props => 
+const Confirmation = () => 
 {
     return (
         <React.Fragment>

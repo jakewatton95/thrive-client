@@ -5,7 +5,7 @@ import './ConfirmationForm.css'
 import {NavLink, useHistory} from 'react-router-dom'
 import { Auth } from 'aws-amplify'
 
-const ConfirmationForm = props => 
+const ConfirmationForm = () => 
 {
     let history = useHistory()
 

@@ -1,17 +1,37 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, Button, InputGroup } from 'react-bootstrap'
 import './AddProduct.css'
-import { useSelector, useDispatch } from 'react-redux'
-import { addProduct } from '../store/actions/actions'
+import {getUserInfo, getStudentList, getTutorList} from '../../helpers'
+import { useMutation } from '@apollo/react-hooks'
+import { createProduct } from '../../graphql/mutations'
+import { products as productsQuery} from '../../graphql/queries'
+import gql from 'graphql-tag'
 
 //TODO Note that products should have an active/inactive field (lets say the price changes, rather than 
 //changing the product rate [which will affect prior sessions] the tutor should make a new product and maake
 //the old product inactive)
 const AddProduct = () => {
-
-    const dispatch = useDispatch()
-    const tutors = useSelector(state => state.tutors)
-    const students = useSelector(state => state.students)
+    const {currentUserInfo} = getUserInfo()
+    const {data: studentData, loading: loading1, errors: studentErrors} = getStudentList(currentUserInfo)()
+    const {data: tutorData, loading: loading2, errors: tutorErrors} = getTutorList(currentUserInfo)()
+    const [addProduct, {loading: loading3}]= useMutation(gql(createProduct), {
+        onCompleted: () => alert("Product successfully added!"), //maybe direct user to create another product or schedule a session
+        onError: err => alert("There was an error adding your product. Please try again or tell your administrator."),
+        update: (cache, {data: {createProduct}}) => {
+            try {
+                const { productsByCompany } = cache.readQuery({query: gql(productsQuery), variables: {companyid: parseInt(currentUserInfo.company.id)}});
+                cache.writeQuery({
+                    query: gql(productsQuery),
+                    variables: {companyid: parseInt(currentUserInfo.company.id)},
+                    data: {productsByCompany: productsByCompany.concat([createProduct])},
+                });
+            } catch{
+                console.log("Dont add to cache no need yet")
+            }
+        }
+    })
+    const tutors = tutorData && tutorData.tutorsByCompany
+    const students = studentData && studentData.studentsByCompany
 
     const [studentID, setStudentID] = useState('')
     const [tutorID, setTutorID] = useState('')
@@ -21,24 +41,16 @@ const AddProduct = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        const studentName = students.find(student => student.StudentID == studentID).Name
-        const tutorName = tutors.find(tutor => tutor.TutorID == tutorID).Name
-        const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/products"
-        const fullURL = endpoint + "?tutorID=" + tutorID + "&studentID=" + studentID + "&rate=" + rate + "&subject=" + subject + "&tutorShare=" + tutorShare
-        fetch(fullURL, { method: "POST" })
-            .then(response => response.json())
-            .then(response => {
-                dispatch(addProduct({ ProductID: response.insertId, Student: studentName, Subject: subject, Tutor: tutorName }))
-                alert("Product Added!")
-                //TODO dispatch to update products list
-                //maybe move this to middleware
-            })
-            .catch(err => {
-                console.log("ERR: " + err)
-                alert("There was an Error Adding this Product: " + err)
-            })
+        addProduct({variables: {
+            tutorid: parseInt(tutorID),
+            studentid: parseInt(studentID),
+            rate: parseFloat(rate),
+            subject,
+            tutorshare: parseFloat(tutorShare),
+            companyid: parseInt(currentUserInfo.company.id)
+        }}) 
     }
-
+    if (loading1 || loading2) return <div>Loading...</div>
     return (
         <Form className="new-product-form" onSubmit={handleSubmit}>
             <div className="new-product-title">Create New Product</div>
@@ -47,14 +59,14 @@ const AddProduct = () => {
                 <Form.Label>Tutor:</Form.Label>
                 <Form.Control className="tutor-input" required as="select" value={tutorID} onChange={e => setTutorID(e.target.value)}>
                     <option disabled="disabled" value=''>---Select a Tutor---</option>
-                    {tutors.map(tutor => <option key={tutor.TutorID} value={tutor.TutorID}>{tutor.Name}</option>)}
+                    {tutors.map(tutor => <option key={tutor.id} value={tutor.id}>{tutor.name}</option>)}
                 </Form.Control>
             </Form.Group>
             <Form.Group controlId="student">
                 <Form.Label>Student:</Form.Label>
                 <Form.Control className="student-input" required as="select" value={studentID} onChange={e => setStudentID(e.target.value)}>
                     <option disabled="disabled" value=''>---Select a Student---</option>
-                    {students.map(student => <option key={student.StudentID} value={student.StudentID}>{student.Name}</option>)}
+                    {students.map(student => <option key={student.id} value={student.id}>{student.name}</option>)}
                 </Form.Control>
             </Form.Group>
             <Form.Group controlId="subject">

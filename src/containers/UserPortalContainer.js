@@ -1,29 +1,28 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Auth } from 'aws-amplify'
 import { useHistory } from 'react-router-dom'
 import TutorContainer from './TutorContainer'
 import StudentContainer from './StudentContainer'
 import AdminContainer from './AdminContainer'
-import { useSelector, useDispatch} from 'react-redux'
-import { storeUserInfo } from '../store/actions/actions'
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { userByEmail } from "../graphql/queries"
+import gql from 'graphql-tag'
 
 const UserPortalContainer = () => {
     let history = useHistory()
-    const userInfo = useSelector(state => state.userInfo)
-    const dispatch = useDispatch();
+    let [data, setData] = useState(null)
+
+    const  [getUserInfoByEmail, {client}] = useLazyQuery(gql(userByEmail), {
+        onCompleted: data => {
+            client.writeData({data: {currentUserInfo: data.userByEmail}})
+            setData(data)
+        }, 
+        onError: err => console.log(err)
+    })
 
     useEffect(() => {
-
-        const getUserRole = async (email) => {
-            const endpoint = "https://y9ynb3h6ik.execute-api.us-east-1.amazonaws.com/prodAPI/users?email=" + email
-            await fetch(endpoint)
-                .then(response => response.json())
-                .then(response => dispatch(storeUserInfo(response)))
-                .catch(err => console.log("Error", err))
-        }
-
         Auth.currentAuthenticatedUser()
-            .then(response => getUserRole(response.attributes.email))
+            .then(response => getUserInfoByEmail({variables: {email: response.attributes.email}}))
             .catch(err => {
                 console.log(err)
                 history.push("/sign_in")
@@ -32,9 +31,9 @@ const UserPortalContainer = () => {
 
     return (
         <React.Fragment>
-            {(userInfo && userInfo.UserType === 'Tutor') && <TutorContainer userInfo={userInfo} />}
-            {(userInfo && userInfo.UserType === 'Student') && <StudentContainer />}
-            {(userInfo && userInfo.UserType === 'Admin') && <AdminContainer />}
+            {(data && data.userByEmail.role === 'Tutor') && <TutorContainer userinfo = {data.userByEmail}/>}
+            {(data && data.userByEmail.role === 'Student') && <StudentContainer userinfo = {data.userByEmail}/>}
+            {(data && data.userByEmail.role === 'Admin') && <AdminContainer userinfo = {data.userByEmail}/>}
         </React.Fragment>
     )
 }

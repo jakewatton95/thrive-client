@@ -8,16 +8,16 @@ import schedulePic from '../../media/schedule_pic_1.png'
 import schedulePicSkinny from '../../media/calendar_skinny.png'
 import tutorBackgroundSkinny from'../../media/tutoring_pic_skinny.png'
 import {isMobile} from 'react-device-detect';
-import { useSelector } from 'react-redux'
+import { getUserInfo } from '../../helpers'
 
 const Dashboard = () => {
     let history = useHistory()
     let [loading, setLoading] = useState(true)
-    const userRole = useSelector(state => state.userInfo.UserType)
+    const userRole = getUserInfo().currentUserInfo.role
     let link1
     const link2 = '/dashboard/scheduleSession'
     const link3 = '/dashboard/sessions'
-    const link4 = '/dashboard/invoices'
+    const link4 = '/dashboard/invoice'
     if (userRole == 'Admin') {
         link1 = '/dashboard/addProduct'
     } else if (userRole == 'Student') {
