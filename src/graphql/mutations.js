@@ -189,3 +189,42 @@ export const setInvoicedTrue = `mutation setInvoicedTrue($sessionid: Int!) {
     }`;
 
 
+export const createInvoice = `mutation CreateInvoice(
+    $sessionid: Int!
+    $date: String
+    $studentpaid: Boolean
+    $tutorpaid: Boolean) {
+        createInvoice(input: {
+            sessionid: $sessionid,
+            date: $date,
+            studentpaid: $studentpaid,
+            tutorpaid: $tutorpaid
+        }){
+            id
+            date
+            studentpaid
+            tutorpaid
+            session{
+              date
+              length
+              product {
+                rate
+                tutorshare
+                subject
+                student
+                {
+                  name
+                  user {
+                    email
+                  }
+                }
+                tutor {
+                  name
+                  user {
+                    email
+                  }
+                }
+              }
+            }
+          }
+    }`

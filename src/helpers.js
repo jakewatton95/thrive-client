@@ -1,9 +1,11 @@
-import {useApolloClient, useQuery, useMutation} from '@apollo/react-hooks'
+import { useApolloClient, useQuery, useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import { adminByUser, student, tutor, students, tutors, products, sessions, productsByStudent, productsByTutor,
-        sessionsByStudent, sessionsByTutor, productsByTutor as studentsByTutor, productsByStudent as tutorsByStudent, 
-        tutorByUser, studentByUser} from './graphql/queries'
-import {createSession, setInvoicedTrue} from './graphql/mutations'
+import {
+    adminByUser, student, tutor, students, tutors, products, sessions, productsByStudent, productsByTutor,
+    sessionsByStudent, sessionsByTutor, productsByTutor as studentsByTutor, productsByStudent as tutorsByStudent,
+    tutorByUser, studentByUser, invoicesForAdmin
+} from './graphql/queries'
+import { createSession, createInvoice, setInvoicedTrue } from './graphql/mutations'
 
 const GET_USER_INFO = gql`
 {
@@ -21,7 +23,7 @@ const GET_USER_INFO = gql`
 
 export const getUserInfo = () => {
     const client = useApolloClient()
-    const retData = client.readQuery({query: GET_USER_INFO})
+    const retData = client.readQuery({ query: GET_USER_INFO })
     return retData;
 }
 
@@ -57,12 +59,12 @@ export const getStudentList = userInfo => {
                 companyid: parseInt(userInfo.company.id)
             }
         })
-    /* note that because of the way my DB is set up, tutors and students are related via products
-       so the studentsByTutor query really just finds the products of the student and then 
-       we modify it into a list of tutors*/
+        /* note that because of the way my DB is set up, tutors and students are related via products
+           so the studentsByTutor query really just finds the products of the student and then 
+           we modify it into a list of tutors*/
     } else if (userInfo.role == 'Tutor') {
         return useQuery(gql(studentsByTutor), {
-            variables: {userid: parseInt(userInfo.id)}
+            variables: { userid: parseInt(userInfo.id) }
         })
     }
 }
@@ -74,12 +76,12 @@ export const getTutorList = userInfo => {
                 companyid: parseInt(userInfo.company.id)
             }
         })
-    /* note that because of the way my DB is set up, tutors and students are related via products
-       so the studentsByTutor query really just finds the products of the student and then 
-       we modify it into a list of tutors*/
+        /* note that because of the way my DB is set up, tutors and students are related via products
+           so the studentsByTutor query really just finds the products of the student and then 
+           we modify it into a list of tutors*/
     } else if (userInfo.role == 'Student') {
         return useQuery(gql(tutorsByStudent), {
-            variables: {userid: parseInt(userInfo.id)}
+            variables: { userid: parseInt(userInfo.id) }
         })
     }
 }
@@ -91,13 +93,13 @@ export const getProductList = userInfo => {
                 companyid: parseInt(userInfo.company.id)
             }
         })
-    } else if (userInfo.role == 'Student'){
+    } else if (userInfo.role == 'Student') {
         return useQuery(gql(productsByStudent), {
             variables: {
                 userid: parseInt(userInfo.id)
             }
         })
-    } else if (userInfo.role == 'Tutor'){
+    } else if (userInfo.role == 'Tutor') {
         return useQuery(gql(productsByTutor), {
             variables: {
                 userid: parseInt(userInfo.id)
@@ -129,13 +131,13 @@ export const getSessionList = userInfo => {
                 companyid: parseInt(userInfo.company.id)
             }
         })
-    } else if (userInfo.role == 'Student'){
+    } else if (userInfo.role == 'Student') {
         return useQuery(gql(sessionsByStudent), {
             variables: {
                 userid: parseInt(userInfo.id)
             }
         })
-    } else if (userInfo.role == 'Tutor'){
+    } else if (userInfo.role == 'Tutor') {
         return useQuery(gql(sessionsByTutor), {
             variables: {
                 userid: parseInt(userInfo.id)
@@ -152,47 +154,74 @@ export const getUninvoicedSessions = userInfo => {
     })
 }
 
-export const createNewInvoice = (userInfo) => {
+export const getInvoices = userInfo => {
+    return useQuery(gql(invoicesForAdmin), {
+        variables: {companyid: parseInt(userInfo.company.id)}
+    })
+}
+
+export const updateSessionInvoiced = (userInfo) => {
     return useMutation(gql(setInvoicedTrue), {
         onCompleted: data => console.log(data),
         onError: err => console.log("err", err)
     })
 }
 
-export const addSession = userInfo => {
-        return useMutation(gql(createSession), {
-            onCompleted: () => alert("Successfully Added Session"),
-            onError: err => {
-                alert("There was an error adding your product. Please try again or tell your administrator.")
-                console.log(err)
-            },  
-            update: (cache, {data: {createSession}}) => {
-                try {
-                    if (userInfo.role == "Admin") {
-                        const { sessionsByCompany } = cache.readQuery({query: gql(sessions), variables: {companyid: parseInt(userInfo.company.id)}});
-                        cache.writeQuery({
-                            query: gql(sessions),
-                            variables: {companyid: parseInt(userInfo.company.id)},
-                            data: {sessionsByCompany: sessionsByCompany.concat([createSession])},
-                        });
-                    } else if (userInfo.role == "Student") {
-                        const { sessionsByStudent: cacheResult } = cache.readQuery({query: gql(sessionsByStudent), variables: {userid: parseInt(userInfo.id)}});
-                        cache.writeQuery({
-                            query: gql(sessionsByStudent),
-                            variables: {userid: parseInt(userInfo.id)},
-                            data: {sessionsByStudent: cacheResult.concat([createSession])},
-                        });
-                    } else if (userInfo.role == "Tutor") {
-                        const { sessionsByTutor:cacheResult } = cache.readQuery({query: gql(sessionsByTutor), variables: {userid: parseInt(userInfo.id)}});
-                        cache.writeQuery({
-                            query: gql(sessionsByTutor),
-                            variables: {userid: parseInt(userInfo.id)},
-                            data: {sessionsByTutor: cacheResult.concat([createSession])},
-                        });
-                    }
-                } catch {
-
+export const addInvoice = userInfo => {
+    return useMutation(gql(createInvoice), {
+        onCompleted: () => alert("Successfully Added Invoice"),
+        onError: err => console.log("Error", err),
+        update: (cache, {data: {createInvoice}}) => {
+            try {
+                if (userInfo.role == "Admin") {
+                    const { invoicesByCompany } = cache.readQuery({ query: gql(invoicesForAdmin), variables: { companyid: parseInt(userInfo.company.id) } });
+                    cache.writeQuery({
+                        query: gql(invoicesForAdmin),
+                        variables: { companyid: parseInt(userInfo.company.id) },
+                        data: { invoicesByCompany: invoicesByCompany.concat([createInvoice]) }
+                    });
                 }
+            } catch {
+                console.log("Error or empty cache")
             }
-        })
+        }
+    })
+}
+
+export const addSession = userInfo => {
+    return useMutation(gql(createSession), {
+        onCompleted: () => alert("Successfully Added Session"),
+        onError: err => {
+            alert("There was an error adding your product. Please try again or tell your administrator.")
+            console.log(err)
+        },
+        update: (cache, { data: { createSession } }) => {
+            try {
+                if (userInfo.role == "Admin") {
+                    const { sessionsByCompany } = cache.readQuery({ query: gql(sessions), variables: { companyid: parseInt(userInfo.company.id) } });
+                    cache.writeQuery({
+                        query: gql(sessions),
+                        variables: { companyid: parseInt(userInfo.company.id) },
+                        data: { sessionsByCompany: sessionsByCompany.concat([createSession]) },
+                    });
+                } else if (userInfo.role == "Student") {
+                    const { sessionsByStudent: cacheResult } = cache.readQuery({ query: gql(sessionsByStudent), variables: { userid: parseInt(userInfo.id) } });
+                    cache.writeQuery({
+                        query: gql(sessionsByStudent),
+                        variables: { userid: parseInt(userInfo.id) },
+                        data: { sessionsByStudent: cacheResult.concat([createSession]) },
+                    });
+                } else if (userInfo.role == "Tutor") {
+                    const { sessionsByTutor: cacheResult } = cache.readQuery({ query: gql(sessionsByTutor), variables: { userid: parseInt(userInfo.id) } });
+                    cache.writeQuery({
+                        query: gql(sessionsByTutor),
+                        variables: { userid: parseInt(userInfo.id) },
+                        data: { sessionsByTutor: cacheResult.concat([createSession]) },
+                    });
+                }
+            } catch {
+
+            }
+        }
+    })
 }

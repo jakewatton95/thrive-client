@@ -8,7 +8,7 @@ import UpcomingSessions from '../components/Sessions/UpcomingSessions.js'
 import Dashboard from '../components/Dashboard/Dashboard'
 import TutorView from '../components/TutorView/TutorView'
 import Profile from '../components/OtherProfile/Profile'
-import Invoice from '../components/Invoice/Invoice'
+import Invoice from '../components/Invoice/InvoiceContainer'
 import UserProfile from '../components/UserProfile/UserProfile'
 
 const StudentContainer = () => {

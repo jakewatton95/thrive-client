@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { getUserInfo, getUninvoicedSessions, createNewInvoice } from '../../helpers'
+import { getUserInfo, getUninvoicedSessions, updateSessionInvoiced, addInvoice } from '../../helpers'
 import ScheduleSession from '../ScheduleSession/ScheduleSession'
 import './CreateInvoice.less'
 
@@ -8,7 +8,8 @@ const CreateInvoice = () => {
     const {currentUserInfo} = getUserInfo()
     const sessions = getUninvoicedSessions(currentUserInfo)
     let uninvoicedSessionList = []
-    const [callCreateInvoice, createInvoiceStatus] = createNewInvoice(currentUserInfo)
+    const [callUpdateSessionInvoiced, updateSessionStatus] = updateSessionInvoiced(currentUserInfo)
+    const [createInvoice, createInvoiceStatus] = addInvoice(currentUserInfo)
 
 
     const [invoiceSession, setInvoiceSession] = useState('')
@@ -20,8 +21,8 @@ const CreateInvoice = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        console.log(invoiceSession)
-        callCreateInvoice({variables: {sessionid: parseInt(invoiceSession)}})
+        callUpdateSessionInvoiced({variables: {sessionid: parseInt(invoiceSession)}})
+        createInvoice({variables: {sessionid: parseInt(invoiceSession)}})
         setInvoiceSession('')
     }
 
@@ -34,24 +35,22 @@ const CreateInvoice = () => {
 
         <React.Fragment>
             <div>
-                <div className="title"> 
-                    Create Invoice
-                </div>
                 <div className="subtitle">
-                    Select your session and add a note
+                    Select the session you would like to invoice
                 </div>
+                <form className = "new-invoice-form" onSubmit={handleSubmit}>
+                <select required id="session" value={invoiceSession} onChange={e=>setInvoiceSession(e.target.value)}>
+                    <option disabled={true} value=''>---Select a Session---</option>
+                    {uninvoicedSessionList.map(sesh => <option key={sesh.id} value={sesh.id}>{sesh.product.subject}</option>)}
+                </select>
+                <input type="submit" value="Create Invoice"></input>
+                </form>
                 <div className="no-session" onClick={()=>setSessionAlreadyExists(!sessionAlreadyExists)}>
                     Forgot to make a session?
                 </div>
             </div>
             {!sessionAlreadyExists && <ScheduleSession fromInvoice={true}/>}
-            <form className = "new-invoice-form" onSubmit={handleSubmit}>
-                <select required id="session" value={invoiceSession} onChange={e=>setInvoiceSession(e.target.value)}>
-                    <option disabled={true} value=''>---Select a Session---</option>
-                    {uninvoicedSessionList.map(sesh => <option key={sesh.id} value={sesh.id}>{sesh.product.subject}</option>)}
-                </select>
-                <input type="submit"></input>
-            </form>
+
         </React.Fragment>
     )
 }

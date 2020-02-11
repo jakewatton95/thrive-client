@@ -9,7 +9,7 @@ import OverdueInvoices from './OverdueInvoices'
 import InvoiceHistory from './InvoiceHistory'
 import {getUserInfo} from '../../helpers'
 
-const Invoice = () => {
+const InvoicingContainer = () => {
 
     const { role } = getUserInfo().currentUserInfo
 
@@ -28,4 +28,4 @@ const Invoice = () => {
     )
 }
 
-export default Invoice
+export default InvoicingContainer

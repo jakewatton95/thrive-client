@@ -210,3 +210,36 @@ export const sessionsByStudent = `query SessionsByStudent($userid: Int!)
       }
     }
 }`;
+
+export const invoicesForAdmin = `query InvoicesForAdmin($companyid: Int!)
+{
+  invoicesByCompany(companyid: $companyid){
+    id
+    date
+    studentpaid
+    tutorpaid
+    session{
+      date
+      length
+      product {
+        rate
+        tutorshare
+        subject
+        student
+        {
+          name
+          user {
+            email
+          }
+        }
+        tutor {
+          name
+          user {
+            email
+          }
+        }
+      }
+    }
+  }
+}`
+

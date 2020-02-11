@@ -9,7 +9,7 @@ import TutorView from '../components/TutorView/TutorView'
 import SessionView from '../components/Sessions/SessionView'
 import Profile from '../components/OtherProfile/Profile'
 import Dashboard from '../components/Dashboard/Dashboard'
-import Invoice from '../components/Invoice/Invoice'
+import Invoice from '../components/Invoice/InvoiceContainer'
 import UserProfile from '../components/UserProfile/UserProfile'
 
 const AdminContainer = () => {

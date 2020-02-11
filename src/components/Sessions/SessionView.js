@@ -109,7 +109,15 @@ const SessionView = () => {
         return (
             <React.Fragment>
                 <div className="month-title">
-                    {viewDate.format('MMMM YYYY')}
+                    <div class="month-arrow" onClick={() => setViewDate(moment(viewDate).subtract(1, 'month'))}>
+                        &lt;
+                    </div> 
+                    <div>
+                        {viewDate.format('MMMM YYYY')}
+                    </div> 
+                    <div className = "month-arrow" onClick={() => setViewDate(moment(viewDate).add(1, 'month'))}>
+                        &gt;
+                    </div> 
                 </div>
                 <div className="sticky-under-header">
                     {dayNames()}

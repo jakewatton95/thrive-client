@@ -8,7 +8,7 @@ import UpcomingSessions from '../components/Sessions/UpcomingSessions'
 import Dashboard from '../components/Dashboard/Dashboard'
 import StudentView from '../components/StudentView/StudentView'
 import Profile from '../components/OtherProfile/Profile'
-import Invoice from '../components/Invoice/Invoice'
+import Invoice from '../components/Invoice/InvoiceContainer'
 import UserProfile from '../components/UserProfile/UserProfile'
 
 
