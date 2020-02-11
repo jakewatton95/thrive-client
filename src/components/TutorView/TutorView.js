@@ -8,7 +8,7 @@ const TutorView = () => {
 
     const {currentUserInfo} = getUserInfo()
     const {role} = currentUserInfo
-    const {data: tutorData, loading, errors: tutorErrors} = getTutorList(currentUserInfo)()
+    const {data: tutorData, loading, errors: tutorErrors} = getTutorList(currentUserInfo)
 
     const [filterName, setFilterName] = useState('')
     const tutors = role == "Admin" ? (tutorData && tutorData.tutorsByCompany) : 

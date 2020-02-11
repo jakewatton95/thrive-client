@@ -153,6 +153,7 @@ export const sessions = `query Sessions($companyid: Int!)
       location
       studentconfirmed
       tutorconfirmed
+      invoiced
       product{
         subject
         student{
@@ -175,6 +176,7 @@ export const sessionsByTutor = `query SessionsByTutor($userid: Int!)
       location
       studentconfirmed
       tutorconfirmed
+      invoiced
       product{
         subject
         student{
@@ -196,6 +198,7 @@ export const sessionsByStudent = `query SessionsByStudent($userid: Int!)
       location
       studentconfirmed
       tutorconfirmed
+      invoiced
       product{
         subject
         student{

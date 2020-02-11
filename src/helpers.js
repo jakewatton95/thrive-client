@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { adminByUser, student, tutor, students, tutors, products, sessions, productsByStudent, productsByTutor,
         sessionsByStudent, sessionsByTutor, productsByTutor as studentsByTutor, productsByStudent as tutorsByStudent, 
         tutorByUser, studentByUser} from './graphql/queries'
-import {createSession} from './graphql/mutations'
+import {createSession, setInvoicedTrue} from './graphql/mutations'
 
 const GET_USER_INFO = gql`
 {
@@ -52,7 +52,7 @@ export const getAdminInfo = userInfo => {
 
 export const getStudentList = userInfo => {
     if (userInfo.role == 'Admin') {
-        return () => useQuery(gql(students), {
+        return useQuery(gql(students), {
             variables: {
                 companyid: parseInt(userInfo.company.id)
             }
@@ -61,7 +61,7 @@ export const getStudentList = userInfo => {
        so the studentsByTutor query really just finds the products of the student and then 
        we modify it into a list of tutors*/
     } else if (userInfo.role == 'Tutor') {
-        return () => useQuery(gql(studentsByTutor), {
+        return useQuery(gql(studentsByTutor), {
             variables: {userid: parseInt(userInfo.id)}
         })
     }
@@ -69,7 +69,7 @@ export const getStudentList = userInfo => {
 
 export const getTutorList = userInfo => {
     if (userInfo.role == 'Admin') {
-        return () => useQuery(gql(tutors), {
+        return useQuery(gql(tutors), {
             variables: {
                 companyid: parseInt(userInfo.company.id)
             }
@@ -78,7 +78,7 @@ export const getTutorList = userInfo => {
        so the studentsByTutor query really just finds the products of the student and then 
        we modify it into a list of tutors*/
     } else if (userInfo.role == 'Student') {
-        return () => useQuery(gql(tutorsByStudent), {
+        return useQuery(gql(tutorsByStudent), {
             variables: {userid: parseInt(userInfo.id)}
         })
     }
@@ -86,19 +86,19 @@ export const getTutorList = userInfo => {
 
 export const getProductList = userInfo => {
     if (userInfo.role == 'Admin') {
-        return () => useQuery(gql(products), {
+        return useQuery(gql(products), {
             variables: {
                 companyid: parseInt(userInfo.company.id)
             }
         })
     } else if (userInfo.role == 'Student'){
-        return () => useQuery(gql(productsByStudent), {
+        return useQuery(gql(productsByStudent), {
             variables: {
                 userid: parseInt(userInfo.id)
             }
         })
     } else if (userInfo.role == 'Tutor'){
-        return () => useQuery(gql(productsByTutor), {
+        return useQuery(gql(productsByTutor), {
             variables: {
                 userid: parseInt(userInfo.id)
             }
@@ -107,7 +107,7 @@ export const getProductList = userInfo => {
 }
 
 export const getSingleTutor = ID => {
-    return () => useQuery(gql(tutor), {
+    return useQuery(gql(tutor), {
         variables: {
             id: parseInt(ID)
         }
@@ -115,7 +115,7 @@ export const getSingleTutor = ID => {
 }
 
 export const getSingleStudent = ID => {
-    return () => useQuery(gql(student), {
+    return useQuery(gql(student), {
         variables: {
             id: parseInt(ID)
         }
@@ -124,19 +124,19 @@ export const getSingleStudent = ID => {
 
 export const getSessionList = userInfo => {
     if (userInfo.role == 'Admin') {
-        return () => useQuery(gql(sessions), {
+        return useQuery(gql(sessions), {
             variables: {
                 companyid: parseInt(userInfo.company.id)
             }
         })
     } else if (userInfo.role == 'Student'){
-        return () => useQuery(gql(sessionsByStudent), {
+        return useQuery(gql(sessionsByStudent), {
             variables: {
                 userid: parseInt(userInfo.id)
             }
         })
     } else if (userInfo.role == 'Tutor'){
-        return () => useQuery(gql(sessionsByTutor), {
+        return useQuery(gql(sessionsByTutor), {
             variables: {
                 userid: parseInt(userInfo.id)
             }
@@ -149,6 +149,13 @@ export const getUninvoicedSessions = userInfo => {
         variables: {
             companyid: parseInt(userInfo.company.id)
         }
+    })
+}
+
+export const createNewInvoice = (userInfo) => {
+    return useMutation(gql(setInvoicedTrue), {
+        onCompleted: data => console.log(data),
+        onError: err => console.log("err", err)
     })
 }
 

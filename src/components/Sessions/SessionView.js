@@ -11,7 +11,7 @@ const SessionView = () => {
     const {currentUserInfo} = getUserInfo()
     let {role} = currentUserInfo
     
-    const {data: sessionData, loading, errors: sessionErrors} = getSessionList(currentUserInfo)()
+    const {data: sessionData, loading, errors: sessionErrors} = getSessionList(currentUserInfo)
     const sessions = role == "Admin" ? sessionData && sessionData.sessionsByCompany :
                             role == "Student" ? sessionData && sessionData.sessionsByStudent :
                                 role == "Tutor" ? sessionData && sessionData.sessionsByTutor : []

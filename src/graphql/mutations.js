@@ -167,4 +167,25 @@ export const createSession = `mutation CreateSession(
     }`;
 
 
+export const setInvoicedTrue = `mutation setInvoicedTrue($sessionid: Int!) {
+        setInvoicedTrue(input: {sessionid: $sessionid}){
+            id
+            date
+            length
+            location
+            studentconfirmed
+            tutorconfirmed
+            invoiced
+            product{
+              subject
+              student{
+                name
+              }
+              tutor {
+                name
+              }
+            }
+          }
+    }`;
+
 

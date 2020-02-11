@@ -13,9 +13,9 @@ const Profile = ({profileType}) => {
     let profileData = {data: null, loading: null, errors: null}
 
     if (profileType == 'Student') {
-        profileData = getSingleStudent(ID)()
+        profileData = getSingleStudent(ID)
     } else if (profileType == 'Tutor') {
-        profileData = getSingleTutor(ID)()
+        profileData = getSingleTutor(ID)
     }
     const tutor = profileType == 'Tutor' && profileData.data && profileData.data.tutorByID
     const student = profileType == 'Student' && profileData.data && profileData.data.studentByID
@@ -27,7 +27,6 @@ const Profile = ({profileType}) => {
         phone = tutor.phone
         image = NoPicLogo
     } else if (student) {
-        console.log(student)
         name = student.name
         email = student.user.email
         phone = student.phone

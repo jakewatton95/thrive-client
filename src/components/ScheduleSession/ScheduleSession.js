@@ -11,7 +11,7 @@ const ScheduleSession = ({fromInvoice}) => {
 
     const {currentUserInfo} = getUserInfo()
     const userRole = currentUserInfo.role
-    const {data: productData, loading, errors: productErrors} = getProductList(currentUserInfo)()
+    const {data: productData, loading, errors: productErrors} = getProductList(currentUserInfo)
     const products = userRole == "Admin" ? (productData && productData.productsByCompany) : 
                                 userRole == "Student" ? productData && productData.productsByStudent : 
                                     userRole == "Tutor" ? productData && productData.productsByTutor : []

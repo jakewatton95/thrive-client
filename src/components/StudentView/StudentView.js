@@ -8,7 +8,7 @@ const StudentView = () => {
 
     const {currentUserInfo} = getUserInfo()
     const {role} = currentUserInfo
-    const {data: studentData, loading, errors: studentErrors} = getStudentList(currentUserInfo)()
+    const {data: studentData, loading, errors: studentErrors} = getStudentList(currentUserInfo)
 
     const [filterName, setFilterName] = useState('')
     const students = role == "Admin" ? (studentData && studentData.studentsByCompany) :

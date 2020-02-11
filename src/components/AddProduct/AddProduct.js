@@ -12,8 +12,8 @@ import gql from 'graphql-tag'
 //the old product inactive)
 const AddProduct = () => {
     const {currentUserInfo} = getUserInfo()
-    const {data: studentData, loading: loading1, errors: studentErrors} = getStudentList(currentUserInfo)()
-    const {data: tutorData, loading: loading2, errors: tutorErrors} = getTutorList(currentUserInfo)()
+    const {data: studentData, loading: loading1, errors: studentErrors} = getStudentList(currentUserInfo)
+    const {data: tutorData, loading: loading2, errors: tutorErrors} = getTutorList(currentUserInfo)
     const [addProduct, {loading: loading3}]= useMutation(gql(createProduct), {
         onCompleted: () => alert("Product successfully added!"), //maybe direct user to create another product or schedule a session
         onError: err => alert("There was an error adding your product. Please try again or tell your administrator."),

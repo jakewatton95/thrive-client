@@ -17,7 +17,7 @@ const Dashboard = () => {
     let link1
     const link2 = '/dashboard/scheduleSession'
     const link3 = '/dashboard/sessions'
-    const link4 = '/dashboard/invoice'
+    const link4 = '/dashboard/invoice/create'
     if (userRole == 'Admin') {
         link1 = '/dashboard/addProduct'
     } else if (userRole == 'Student') {
