@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { getUserInfo, getUninvoicedSessions, updateSessionInvoiced, addInvoice } from '../../helpers'
 import ScheduleSession from '../ScheduleSession/ScheduleSession'
-import './CreateInvoice.less'
+import downArrow from '../../media/drop_down_arrow.png'
+import upArrow from '../../media/up_arrow.png'
+import moment from 'moment'
 
 const CreateInvoice = () => {
 
@@ -28,7 +30,8 @@ const CreateInvoice = () => {
 
     if (sessions.loading) return <div>loading...</div>
     if (sessions.data) {
-        uninvoicedSessionList = sessions.data.sessionsByCompany.filter(session=> !session.invoiced)
+        uninvoicedSessionList = sessions.data.sessionsByCompany || sessions.data.sessionsByTutor
+        uninvoicedSessionList = uninvoicedSessionList.filter(session => !session.invoiced && moment(session.date) < moment())
     }
     // console.log("USL", uninvoicedSessionList)
     return (
@@ -45,8 +48,14 @@ const CreateInvoice = () => {
                 </select>
                 <input type="submit" value="Create Invoice"></input>
                 </form>
-                <div className="no-session" onClick={()=>setSessionAlreadyExists(!sessionAlreadyExists)}>
-                    Forgot to make a session?
+                <div className="no-session-wrapper" >
+                    <div className="no-session-container" onClick={()=>setSessionAlreadyExists(!sessionAlreadyExists)}>
+                        Forgot to make a session? 
+                        {!sessionAlreadyExists ?
+                            <img className="arrow-button" src={upArrow} alt= "close session scheduler"/> :
+                            <img className="arrow-button" src={downArrow} alt = "open session scheduler"/>
+                        }
+                    </div>
                 </div>
             </div>
             {!sessionAlreadyExists && <ScheduleSession fromInvoice={true}/>}

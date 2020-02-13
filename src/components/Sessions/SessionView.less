@@ -1,7 +1,7 @@
 .session-view-container {
     display: flex;
     flex-direction: column;
-    min-height: calc(100% - 56px);
+    min-height: calc(100% - 96px);
 
     .sessions-list {
         display: flex;
@@ -26,51 +26,86 @@
             }
         }
     }
+}
 
-    .date-select-container {
+.secondary__nav_session-view{
+    display: flex;
+    justify-content: center;
+    background-color: #013862;
+    position: fixed;
+    width:100%;
+}
+.secondary__navigation_items_session-view{
+    flex: 1;
+}
+
+.date-select-container {
+    display: flex;
+    padding: 5px 0px;
+    justify-content: space-between;
+    @media screen and (min-width: 760px) {
+        justify-content: space-around;
+    }
+    align-items: center;
+
+    label{
+        margin: 0 5px;
+        color: white;
+    }
+
+    .date-selection {
         display: flex;
-        margin: 10px 0px;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
 
-        label{
-            margin: 0 5px;
+        input {
+            margin: 0 5px 0 0;
         }
 
-        .date-selection {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        @media screen and (max-width: 480px){
+            .today-button{
+                display: none;
+            }
 
             input {
-                margin: 0 5px 0 0;
-            }
-
-            @media screen and (max-width: 480px){
-                .today-button{
-                    display: none;
-                }
-
-                input {
-                    width: 120px;
-                }
+                width: 120px;
             }
         }
-        .date-range {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    }
+    .date-range {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
 
-            select {
-                margin-right: 5px;
+        @media screen and (min-width: 760px) {
+            padding-right: 1.5rem
+        }
+
+        .range-view-type {
+            margin: 0 4px;
+            @media screen and (min-width: 760px) {
+                margin: 0 10px;
+            }
+            &:hover {
+                cursor: pointer;
+                color: #f7976e;
+            };
+
+            &.selected {
+                color: #f7976e;
             }
         }
     }
 }
 
+.secondary-nav-buffer{
+    height:40px;
+}
+
 .sticky-under-header{
     position: sticky;
-    top: 56px;
+    top: 96px;
     border-bottom: 1px solid #CCCCCC;
     background-color: white;
 }

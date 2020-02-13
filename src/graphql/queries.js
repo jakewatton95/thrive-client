@@ -243,3 +243,67 @@ export const invoicesForAdmin = `query InvoicesForAdmin($companyid: Int!)
   }
 }`
 
+export const invoicesForStudent = `query InvoicesForStudent($userid: Int!)
+{
+  invoicesByStudent(userid: $userid){
+    id
+    date
+    studentpaid
+    tutorpaid
+    session{
+      date
+      length
+      product {
+        rate
+        tutorshare
+        subject
+        student
+        {
+          name
+          user {
+            email
+          }
+        }
+        tutor {
+          name
+          user {
+            email
+          }
+        }
+      }
+    }
+  }
+}`
+
+export const invoicesForTutor = `query InvoicesForTutor($userid: Int!)
+{
+  invoicesByTutor(userid: $userid){
+    id
+    date
+    studentpaid
+    tutorpaid
+    session{
+      date
+      length
+      product {
+        rate
+        tutorshare
+        subject
+        student
+        {
+          name
+          user {
+            email
+          }
+        }
+        tutor {
+          name
+          user {
+            email
+          }
+        }
+      }
+    }
+  }
+}`
+

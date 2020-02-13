@@ -19,7 +19,7 @@ const ScheduleSession = ({fromInvoice}) => {
     const [scheduleNewSession] = addSession(currentUserInfo)
 
     const [productID, setProductID] = useState('')
-    const [date, setDate] = useState(moment().startOf('day').add(1, 'day').hour(19))
+    const [date, setDate] = useState(fromInvoice ? moment().startOf('day') : moment().startOf('day').add(1, 'day').hour(19))
     const [sessionLength, setSessionLength] = useState('1.5')
     const [location, setLocation] = useState('')
 
@@ -67,7 +67,7 @@ const ScheduleSession = ({fromInvoice}) => {
             </Form.Group>
             <Form.Group controlId="date">
                 <Form.Label>Date:</Form.Label><br/>
-                <DatePicker className="schedule-session-datepicker" selected={date.toDate()} onChange={date => setDate(moment(date))} showTimeSelect dateFormat = 'Pp' minDate={fromInvoice? null: moment().toDate()}/>
+                <DatePicker className="schedule-session-datepicker" selected={date.toDate()} onChange={date => setDate(moment(date))} showTimeSelect dateFormat = 'Pp' maxDate = {fromInvoice ? moment().toDate() : null} minDate={fromInvoice? null: moment().toDate()}/>
             </Form.Group>
             <Form.Group controlId="sessionLength">
                 <Form.Label>Length:</Form.Label>
@@ -80,7 +80,7 @@ const ScheduleSession = ({fromInvoice}) => {
                 <Form.Control className="location-input" required type="text" value={location} onChange={e=> setLocation(e.target.value)} />
             </Form.Group>
             <Button variant="success" type="submit">
-                Schedule Session
+                {fromInvoice ? "Create Session" : "Schedule Session"}
             </Button>
         </Form>
     )

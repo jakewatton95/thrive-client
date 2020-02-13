@@ -154,6 +154,7 @@ export const createSession = `mutation CreateSession(
             location
             studentconfirmed
             tutorconfirmed
+            invoiced
             product {
                 subject
                 student {

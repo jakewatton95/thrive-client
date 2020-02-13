@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import {
     adminByUser, student, tutor, students, tutors, products, sessions, productsByStudent, productsByTutor,
     sessionsByStudent, sessionsByTutor, productsByTutor as studentsByTutor, productsByStudent as tutorsByStudent,
-    tutorByUser, studentByUser, invoicesForAdmin
+    tutorByUser, studentByUser, invoicesForAdmin, invoicesForStudent, invoicesForTutor
 } from './graphql/queries'
 import { createSession, createInvoice, setInvoicedTrue } from './graphql/mutations'
 
@@ -146,18 +146,37 @@ export const getSessionList = userInfo => {
     }
 }
 
-export const getUninvoicedSessions = userInfo => {
-    return useQuery(gql(sessions), {
-        variables: {
-            companyid: parseInt(userInfo.company.id)
-        }
-    })
+export const getUninvoicedSessions = userInfo => { //TODO fix in apollo server so we can make a query spec for uninvoiced
+    if (userInfo.role =='Admin') {
+        return useQuery(gql(sessions), {
+            variables: {
+                companyid: parseInt(userInfo.company.id)
+            }
+        })
+    } else if (userInfo.role == 'Tutor') {
+        return useQuery(gql(sessionsByTutor), {
+            variables: {
+                userid: parseInt(userInfo.id)
+            }
+        })
+    }
+
 }
 
 export const getInvoices = userInfo => {
-    return useQuery(gql(invoicesForAdmin), {
-        variables: {companyid: parseInt(userInfo.company.id)}
-    })
+    if (userInfo.role == 'Admin'){
+        return useQuery(gql(invoicesForAdmin), {
+            variables: {companyid: parseInt(userInfo.company.id)}
+        })
+    } else if (userInfo.role == 'Student'){
+        return useQuery(gql(invoicesForStudent), {
+            variables: {userid: parseInt(userInfo.id)}
+        })
+    } else if (userInfo.role == 'Tutor'){
+        return useQuery(gql(invoicesForTutor), {
+            variables: {userid: parseInt(userInfo.id)}
+        })
+    }
 }
 
 export const updateSessionInvoiced = (userInfo) => {
@@ -179,6 +198,13 @@ export const addInvoice = userInfo => {
                         query: gql(invoicesForAdmin),
                         variables: { companyid: parseInt(userInfo.company.id) },
                         data: { invoicesByCompany: invoicesByCompany.concat([createInvoice]) }
+                    });
+                } else if (userInfo.role == "Tutor") {
+                    const { invoicesByTutor } = cache.readQuery({ query: gql(invoicesForTutor), variables: { userid: parseInt(userInfo.id) } });
+                    cache.writeQuery({
+                        query: gql(invoicesForTutor),
+                        variables: { userid: parseInt(userInfo.id) },
+                        data: { invoicesByTutor: invoicesByTutor.concat([createInvoice]) }
                     });
                 }
             } catch {

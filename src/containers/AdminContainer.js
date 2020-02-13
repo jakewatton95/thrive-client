@@ -11,6 +11,7 @@ import Profile from '../components/OtherProfile/Profile'
 import Dashboard from '../components/Dashboard/Dashboard'
 import Invoice from '../components/Invoice/InvoiceContainer'
 import UserProfile from '../components/UserProfile/UserProfile'
+import MessageContainer from '../components/Messages/MessageContainer'
 
 const AdminContainer = () => {
 
@@ -27,6 +28,7 @@ const AdminContainer = () => {
                 <Route exact path="/dashboard/sessions" component={SessionView} />
                 <Route path="/dashboard/invoice" component = {Invoice} />
                 <Route path="/dashboard/profile" component = {UserProfile} />
+                <Route path="/dashboard/messages" component = {MessageContainer}/>
                 <Route exact path="/dashboard" component={Dashboard} />                
                 <Route component={ErrorPage} />
             </Switch>

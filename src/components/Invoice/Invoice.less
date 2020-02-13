@@ -1,3 +1,8 @@
+.new-invoice-form{
+    display: flex;
+    justify-content: center;
+}
+
 .secondary__nav{
     display: flex;
     justify-content: center;
@@ -27,3 +32,34 @@
     }
 }
 
+.invoices-list-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.invoice-wrapper {
+    padding: 20px;
+    border: 1px black solid;
+    flex: 1 0 21%;
+}
+
+.no-session-wrapper {
+    display: flex;
+
+    .no-session-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        cursor: pointer;
+        &:hover {
+            color: #f7976e;
+        }
+
+        .arrow-button {
+            max-height: 8px;
+            padding-left: 2px;
+        }
+    }
+}

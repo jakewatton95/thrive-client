@@ -4,26 +4,26 @@ import "react-datepicker/dist/react-datepicker.css"
 import Session from './Session'
 import moment from 'moment'
 import "./SessionView.less"
-import {getUserInfo, getSessionList} from '../../helpers'
+import { getUserInfo, getSessionList } from '../../helpers'
 
 const SessionView = () => {
 
-    const {currentUserInfo} = getUserInfo()
-    let {role} = currentUserInfo
-    
-    const {data: sessionData, loading, errors: sessionErrors} = getSessionList(currentUserInfo)
+    const { currentUserInfo } = getUserInfo()
+    let { role } = currentUserInfo
+
+    const { data: sessionData, loading, errors: sessionErrors } = getSessionList(currentUserInfo)
     const sessions = role == "Admin" ? sessionData && sessionData.sessionsByCompany :
-                            role == "Student" ? sessionData && sessionData.sessionsByStudent :
-                                role == "Tutor" ? sessionData && sessionData.sessionsByTutor : []
+        role == "Student" ? sessionData && sessionData.sessionsByStudent :
+            role == "Tutor" ? sessionData && sessionData.sessionsByTutor : []
 
     const [viewDate, setViewDate] = useState(moment().startOf('day'))
     const [viewing, setViewing] = useState('month')
 
     useEffect(() => window.scroll({
-        top: 0, 
-        left: 0, 
+        top: 0,
+        left: 0,
         behavior: 'smooth'
-      }), [])
+    }), [viewing, viewDate])
 
     const handleTodayClick = e => {
         e.preventDefault()
@@ -40,7 +40,7 @@ const SessionView = () => {
         </div>
     )
 
-    const generateSingleDay = () => 
+    const generateSingleDay = () =>
         <React.Fragment>
             <div className="sticky-under-header">
                 <div className="calendar-row day-names">
@@ -78,16 +78,16 @@ const SessionView = () => {
     }
 
     const generateMonth = () => {
-        const offSetDays/*QUAVO*/=moment(viewDate).startOf('month').day()
+        const offSetDays/*QUAVO*/ = moment(viewDate).startOf('month').day()
         const endOfMonth = moment(viewDate).endOf('month')
         const dayIterator = moment(viewDate).startOf('month').subtract(offSetDays, 'days')
         const days = []
-        
+
         const hasConfirmed = () => {
-            const sessionList = sessions.filter(session => 
+            const sessionList = sessions.filter(session =>
                 moment(session.date) >= moment(dayIterator).startOf('day') && moment(session.date) <= moment(dayIterator).endOf('day'))
-                return !sessionList.length ? "" : 
-                    sessionList.filter(session => !session.studentconfirmed || !session.tutorconfirmed).length ? 
+            return !sessionList.length ? "" :
+                sessionList.filter(session => !session.studentconfirmed || !session.tutorconfirmed).length ?
                     "unconfirmed" : "scheduled"
         }
 
@@ -97,10 +97,11 @@ const SessionView = () => {
             setViewing("day");
         }
 
+        /*dayIterator.day() returns day of week (0 - 6)*/
         for (dayIterator; dayIterator < endOfMonth || dayIterator.day() > 0; dayIterator.add(1, 'day')) {
             days.push(
-                <div key= {moment(dayIterator).utc()} data-value={dayIterator.format()} onClick={dayClicked} className = {`day month-view ${hasConfirmed()}`}>
-                    <div className = {`day-number ${dayIterator.dayOfYear() == viewDate.dayOfYear() ? "selected" : ""}`}>
+                <div key={moment(dayIterator).utc()} data-value={dayIterator.format()} onClick={dayClicked} className={`day month-view ${hasConfirmed()}`}>
+                    <div className={`day-number ${dayIterator.dayOfYear() == viewDate.dayOfYear() ? "selected" : ""}`}>
                         {dayIterator.format('DD')}
                     </div>
                 </div>
@@ -109,15 +110,15 @@ const SessionView = () => {
         return (
             <React.Fragment>
                 <div className="month-title">
-                    <div class="month-arrow" onClick={() => setViewDate(moment(viewDate).subtract(1, 'month'))}>
+                    <div className="month-arrow" onClick={() => setViewDate(moment(viewDate).subtract(1, 'month'))}>
                         &lt;
-                    </div> 
+                    </div>
                     <div>
                         {viewDate.format('MMMM YYYY')}
-                    </div> 
-                    <div className = "month-arrow" onClick={() => setViewDate(moment(viewDate).add(1, 'month'))}>
+                    </div>
+                    <div className="month-arrow" onClick={() => setViewDate(moment(viewDate).add(1, 'month'))}>
                         &gt;
-                    </div> 
+                    </div>
                 </div>
                 <div className="sticky-under-header">
                     {dayNames()}
@@ -126,19 +127,19 @@ const SessionView = () => {
                     {days}
                 </div>
                 <div className="legend">
-                    <div className = "legend-title">
+                    <div className="legend-title">
                         KEY:
                     </div>
                     <div className="legend-item">
-                        <div className = "yellow box"> </div> 
+                        <div className="yellow box"> </div>
                         Scheduled Sessions
                     </div>
                     <div className="legend-item">
-                        <div className = "orange box"> </div> 
+                        <div className="orange box"> </div>
                         Unconfirmed Sessions
                     </div>
                     <div className="legend-item">
-                        <div className = "blue box"> </div> 
+                        <div className="blue box"> </div>
                         Unscheduled Days
                     </div>
                 </div>
@@ -162,38 +163,48 @@ const SessionView = () => {
         return (
             <div className="calendar-row day-numbers">
                 {dayNums.map(num => (
-                <span className={`day ${moment(viewDate).startOf('week').add(num, 'days').date() == viewDate.date() ? "selected" : ''}`} key={num}> 
-                    <div className = 'day-number'>
-                        {moment(viewDate).startOf('week').add(num, 'days').format('DD')}
-                    </div>
-                </span>))}
+                    <span className={`day ${moment(viewDate).startOf('week').add(num, 'days').date() == viewDate.date() ? "selected" : ''}`} key={num}>
+                        <div className='day-number'>
+                            {moment(viewDate).startOf('week').add(num, 'days').format('DD')}
+                        </div>
+                    </span>))}
             </div>
         )
     }
     if (loading) return <div> loading...</div>
-    return ( 
-        <div className="session-view-container">
-            <div className="date-select-container">
-                <div className="date-selection">
-                    <label className="date-select-label"> Date: </label>
-                    <DatePicker selected={viewDate.toDate()} onChange={viewDate => setViewDate(moment(viewDate))} required />
-                    <button className="today-button" onClick={handleTodayClick}> Today </button>
+    return (
+        <React.Fragment>
+            <nav className="secondary__nav_session-view">
+                <div className="secondary__navigation_items_session-view">
+                    <div className="date-select-container">
+                        <div className="date-selection">
+                            <label className="date-select-label"> Date: </label>
+                            <DatePicker selected={viewDate.toDate()} onChange={viewDate => setViewDate(moment(viewDate))} required />
+                            <button className="today-button" onClick={handleTodayClick}> Today </button>
+                        </div>
+                        <div className="date-range">
+                            <div className={`range-view-type ${viewing=='day' && "selected"}`} onClick={()=>setViewing('day')}>
+                                Day
+                            </div>
+                            <div className={`range-view-type ${viewing=='week' && "selected"}`} onClick={()=>setViewing('week')}>
+                                Week
+                            </div>
+                            <div className={`range-view-type ${viewing=='month' && "selected"}`} onClick={()=>setViewing('month')}>
+                                Month
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="date-range">
-                    <label className="date-range-label">View: </label>
-                    <select value={viewing} onChange={e => setViewing(e.target.value)}>
-                        <option key='day' value='day'>Day</option>
-                        <option key='week' value='week'>Week</option>
-                        <option key='month' value='month'>Month</option>
-                    </select>
+            </nav>
+            <div className="secondary-nav-buffer"></div>
+            <div className="session-view-container">
+                <div className={`sessions-list ${viewing}-view`}>
+                    {viewing == "day" && generateSingleDay()}
+                    {viewing == "week" && generateWeek()}
+                    {viewing == "month" && generateMonth()}
                 </div>
             </div>
-            <div className={`sessions-list ${viewing}-view`}>
-                {viewing == "day" && generateSingleDay()}
-                {viewing == "week" && generateWeek()}
-                {viewing == "month" && generateMonth()}
-            </div>
-        </div>
+        </React.Fragment>
     )
 }
 

@@ -9,7 +9,6 @@ const UserProfile = () => {
                         role == 'Student' ? getStudentInfo(currentUserInfo) :
                             role == 'Tutor' ? getTutorInfo(currentUserInfo) : null
 
-    console.log(roleInfo.data)
     if (roleInfo && roleInfo.loading) return <div>loading...</div>
     return (
         <div className = "user-profile-container">

@@ -1,43 +1,28 @@
 import React from 'react'
 import { getUserInfo, getInvoices } from '../../helpers'
 import moment from 'moment'
-import './PendingInvoices.less'
+import SingleInvoice from './SingleInvoice'
 
+/* Unpaid Invoices less than a week old */
 const PendingInvoices = () => {
 
     const {currentUserInfo} = getUserInfo()
-    const invoices = getInvoices(currentUserInfo)
-    console.log("INV", invoices)
-
+    const invoices = getInvoices(currentUserInfo) //change to getpending invoices
+    let invoiceList = []
+    // console.log("INV", invoices)
 
     if (invoices.loading || !invoices.data) return <div> Loading...</div>
+    else {
+        invoiceList = invoices.data.invoicesByCompany || invoices.data.invoicesByStudent || invoices.data.invoicesByTutor
+        invoiceList = invoiceList.filter(inv => moment(inv.date) > moment().startOf('day').subtract(1, 'week'))
+    }
     return (
         <React.Fragment>
-            <div>
-            # Of invoices = {invoices.data && invoices.data.invoicesByCompany.length}
-            </div>
+            <div>Pending invoices are unpaid invoices from the past week</div>
+            <div>Showing invoices from {moment().startOf('day').subtract(1, 'week').format('MM-DD-YYYY')} - {moment().format('MM-DD-YYYY')}</div>
             <div className='invoices-list-wrapper'>
-            {invoices.data.invoicesByCompany.map(inv => 
-                <div key= {inv.id} className = "invoice-wrapper">
-                    <div>
-                        Session Date: {moment(inv.session.date).format('MM-DD-YYYY')}
-                    </div>
-                    <div>
-                        Invoiced On: {moment(inv.date).format('MM-DD-YYYY')}
-                    </div>
-                    <div>
-                        Session Cost: ${(parseFloat(inv.session.length) * parseFloat(inv.session.product.rate)).toFixed(2)}
-                    </div>
-                    <div>
-                        Tutor's Share: ${(parseFloat(inv.session.length) * parseFloat(inv.session.product.rate) * parseFloat(inv.session.product.tutorshare)/100).toFixed(2)}
-                    </div>
-                    <div>
-                        Tutor Paid: {inv.tutorpaid ? "yes" : "no"}
-                    </div>
-                    <div>
-                        Student Paid: {inv.studentpaid ? "yes" : "no"}
-                    </div>
-                </div>
+            {invoiceList.map(inv => 
+                <SingleInvoice key={inv.id} invoice ={inv}/>
             )}
             </div>
 
