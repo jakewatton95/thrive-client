@@ -5,7 +5,7 @@ import {
     sessionsByStudent, sessionsByTutor, productsByTutor as studentsByTutor, productsByStudent as tutorsByStudent,
     tutorByUser, studentByUser, invoicesForAdmin, invoicesForStudent, invoicesForTutor
 } from './graphql/queries'
-import { createSession, createInvoice, setInvoicedTrue } from './graphql/mutations'
+import { createSession, createInvoice, setInvoicedTrue, updateInvoicePaymentMutation } from './graphql/mutations'
 
 const GET_USER_INFO = gql`
 {
@@ -181,7 +181,14 @@ export const getInvoices = userInfo => {
 
 export const updateSessionInvoiced = (userInfo) => {
     return useMutation(gql(setInvoicedTrue), {
-        onCompleted: data => console.log(data),
+        // onCompleted: () => alert("Invoice Created"),
+        onError: err => console.log("err", err)
+    })
+}
+
+export const updateInvoicePayment = () => {
+    return useMutation(gql(updateInvoicePaymentMutation), {
+        onCompleted: () => alert("Payment Logged"),
         onError: err => console.log("err", err)
     })
 }

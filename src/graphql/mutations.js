@@ -229,3 +229,18 @@ export const createInvoice = `mutation CreateInvoice(
             }
           }
     }`
+
+    export const updateInvoicePaymentMutation = `mutation updateInvoicePayment(
+        $invoiceid: Int!
+        $studentpaid: Boolean
+        $tutorpaid: Boolean) {
+            updateInvoicePayment(input: {
+                invoiceid: $invoiceid,
+                studentpaid: $studentpaid,
+                tutorpaid: $tutorpaid
+            }){
+                id
+                studentpaid
+                tutorpaid
+              }
+        }`
