@@ -13,11 +13,12 @@ const OverdueInvoices = () => {
 
     if (invoices.loading || !invoices.data) return <div> Loading...</div>
     else {
-        invoiceList = invoices.data.invoicesByCompany.filter(inv => !inv.studentpaid || !inv.tutorpaid) || invoices.data.invoicesByStudent.filter(inv => !inv.studentpaid) || invoices.data.invoicesByTutor.filter(inv => !inv.tutorpaid)
+        console.log(invoices.data)
+        invoiceList = invoices.data.invoicesByCompany || invoices.data.invoicesByStudent || invoices.data.invoicesByTutor
         invoiceList = invoiceList.filter(inv => moment(inv.date) <= moment().startOf('day').subtract(1, 'week'))
     }
     return (
-        <React.Fragment>
+        <React.Fragment> 
             <div>Overdue invoices are unpaid invoices past 1 week</div>
             <div>Showing unpaid invoices from before {moment().startOf('day').subtract(1, 'week').format('MM-DD-YYYY')}</div>
             <div className='invoices-list-wrapper'>

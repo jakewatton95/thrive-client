@@ -13,7 +13,7 @@ const PendingInvoices = () => {
 
     if (invoices.loading || !invoices.data) return <div> Loading...</div>
     else {
-        invoiceList = invoices.data.invoicesByCompany.filter(inv => !inv.studentpaid || !inv.tutorpaid) || invoices.data.invoicesByStudent.filter(inv => !inv.studentpaid) || invoices.data.invoicesByTutor.filter(inv => !inv.tutorpaid)
+        invoiceList = invoices.data.invoicesByCompany || invoices.data.invoicesByStudent || invoices.data.invoicesByTutor
         invoiceList = invoiceList.filter(inv => moment(inv.date) > moment().startOf('day').subtract(1, 'week'))
     }
     return (
