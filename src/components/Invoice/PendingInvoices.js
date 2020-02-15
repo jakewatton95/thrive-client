@@ -2,6 +2,7 @@ import React from 'react'
 import { getUserInfo, getInvoices } from '../../helpers'
 import moment from 'moment'
 import SingleInvoice from './SingleInvoice'
+import ErrorPage from '../ErrorPage/ErrorPage'
 
 /* Unpaid Invoices less than a week old */
 const PendingInvoices = () => {
@@ -14,6 +15,15 @@ const PendingInvoices = () => {
     if (invoices.loading || !invoices.data) return <div> Loading...</div>
     else {
         invoiceList = invoices.data.invoicesByCompany || invoices.data.invoicesByStudent || invoices.data.invoicesByTutor
+        if(currentUserInfo.role == 'Admin') {
+            invoiceList = invoiceList.filter(inv => !inv.studentpaid || !inv.tutorpaid)
+        } else if (currentUserInfo.role == 'Student') {
+            invoiceList = invoiceList.filter(inv => !inv.studentpaid)
+        } else if (currentUserInfo.role == 'Tutor') {
+            invoiceList = invoiceList.filter(inv => !inv.tutorpaid)
+        } else {
+            return <ErrorPage/>
+        }
         invoiceList = invoiceList.filter(inv => moment(inv.date) > moment().startOf('day').subtract(1, 'week'))
     }
     return (
